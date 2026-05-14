@@ -2,18 +2,12 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { db } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
 import {
   collection, query, where, orderBy, limit, getDocs,
   startAfter, QueryDocumentSnapshot
 } from 'firebase/firestore';
-import { Plus, Search } from 'lucide-react';
-
-type FirestoreTimestampLike =
-  | Date
-  | string
-  | { toDate: () => Date }
-  | { seconds: number };
+import { Plus, Search, Upload, CheckCircle2, Loader2 } from 'lucide-react';
 
 interface Unit {
   id: string;
@@ -24,13 +18,8 @@ interface Unit {
   bedrooms: number;
   price: number;
   status: string;
-  isStale?: boolean;
-  updatedAt?: FirestoreTimestampLike;
-  lastSyncAt?: FirestoreTimestampLike;
-  maintenanceNotes?: string;
-  intelligence?: {
-    lastUpdatedAt?: FirestoreTimestampLike;
-  };
+  pfReferenceNumber?: string;
+  automation?: { isPublishedToPF?: boolean };
 }
 
 const STATUS_OPTIONS = ['all', 'available', 'reserved', 'sold'];
@@ -39,67 +28,6 @@ const STATUS_STYLES: Record<string, string> = {
   reserved:  'bg-yellow-50 text-yellow-700',
   sold:      'bg-gray-100 text-gray-500',
 };
-const FRESHNESS_THRESHOLD_DAYS = 30;
-
-function getTimestampDate(value?: FirestoreTimestampLike): Date | null {
-  if (!value) return null;
-  if (value instanceof Date) return value;
-
-  if (typeof value === 'string') {
-    const parsed = new Date(value);
-    return isNaN(parsed.getTime()) ? null : parsed;
-  }
-
-  if ('toDate' in value && typeof value.toDate === 'function') {
-    const parsed = value.toDate();
-    return parsed instanceof Date && !isNaN(parsed.getTime()) ? parsed : null;
-  }
-
-  if ('seconds' in value && typeof value.seconds === 'number') {
-    return new Date(value.seconds * 1000);
-  }
-
-  return null;
-}
-
-function getMaintenanceState(unit: Unit) {
-  const latestActivity = [
-    getTimestampDate(unit.updatedAt),
-    getTimestampDate(unit.lastSyncAt),
-    getTimestampDate(unit.intelligence?.lastUpdatedAt),
-  ]
-    .filter((value): value is Date => value instanceof Date)
-    .sort((left, right) => right.getTime() - left.getTime())[0] ?? null;
-
-  const ageInDays = latestActivity
-    ? Math.floor((Date.now() - latestActivity.getTime()) / (1000 * 60 * 60 * 24))
-    : null;
-
-  if (unit.isStale || ageInDays === null || ageInDays > FRESHNESS_THRESHOLD_DAYS) {
-    return {
-      label: 'Needs review',
-      badgeClass: 'bg-amber-50 text-amber-700',
-      detail: latestActivity ? `${ageInDays}d since update` : 'No freshness signal',
-      title: unit.maintenanceNotes ?? 'Maintenance review recommended',
-    };
-  }
-
-  if (ageInDays <= 7) {
-    return {
-      label: 'Fresh',
-      badgeClass: 'bg-emerald-50 text-emerald-700',
-      detail: ageInDays === 0 ? 'Updated today' : `${ageInDays}d ago`,
-      title: 'Recently refreshed inventory data',
-    };
-  }
-
-  return {
-    label: 'Monitor',
-    badgeClass: 'bg-blue-50 text-blue-700',
-    detail: `${ageInDays}d ago`,
-    title: 'Inventory is within the 30-day hygiene window',
-  };
-}
 
 export default function AdminUnitsPage() {
   const [units, setUnits] = useState<Unit[]>([]);
@@ -108,6 +36,29 @@ export default function AdminUnitsPage() {
   const [search, setSearch] = useState('');
   const [lastDoc, setLastDoc] = useState<QueryDocumentSnapshot | null>(null);
   const [hasMore, setHasMore] = useState(true);
+  const [publishing, setPublishing] = useState<string | null>(null);
+
+  async function publishToPF(unitId: string) {
+    setPublishing(unitId);
+    try {
+      const token = await auth.currentUser?.getIdToken();
+      const res = await fetch('/api/sync/publish', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ unitId }),
+      });
+      if (res.ok) {
+        setUnits(prev => prev.map(u => u.id === unitId ? { ...u, automation: { ...u.automation, isPublishedToPF: true } } : u));
+      } else {
+        const err = await res.json();
+        alert(`Publish failed: ${err.error}`);
+      }
+    } catch (err: any) {
+      alert(`Publish failed: ${err.message}`);
+    } finally {
+      setPublishing(null);
+    }
+  }
 
   const fetchUnits = useCallback(async (reset = false) => {
     setLoading(true);
@@ -201,7 +152,7 @@ export default function AdminUnitsPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-[#f3f4f5]">
-                {['Title', 'Compound', 'Type', 'Area', 'Beds', 'Price (EGP)', 'Status', 'Maintenance'].map(h => (
+                {['Title', 'Compound', 'Type', 'Area', 'Beds', 'Price (EGP)', 'Status', 'PF'].map(h => (
                   <th key={h}
                     className="text-left px-6 py-4 text-[9px] font-bold uppercase tracking-widest text-[#3a5570]/50">
                     {h}
@@ -213,17 +164,14 @@ export default function AdminUnitsPage() {
               {loading && units.length === 0
                 ? Array.from({ length: 8 }).map((_, i) => (
                     <tr key={i} className="border-b border-[#f3f4f5]">
-                      {Array.from({ length: 8 }).map((_, j) => (
+                      {Array.from({ length: 7 }).map((_, j) => (
                         <td key={j} className="px-6 py-4">
                           <div className="h-4 bg-[#f3f4f5] rounded animate-pulse" />
                         </td>
                       ))}
                     </tr>
                   ))
-                : displayed.map(unit => {
-                    const maintenance = getMaintenanceState(unit);
-
-                    return (
+                : displayed.map(unit => (
                     <tr
                       key={unit.id}
                       className="border-b border-[#f3f4f5] hover:bg-[#f8f9fa] transition-colors cursor-pointer"
@@ -244,17 +192,25 @@ export default function AdminUnitsPage() {
                           {unit.status}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="flex flex-col gap-1" title={maintenance.title}>
-                          <span className={`w-fit text-[9px] font-bold px-2.5 py-1 rounded uppercase tracking-widest ${maintenance.badgeClass}`}>
-                            {maintenance.label}
+                      <td className="px-6 py-4" onClick={e => e.stopPropagation()}>
+                        {unit.automation?.isPublishedToPF ? (
+                          <span className="flex items-center gap-1 text-green-600">
+                            <CheckCircle2 size={14} />
+                            <span className="text-[9px] font-bold uppercase tracking-wide">Live</span>
                           </span>
-                          <span className="text-[10px] text-[#3a5570]/70">{maintenance.detail}</span>
-                        </div>
+                        ) : (
+                          <button
+                            onClick={() => publishToPF(unit.id)}
+                            disabled={publishing === unit.id}
+                            className="flex items-center gap-1.5 bg-[#C9A84C]/10 text-[#C9A84C] hover:bg-[#C9A84C]/20 px-3 py-1.5 rounded text-[9px] font-bold uppercase tracking-wide transition-colors disabled:opacity-50"
+                          >
+                            {publishing === unit.id ? <Loader2 size={12} className="animate-spin" /> : <Upload size={12} />}
+                            {publishing === unit.id ? 'Publishing...' : 'Publish'}
+                          </button>
+                        )}
                       </td>
                     </tr>
-                    );
-                  })}
+                  ))}
             </tbody>
           </table>
         </div>

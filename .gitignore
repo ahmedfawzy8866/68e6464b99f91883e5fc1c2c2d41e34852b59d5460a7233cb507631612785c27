@@ -2,7 +2,6 @@
 
 # dependencies
 /node_modules
-**/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -31,10 +30,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files — never commit secrets
-.env
-.env.*
-!.env.example
+# env files (can opt-in for committing if needed)
+.env*
 
 # vercel
 .vercel
@@ -43,62 +40,31 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# ── WhatsApp scraper bot — Chromium session (huge, not needed for deployment) ──
-apps/whatsapp-scraper-bot/.wwebjs_auth/
-apps/whatsapp-scraper-bot/.wwebjs_cache/
-apps/whatsapp-scraper-bot/node_modules/
-
-# ── Firebase service account keys (never commit!) ──
-*service-account*.json
-*serviceAccount*.json
-firebase-adminsdk*.json
-*firebase-adminsdk*.json
-sierra-blu-firebase-adminsdk*.json
+# sensitive
 service-account.json
+sierra-blu-firebase-adminsdk-fbsvc-a717d46ca5.json
+*.json.serviceaccount
+.env.local
+.env.production.local
+.env.development.local
 
-
-# ── Large binary / archive folders ──
-*.zip
-*.rar
-*.7z
-*.tar
-*.tar.gz
-"claude fi 28-4"/
-claude*/
-archive*/
-Archive*/
-__archive*/
-
-# ── IDE / OS artifacts ──
-.idea/
-.vscode/settings.json
-Thumbs.db
-
-# ── Misc large data ──
-*.heapsnapshot
-*.cpuprofile
-apps/whatsapp-scraper-bot/.wwebjs_auth/**
-
-# ── Redundant / Backup folders ──
-May 4 last plan/
-New folder/
-Sierra-Blu-Backend-2026-05-13/
-Sierra-Blu-Systm/
-allll/
-antigravity-awesome-skills/
-bots/
-build.log
-build_output.log
-my-app/
-my-sierra-project/
-scratch/
-temp_repos/
-tools/
-CLAODE WEB SITE FILES/
-11_Core_Intelligence/
+# redundant
 Backend/
-claude fi 28-4/
-claude*/
-archive*/
-Archive*/
-__archive*/
+my-app/
+11_Core_Intelligence/
+server.log
+.claude/
+.lsp/
+node_modules/
+.next/
+out/
+build/
+
+# bot session data
+.wwebjs_auth/
+.wwebjs_cache/
+**/.wwebjs_auth/
+**/.wwebjs_cache/
+
+# benchmarks
+mempalace/benchmarks/

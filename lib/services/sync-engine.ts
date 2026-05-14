@@ -6,20 +6,9 @@
  * 3. Conflict resolution tracking
  */
 
-import { db } from '../firebase';
-import {
-  collection,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-  addDoc,
-  query,
-  where,
-  getDocs,
-  serverTimestamp,
-  Timestamp,
-} from 'firebase/firestore';
+import { adminDb } from '../server/firebase-admin';
+import { Timestamp } from 'firebase-admin/firestore';
+import { COLLECTIONS } from '../models/schema';
 
 // ─── Types ───────────────────────────────────────────────────────────
 
@@ -33,9 +22,9 @@ export interface SyncRecord {
   firestoreData?: Record<string, unknown>;
   conflictFields?: string[];
   resolvedBy?: string;
-  resolvedAt?: Timestamp | null;
-  createdAt?: Timestamp;
-  updatedAt?: Timestamp;
+  resolvedAt?: FirebaseFirestore.Timestamp | null;
+  createdAt?: FirebaseFirestore.Timestamp;
+  updatedAt?: FirebaseFirestore.Timestamp;
 }
 
 export interface SyncResult {
@@ -51,11 +40,6 @@ export interface SyncResult {
 
 const MATCH_THRESHOLD_HIGH = 90;   // Auto-match
 const MATCH_THRESHOLD_LOW = 50;    // Send to dedup queue
-const COLLECTIONS = {
-  listings: 'listings',
-  syncQueue: 'syncQueue',
-  syncLog: 'syncLog',
-} as const;
 
 // ─── Matching Logic ──────────────────────────────────────────────────
 
@@ -167,10 +151,10 @@ export function mergeWithProtection(
  * Add an ambiguous match to the dedup review queue.
  */
 export async function addToDedupeQueue(record: SyncRecord): Promise<string> {
-  const docRef = await addDoc(collection(db, COLLECTIONS.syncQueue), {
+  const docRef = await adminDb.collection(COLLECTIONS.syncQueue).add({
     ...record,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
+    createdAt: Timestamp.now(),
+    updatedAt: Timestamp.now(),
   });
   return docRef.id;
 }
@@ -179,11 +163,9 @@ export async function addToDedupeQueue(record: SyncRecord): Promise<string> {
  * Get all pending items in the dedup queue.
  */
 export async function getPendingDedupeItems(): Promise<SyncRecord[]> {
-  const q = query(
-    collection(db, COLLECTIONS.syncQueue),
-    where('status', 'in', ['ambiguous', 'conflict'])
-  );
-  const snapshot = await getDocs(q);
+  const snapshot = await adminDb.collection(COLLECTIONS.syncQueue)
+    .where('status', 'in', ['ambiguous', 'conflict'])
+    .get();
   return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as SyncRecord));
 }
 
@@ -196,32 +178,32 @@ export async function resolveDedupeItem(
   resolvedBy: string,
   firestoreDocId?: string
 ): Promise<void> {
-  const queueRef = doc(db, COLLECTIONS.syncQueue, queueId);
-  const queueSnap = await getDoc(queueRef);
-  
-  if (!queueSnap.exists()) {
+  const queueRef = adminDb.collection(COLLECTIONS.syncQueue).doc(queueId);
+  const queueSnap = await queueRef.get();
+
+  if (!queueSnap.exists) {
     throw new Error('Queue item not found');
   }
-  
+
   const record = queueSnap.data() as SyncRecord;
 
   if (resolution === 'matched' && firestoreDocId) {
     // 1. Resolve as Match — Apply PF data to existing listing
-    const fsRef = doc(db, COLLECTIONS.listings, firestoreDocId);
-    const fsSnap = await getDoc(fsRef);
-    
-    if (fsSnap.exists()) {
-      const fsData = fsSnap.data();
+    const fsRef = adminDb.collection(COLLECTIONS.units).doc(firestoreDocId);
+    const fsSnap = await fsRef.get();
+
+    if (fsSnap.exists) {
+      const fsData = fsSnap.data()!;
       const protectedFields = getProtectedFields(fsData);
       const { merged } = mergeWithProtection(record.pfData as Record<string, unknown>, fsData, protectedFields);
-      await updateDoc(fsRef, {
+      await fsRef.update({
         ...merged,
         lastSyncAt: new Date().toISOString(),
       });
     }
   } else if (resolution === 'new') {
     // 2. Resolve as New — Create new listing
-    await addDoc(collection(db, COLLECTIONS.listings), {
+    await adminDb.collection(COLLECTIONS.units).add({
       ...record.pfData,
       syncSource: 'property-finder',
       manualOverrides: [],
@@ -230,12 +212,12 @@ export async function resolveDedupeItem(
   }
 
   // 3. Mark the queue item as resolved
-  await updateDoc(queueRef, {
+  await queueRef.update({
     status: resolution === 'matched' ? 'resolved' : resolution,
     firestoreDocId: firestoreDocId || record.firestoreDocId || null,
     resolvedBy,
-    resolvedAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
+    resolvedAt: Timestamp.now(),
+    updatedAt: Timestamp.now(),
   });
 }
 
@@ -295,11 +277,9 @@ export async function syncBatch(
       const refNum = pfData.referenceNumber;
 
       // 1. Try exact match by reference number
-      const exactQuery = query(
-        collection(db, COLLECTIONS.listings),
-        where('referenceNumber', '==', refNum)
-      );
-      const exactSnapshot = await getDocs(exactQuery);
+      const exactSnapshot = await adminDb.collection(COLLECTIONS.units)
+        .where('referenceNumber', '==', refNum)
+        .get();
 
       if (!exactSnapshot.empty) {
         // Exact match found — merge with protection
@@ -322,14 +302,14 @@ export async function syncBatch(
           result.dedupeQueue++;
         } else {
           // Clean merge — update directly
-          await updateDoc(doc(db, COLLECTIONS.listings, fsDoc.id), merged);
+          await adminDb.collection(COLLECTIONS.units).doc(fsDoc.id).update(merged);
           result.matched++;
         }
         continue;
       }
 
       // 2. No exact match — search for fuzzy matches
-      const allListingsSnapshot = await getDocs(collection(db, COLLECTIONS.listings));
+      const allListingsSnapshot = await adminDb.collection(COLLECTIONS.units).get();
       let bestMatch: { docId: string; confidence: number; data: Record<string, unknown> } | null = null;
 
       for (const fsDoc of allListingsSnapshot.docs) {
@@ -343,7 +323,7 @@ export async function syncBatch(
         // High confidence — auto-merge with protection
         const protectedFields = getProtectedFields(bestMatch.data);
         const { merged } = mergeWithProtection(pfData, bestMatch.data, protectedFields);
-        await updateDoc(doc(db, COLLECTIONS.listings, bestMatch.docId), merged);
+        await adminDb.collection(COLLECTIONS.units).doc(bestMatch.docId).update(merged);
         result.matched++;
       } else if (bestMatch && bestMatch.confidence >= MATCH_THRESHOLD_LOW) {
         // Medium confidence — send to dedup queue
@@ -358,7 +338,7 @@ export async function syncBatch(
         result.dedupeQueue++;
       } else {
         // No match at all — create new listing
-        await addDoc(collection(db, COLLECTIONS.listings), {
+        await adminDb.collection(COLLECTIONS.units).add({
           ...pfData,
           syncSource: 'property-finder',
           manualOverrides: [],
@@ -372,9 +352,9 @@ export async function syncBatch(
   }
 
   // Log the sync run
-  await addDoc(collection(db, COLLECTIONS.syncLog), {
+  await adminDb.collection(COLLECTIONS.syncLog).add({
     ...result,
-    timestamp: serverTimestamp(),
+    timestamp: Timestamp.now(),
   });
 
   return result;

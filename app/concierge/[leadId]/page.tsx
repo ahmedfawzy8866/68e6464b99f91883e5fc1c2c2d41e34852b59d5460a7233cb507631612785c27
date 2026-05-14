@@ -45,7 +45,7 @@ export default function ConciergePage({ params }: { params: Promise<{ leadId: st
         const response = await fetch(`/api/concierge/${leadId}`);
         if (!response.ok) {
           // If API fails, try to fallback to pre-generated selection in Firestore
-          const leadData = await getLeadData(leadId) as any;
+          const leadData = await getLeadData(leadId);
           if (leadData?.conciergePortfolioId) {
             // Further fetching logic could go here if needed
           }

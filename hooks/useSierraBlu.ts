@@ -2,37 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
-import { 
-  collection, 
-  query, 
-  where, 
-  onSnapshot, 
-  doc, 
-  getDoc, 
-  orderBy, 
-  limit, 
-  getCountFromServer,
-  Timestamp,
-  queryEqual
-} from 'firebase/firestore';
-import { COLLECTIONS } from '@/lib/models/schema';
+import { collection, query, where, onSnapshot, doc, getDoc } from 'firebase/firestore';
 
 /**
  * useSierraBlu
  * The master hook for the Sierra Blu Frontend.
- * Abstracts away direct Firebase calls and ensures consistent collection naming.
+ * abstracts away the direct Firebase calls for Claude Code.
  */
 export function useSierraBlu() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // --- Inventory (Units) ---
+  // --- Units (Inventory) ---
   const [units, setUnits] = useState<any[]>([]);
   
   useEffect(() => {
     setLoading(true);
-    // Use COLLECTIONS.units which maps to 'listings'
-    const q = query(collection(db, COLLECTIONS.units), limit(50));
+    const q = query(collection(db, "units"));
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
@@ -41,7 +27,6 @@ export function useSierraBlu() {
         setLoading(false);
       },
       (err) => {
-        console.error("Firestore Units Error:", err);
         setError(err.message);
         setLoading(false);
       }
@@ -49,14 +34,14 @@ export function useSierraBlu() {
     return () => unsubscribe();
   }, []);
 
-  // --- Lead & Stakeholder Management ---
+  // --- Leads & Proposals ---
   const getLeadData = async (leadId: string) => {
     setLoading(true);
     try {
-      const docRef = doc(db, COLLECTIONS.stakeholders, leadId);
+      const docRef = doc(db, "stakeholders", leadId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        return { id: docSnap.id, ...docSnap.data() };
+        return docSnap.data();
       }
       return null;
     } catch (err: any) {
@@ -67,27 +52,7 @@ export function useSierraBlu() {
     }
   };
 
-  // --- KPI Aggregations ---
-  const getDashboardStats = async () => {
-    try {
-      const [unitsCount, activeDealsCount, recentActivities] = await Promise.all([
-        getCountFromServer(collection(db, COLLECTIONS.units)),
-        getCountFromServer(query(collection(db, COLLECTIONS.sales), where('status', '!=', 'closed'))),
-        getDocs(query(collection(db, COLLECTIONS.activities), orderBy('createdAt', 'desc'), limit(5)))
-      ]);
-
-      return {
-        totalUnits: unitsCount.data().count,
-        activeDeals: activeDealsCount.data().count,
-        recentActivities: recentActivities.docs.map(d => ({ id: d.id, ...d.data() }))
-      };
-    } catch (err: any) {
-      setError(err.message);
-      return null;
-    }
-  };
-
-  // --- Agent Commands (Orchestration) ---
+  // --- Agent Commands ---
   const triggerAgent = async (agentName: string, action: string, payload: any) => {
     setLoading(true);
     try {
@@ -110,7 +75,6 @@ export function useSierraBlu() {
     loading,
     error,
     getLeadData,
-    getDashboardStats,
     triggerAgent
   };
 }

@@ -1,5 +1,5 @@
-import { db } from '@/lib/firebase';
-import { doc, updateDoc, serverTimestamp, addDoc, collection } from 'firebase/firestore';
+import { adminDb } from '@/lib/server/firebase-admin';
+import { Timestamp } from 'firebase-admin/firestore';
 import { NextRequest, NextResponse } from 'next/server';
 
 interface ViewingRequest {
@@ -21,24 +21,24 @@ export const POST = async (req: NextRequest) => {
     }
 
     // Create viewing request record
-    const viewingRef = await addDoc(collection(db, 'viewing_requests'), {
+    const viewingRef = await adminDb.collection('viewing_requests').add({
       leadId,
       unitId,
       portfolioId,
       status: 'pending',
-      createdAt: serverTimestamp(),
+      createdAt: Timestamp.now(),
       requestedAt: new Date().toISOString(),
     });
 
     // Update lead record
-    await updateDoc(doc(db, 'stakeholders', leadId), {
+    await adminDb.collection('stakeholders').doc(leadId).update({
       'viewingRequests': {
         [unitId]: {
-          requestedAt: serverTimestamp(),
+          requestedAt: Timestamp.now(),
           status: 'pending',
         },
       },
-      'lastViewingRequestAt': serverTimestamp(),
+      'lastViewingRequestAt': Timestamp.now(),
     });
 
     // TODO: Send Telegram alert to sales team about viewing request

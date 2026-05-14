@@ -1,6 +1,7 @@
 // sierra-blue/lib/integrations/property-finder.ts
 // Property Finder Egypt API V3 — Full Bidirectional Integration
-// Covers: listings push, image CDN sync, lead webhook ingestion, price updates
+// Covers: Portfolio Assets push, image CDN sync, Investment Stakeholder webhook ingestion, price updates
+import { createHmac } from "node:crypto";
 
 import {
   getFirestore,
@@ -88,7 +89,7 @@ export interface PFSyncResult {
 }
 
 // ════════════════════════════════════════════════════════════════
-// 1. PUSH LISTING TO PROPERTY FINDER
+// 1. PUSH PORTFOLIO ASSET TO PROPERTY FINDER
 // ════════════════════════════════════════════════════════════════
 
 export async function pushListingToPF(listing: SBRListing): Promise<PFSyncResult> {
@@ -213,7 +214,7 @@ export async function syncAllListingsToPF(): Promise<{ synced: number; failed: n
 }
 
 // ════════════════════════════════════════════════════════════════
-// 3. LEAD WEBHOOK INGESTION (Next.js API Route Handler)
+// 3. INVESTMENT STAKEHOLDER WEBHOOK INGESTION (Next.js API Route Handler)
 // ════════════════════════════════════════════════════════════════
 
 // Place this in: /app/api/pf-webhook/route.ts
@@ -253,7 +254,7 @@ export async function handlePFLeadWebhook(
     const listingSnap = await getDocs(listingQ);
     const listingRef  = listingSnap.empty ? null : listingSnap.docs[0].id;
 
-    // Save lead to Firestore
+    // Save Investment Stakeholder to Strategic Pipeline (Firestore)
     const newLead = await addDoc(collection(db, "leads"), {
       name:            lead.name,
       phone:           lead.phone,
@@ -272,7 +273,7 @@ export async function handlePFLeadWebhook(
       pfCreatedAt:      lead.createdAt,
     });
 
-    // Trigger Matchmaker agent to score the lead (async, non-blocking)
+    // Trigger Matchmaker agent to score the Investment Stakeholder (async, non-blocking)
     triggerMatchmakerScoring(newLead.id, lead.reference).catch(console.error);
 
     return { success: true, leadId: newLead.id };
@@ -388,10 +389,15 @@ function mapFurnishing(f: SBRListing["furnishing"]): string {
 }
 
 function verifyPFSignature(payload: string, signature: string): boolean {
-  // In production: use crypto.createHmac('sha256', PF_WEBHOOK_SEC).update(payload).digest('hex')
-  // For Edge runtime: use WebCrypto API
   if (!PF_WEBHOOK_SEC || !signature) return false;
-  return signature.length > 0; // placeholder — replace with real HMAC check
+  try {
+    const hmac = createHmac("sha256", PF_WEBHOOK_SEC);
+    const digest = hmac.update(payload).digest("hex");
+    return digest === signature;
+  } catch (err) {
+    console.error("[PF] Signature verification error:", err);
+    return false;
+  }
 }
 
 async function triggerMatchmakerScoring(leadId: string, sbrCode: string): Promise<void> {

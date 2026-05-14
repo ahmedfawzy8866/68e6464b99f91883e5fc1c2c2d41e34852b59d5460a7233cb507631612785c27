@@ -1,4 +1,4 @@
-import LandingPage from './landing-page-v2';
+import LandingPage from './landing-page-final';
 
 export default function Page() {
   return <LandingPage />;

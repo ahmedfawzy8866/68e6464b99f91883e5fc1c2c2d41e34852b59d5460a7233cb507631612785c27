@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { runMatchingForLead } from '@/lib/services/matching-engine';
-import { db } from '@/lib/firebase';
-import { collection, getDocs, query, where, limit } from 'firebase/firestore';
+import { adminDb } from '@/lib/server/firebase-admin';
 import { COLLECTIONS } from '@/lib/models/schema';
 
 /**
@@ -17,12 +16,10 @@ export async function POST(req: NextRequest) {
 
     if (bulk) {
       // Bulk matching for new leads that haven't been matched yet
-      const q = query(
-        collection(db, COLLECTIONS.stakeholders),
-        where('status', 'in', ['new', 'contacted']),
-        limit(10)
-      );
-      const snap = await getDocs(q);
+      const snap = await adminDb.collection(COLLECTIONS.stakeholders)
+        .where('status', 'in', ['new', 'contacted'])
+        .limit(10)
+        .get();
       const results = [];
 
       for (const doc of snap.docs) {

@@ -32,7 +32,6 @@ export type CurrencyCode = 'EGP' | 'USD';
 export type FurnishingCode = 'F' | 'U' | 'K' | 'S';
 export type SierraFeatureCode = 'G' | 'P' | 'R' | 'V';
 export type ListingSentiment = 'positive' | 'neutral' | 'aggressive' | 'desperate';
-export type MarketCode = 'egypt' | 'uae';
 
 export interface IntelligenceObject {
   code?: string;
@@ -94,7 +93,6 @@ export interface Unit extends BaseDocument {
   propertyType: PropertyType;
   category: 'residential' | 'commercial';
   status: PropertyStatus;
-  market: MarketCode;
 
   // Location
   projectId?: string;       // FK to projects collection
@@ -282,7 +280,6 @@ export interface InvestmentStakeholder extends BaseDocument {
   stage: PipelineStage;
   source: StakeholderAcquisitionSource;
   assignedTo?: string;      // User ID
-  market?: MarketCode;
 
   // Interest
   interestedUnitIds?: string[];
@@ -580,8 +577,4 @@ export const COLLECTIONS = {
   viewings: 'viewings',
   intelligence: 'intelligence', // Global Neural Memory
   conciergeSelections: 'concierge_selections', // S8 Curated Portfolios
-  markets: {
-    EGYPT: 'egypt',
-    UAE: 'uae'
-  }
 } as const;

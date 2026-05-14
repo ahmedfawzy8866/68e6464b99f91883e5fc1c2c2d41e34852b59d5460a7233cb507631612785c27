@@ -32,7 +32,8 @@ const COMPOUNDS = [
   { name: "Palm Hills New Cairo", location: "New Cairo", lat: 30.025, lng: 31.460 },
   { name: "Sodic Villette", location: "Fifth Settlement", lat: 30.020, lng: 31.495 },
   { name: "Marakez District 5", location: "Katameya", lat: 29.980, lng: 31.450 },
-  { name: "ZED East", location: "New Cairo", lat: 30.012, lng: 31.520 }
+  { name: "ZED East", location: "New Cairo", lat: 30.012, lng: 31.520 },
+  { name: "Uptown Cairo", location: "Mokattam", lat: 30.010, lng: 31.290 }
 ];
 
 const PROPERTY_TYPES = ["apartment", "villa", "townhouse", "duplex", "penthouse"];
@@ -71,6 +72,11 @@ async function seed() {
       finishingType: finishing,
       price: price,
       pricePerSqm: Math.floor(price / area),
+      imageUrls: [
+        compound.name === "Mivida" ? "/images/portfolio/mivida-villa.png" :
+        compound.name === "Uptown Cairo" ? "/images/portfolio/uptown-penthouse.png" :
+        "/images/portfolio/hero-skyline.png"
+      ],
       createdAt: now,
       updatedAt: now,
       syncSource: "manual",

@@ -30,13 +30,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": [
-    "node_modules",
-    "claude fi 28-4",
-    "CLAODE WEB SITE FILES",
-    "my-app",
-    "ideas",
-    "documents",
-    "docs"
-  ]
+  "exclude": ["node_modules"]
 }

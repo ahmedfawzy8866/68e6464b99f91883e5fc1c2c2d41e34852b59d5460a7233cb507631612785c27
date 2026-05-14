@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { InventoryService, Property } from '@/lib/services/InventoryService';
+import { InventoryService, Property } from '@/lib/services/InventoryService.client';
 import { useI18n } from '@/lib/I18nContext';
 
 export default function PropertyDetailPage() {

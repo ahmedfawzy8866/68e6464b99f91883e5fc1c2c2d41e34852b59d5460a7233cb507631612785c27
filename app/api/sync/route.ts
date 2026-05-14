@@ -71,18 +71,25 @@ export async function POST(request: NextRequest) {
         const listings = pfResult.data || [];
         const syncResult = await syncBatch(listings as unknown as Record<string, unknown>[]);
         
-        // Also sync leads automatically if requested or as part of full run
+        // Also sync leads + listings automatically as part of full run
         const leadsResult = await PFIntegrationService.syncIncomingLeads();
-        
-        return NextResponse.json({ 
-          listings: syncResult, 
-          leads: leadsResult 
+        const pfListingsResult = await PFIntegrationService.syncIncomingListings();
+
+        return NextResponse.json({
+          listings: syncResult,
+          leads: leadsResult,
+          pfListings: pfListingsResult,
         });
       }
 
       case 'sync-leads': {
         const leadsResult = await PFIntegrationService.syncIncomingLeads();
         return NextResponse.json(leadsResult);
+      }
+
+      case 'sync-listings': {
+        const listingsResult = await PFIntegrationService.syncIncomingListings();
+        return NextResponse.json(listingsResult);
       }
 
       case 'resolve': {

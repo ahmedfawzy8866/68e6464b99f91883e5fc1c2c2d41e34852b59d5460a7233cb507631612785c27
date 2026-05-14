@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { adminDb } from '@/lib/server/firebase-admin';
+import { Timestamp } from 'firebase-admin/firestore';
+import { COLLECTIONS } from '@/lib/models/schema';
 import { sendTelegramMessage } from '@/lib/telegram';
 
 export async function POST(req: Request) {
@@ -9,7 +10,7 @@ export async function POST(req: Request) {
     const { name, email, phone, message, locale } = data;
 
     // 1. Add to Firestore
-    const leadRef = await addDoc(collection(db, 'leads'), {
+    const leadRef = await adminDb.collection(COLLECTIONS.stakeholders).add({
       name,
       email,
       phone,
@@ -24,13 +25,13 @@ export async function POST(req: Request) {
       aiProfiling: {
         interests: ['General Inquiry'],
         topMatches: [],
-        lastAnalyzedAt: serverTimestamp(),
+        lastAnalyzedAt: Timestamp.now(),
       },
       automation: {
         followupReminderEnabled: true,
         interactionFrequency: 'medium',
       },
-      createdAt: serverTimestamp()
+      createdAt: Timestamp.now()
     });
 
     // 2. Send Telegram Notification
