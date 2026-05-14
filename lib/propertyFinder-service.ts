@@ -11,6 +11,7 @@ interface PropertyFinderLeadInput {
 interface PropertyFinderPrice {
   value?: number;
   currency?: string;
+  period?: string;
 }
 
 interface PropertyFinderImage {
@@ -60,6 +61,8 @@ interface PropertyFinderSearchResponse {
 }
 
 class PropertyFinderService {
+  private static readonly TOKEN_BUFFER_SECONDS = 60;
+  private static readonly MILLISECONDS_PER_SECOND = 1000;
   private readonly configuredBaseUrl =
     process.env.PROPERTY_FINDER_API_GATEWAY || 'https://gateway.propertyfinder.com/v2';
   private readonly clientId = process.env.PROPERTY_FINDER_CLIENT_ID || '';
@@ -133,7 +136,13 @@ class PropertyFinderService {
     }
 
     const expiresIn = payload.expires_in ?? payload.expiresIn ?? 1800;
-    this.tokenExpiry = now + Math.max(expiresIn - 60, 60) * 1000;
+    this.tokenExpiry =
+      now +
+      Math.max(
+        expiresIn - PropertyFinderService.TOKEN_BUFFER_SECONDS,
+        PropertyFinderService.TOKEN_BUFFER_SECONDS
+      ) *
+        PropertyFinderService.MILLISECONDS_PER_SECOND;
 
     return this.accessToken;
   }

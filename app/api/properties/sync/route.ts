@@ -6,6 +6,8 @@ import {
   type PropertyFinderListing,
 } from '@/lib/propertyFinder-service';
 
+const MAX_BATCH_OPERATIONS = 450;
+
 function toNumber(value: unknown): number | null {
   if (typeof value === 'number' && Number.isFinite(value)) return value;
   if (typeof value === 'string' && value.trim()) {
@@ -47,6 +49,16 @@ function getImages(property: PropertyFinderListing) {
   return property.photos?.map((photo) => photo.url).filter(Boolean) || [];
 }
 
+function getRentPeriods(property: PropertyFinderListing) {
+  if (typeof property.price === 'number') return [];
+  if (!property.price?.period) return [];
+
+  const period = property.price.period.trim().toLowerCase();
+  if (!period) return [];
+
+  return [period.charAt(0).toUpperCase() + period.slice(1)];
+}
+
 function mapProperty(property: PropertyFinderListing) {
   const latitude = property.location?.latitude ?? property.location?.coordinates?.lat ?? null;
   const longitude = property.location?.longitude ?? property.location?.coordinates?.lng ?? null;
@@ -70,7 +82,7 @@ function mapProperty(property: PropertyFinderListing) {
     propertyType:
       typeof property.type === 'string' ? property.type : property.type?.name || 'Property',
     owner: property.postedBy === 'agent' ? 'Agent' : 'Owner',
-    rentPeriodType: property.offering_type === 'rent' ? ['Yearly', 'Monthly'] : [],
+    rentPeriodType: property.offering_type === 'rent' ? getRentPeriods(property) : [],
     agentName: property.agent?.name || 'Unknown',
     latitude,
     longitude,
@@ -129,7 +141,7 @@ export async function POST(request: NextRequest) {
         operationsInBatch += 1;
         syncedCount += 1;
 
-        if (operationsInBatch === 450) {
+        if (operationsInBatch === MAX_BATCH_OPERATIONS) {
           await batch.commit();
           batch = writeBatch(db);
           operationsInBatch = 0;
@@ -157,7 +169,7 @@ export async function POST(request: NextRequest) {
     console.error('Property sync error:', error);
     return NextResponse.json(
       {
-        error: 'Failed to sync properties',
+        error: 'Failed to sync Portfolio Assets',
         details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
@@ -168,7 +180,7 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   return NextResponse.json(
     {
-      message: 'Property Sync Endpoint',
+      message: 'Portfolio Assets Sync Endpoint',
       method: 'POST only',
       description: 'Use POST with Authorization header and cityId in body',
     },
