@@ -74,3 +74,27 @@ Thumbs.db
 *.heapsnapshot
 *.cpuprofile
 apps/whatsapp-scraper-bot/.wwebjs_auth/**
+
+# ── Redundant / Backup folders ──
+May 4 last plan/
+New folder/
+Sierra-Blu-Backend-2026-05-13/
+Sierra-Blu-Systm/
+allll/
+antigravity-awesome-skills/
+bots/
+build.log
+build_output.log
+my-app/
+my-sierra-project/
+scratch/
+temp_repos/
+tools/
+CLAODE WEB SITE FILES/
+11_Core_Intelligence/
+Backend/
+claude fi 28-4/
+claude*/
+archive*/
+Archive*/
+__archive*/
