@@ -9,6 +9,12 @@ import {
 } from 'firebase/firestore';
 import { Plus, Search } from 'lucide-react';
 
+type FirestoreTimestampLike =
+  | Date
+  | string
+  | { toDate: () => Date }
+  | { seconds: number };
+
 interface Unit {
   id: string;
   title: string;
@@ -18,6 +24,13 @@ interface Unit {
   bedrooms: number;
   price: number;
   status: string;
+  isStale?: boolean;
+  updatedAt?: FirestoreTimestampLike;
+  lastSyncAt?: FirestoreTimestampLike;
+  maintenanceNotes?: string;
+  intelligence?: {
+    lastUpdatedAt?: FirestoreTimestampLike;
+  };
 }
 
 const STATUS_OPTIONS = ['all', 'available', 'reserved', 'sold'];
@@ -26,6 +39,67 @@ const STATUS_STYLES: Record<string, string> = {
   reserved:  'bg-yellow-50 text-yellow-700',
   sold:      'bg-gray-100 text-gray-500',
 };
+const FRESHNESS_THRESHOLD_DAYS = 30;
+
+function getTimestampDate(value?: FirestoreTimestampLike): Date | null {
+  if (!value) return null;
+  if (value instanceof Date) return value;
+
+  if (typeof value === 'string') {
+    const parsed = new Date(value);
+    return isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  if ('toDate' in value && typeof value.toDate === 'function') {
+    const parsed = value.toDate();
+    return parsed instanceof Date && !isNaN(parsed.getTime()) ? parsed : null;
+  }
+
+  if ('seconds' in value && typeof value.seconds === 'number') {
+    return new Date(value.seconds * 1000);
+  }
+
+  return null;
+}
+
+function getMaintenanceState(unit: Unit) {
+  const latestActivity = [
+    getTimestampDate(unit.updatedAt),
+    getTimestampDate(unit.lastSyncAt),
+    getTimestampDate(unit.intelligence?.lastUpdatedAt),
+  ]
+    .filter((value): value is Date => value instanceof Date)
+    .sort((left, right) => right.getTime() - left.getTime())[0] ?? null;
+
+  const ageInDays = latestActivity
+    ? Math.floor((Date.now() - latestActivity.getTime()) / (1000 * 60 * 60 * 24))
+    : null;
+
+  if (unit.isStale || ageInDays === null || ageInDays > FRESHNESS_THRESHOLD_DAYS) {
+    return {
+      label: 'Needs review',
+      badgeClass: 'bg-amber-50 text-amber-700',
+      detail: latestActivity ? `${ageInDays}d since update` : 'No freshness signal',
+      title: unit.maintenanceNotes ?? 'Maintenance review recommended',
+    };
+  }
+
+  if (ageInDays <= 7) {
+    return {
+      label: 'Fresh',
+      badgeClass: 'bg-emerald-50 text-emerald-700',
+      detail: ageInDays === 0 ? 'Updated today' : `${ageInDays}d ago`,
+      title: 'Recently refreshed inventory data',
+    };
+  }
+
+  return {
+    label: 'Monitor',
+    badgeClass: 'bg-blue-50 text-blue-700',
+    detail: `${ageInDays}d ago`,
+    title: 'Inventory is within the 30-day hygiene window',
+  };
+}
 
 export default function AdminUnitsPage() {
   const [units, setUnits] = useState<Unit[]>([]);
@@ -127,7 +201,7 @@ export default function AdminUnitsPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-[#f3f4f5]">
-                {['Title', 'Compound', 'Type', 'Area', 'Beds', 'Price (EGP)', 'Status'].map(h => (
+                {['Title', 'Compound', 'Type', 'Area', 'Beds', 'Price (EGP)', 'Status', 'Maintenance'].map(h => (
                   <th key={h}
                     className="text-left px-6 py-4 text-[9px] font-bold uppercase tracking-widest text-[#3a5570]/50">
                     {h}
@@ -139,14 +213,17 @@ export default function AdminUnitsPage() {
               {loading && units.length === 0
                 ? Array.from({ length: 8 }).map((_, i) => (
                     <tr key={i} className="border-b border-[#f3f4f5]">
-                      {Array.from({ length: 7 }).map((_, j) => (
+                      {Array.from({ length: 8 }).map((_, j) => (
                         <td key={j} className="px-6 py-4">
                           <div className="h-4 bg-[#f3f4f5] rounded animate-pulse" />
                         </td>
                       ))}
                     </tr>
                   ))
-                : displayed.map(unit => (
+                : displayed.map(unit => {
+                    const maintenance = getMaintenanceState(unit);
+
+                    return (
                     <tr
                       key={unit.id}
                       className="border-b border-[#f3f4f5] hover:bg-[#f8f9fa] transition-colors cursor-pointer"
@@ -167,8 +244,17 @@ export default function AdminUnitsPage() {
                           {unit.status}
                         </span>
                       </td>
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col gap-1" title={maintenance.title}>
+                          <span className={`w-fit text-[9px] font-bold px-2.5 py-1 rounded uppercase tracking-widest ${maintenance.badgeClass}`}>
+                            {maintenance.label}
+                          </span>
+                          <span className="text-[10px] text-[#3a5570]/70">{maintenance.detail}</span>
+                        </div>
+                      </td>
                     </tr>
-                  ))}
+                    );
+                  })}
             </tbody>
           </table>
         </div>
