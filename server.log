@@ -1,0 +1,1463 @@
+
+> sierra-blu-platform@0.1.0 dev
+> next dev --turbopack
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.38:3000
+- Environments: .env.local
+✓ Ready in 638ms
+⚠ Invalid next.config.ts options detected: 
+⚠     Unrecognized key(s) in object: 'serverComponentsExternalPackages' at "experimental"
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+⚠ `experimental.serverComponentsExternalPackages` has been moved to `serverExternalPackages`. Please update your next.config.ts file accordingly.
+- Experiments (use with caution):
+  ? serverComponentsExternalPackages (invalid experimental key)
+
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.38:3000
+- Environments: .env.local
+✓ Ready in 702ms
+
+○ Compiling / ...
+ GET / 200 in 9.2s (next.js: 8.6s, proxy.ts: 188ms, application-code: 438ms)
+ GET /api/listings 404 in 670ms (next.js: 603ms, application-code: 67ms)
+[2026-05-10T04:45:31.263Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x22a35bc9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:45:31.266Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:45:31.267Z]  @firebase/firestore: Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unknown]: undefined undefined: undefined
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.
+ GET /api/listings 200 in 2.5s (next.js: 2.2s, application-code: 225ms)
+[2026-05-10T04:45:33.609Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x22a35bca error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:45:33.610Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET /api/listings 200 in 24ms (next.js: 7ms, application-code: 17ms)
+[2026-05-10T04:46:06.529Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x1d094cf4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:46:06.530Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:46:06.531Z]  @firebase/firestore: Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unknown]: undefined undefined: undefined
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.
+ GET /api/listings 200 in 279ms (next.js: 151ms, application-code: 128ms)
+🔐 [Firebase] Attempting Application Default Credentials
+Error seeding listings: Error: Could not load the default credentials. Browse to https://cloud.google.com/docs/authentication/getting-started for more information.
+    at POST (app\api\seed\listings\route.ts:198:17)
+  196 |     });
+  197 |
+> 198 |     await batch.commit();
+      |                 ^
+  199 |     return NextResponse.json({
+  200 |       success: true,
+  201 |       message: `Added ${SAMPLE_LISTINGS.length} sample listings`,
+ POST /api/seed/listings 500 in 1153ms (next.js: 890ms, application-code: 263ms)
+[2026-05-10T04:46:52.694Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c858 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:46:52.696Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:46:52.705Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c859 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:46:52.707Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:46:53.454Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c85a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:46:53.454Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:46:54.364Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c85b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:46:54.365Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:46:56.811Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c85c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:46:56.811Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:46:59.292Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c85d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:46:59.293Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:47:04.559Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c85e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:47:04.559Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:47:12.220Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c85f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:47:12.221Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:47:24.803Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c860 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:47:24.803Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:47:33.352Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c861 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:47:33.352Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:47:50.061Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c862 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:47:50.062Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:48:23.650Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c863 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:48:23.650Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:49:43.363Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c864 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:49:43.364Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:50:14.474Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c865 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:50:14.475Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:50:49.679Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c866 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:50:49.680Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:51:19.647Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x8f15c867 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:51:19.648Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:51:19.649Z]  @firebase/firestore: Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unknown]: undefined undefined: undefined
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.
+ GET /api/listings 200 in 97ms (next.js: 46ms, application-code: 50ms)
+[2026-05-10T04:51:22.747Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x8f15c868 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:51:22.747Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET /api/listings 200 in 15ms (next.js: 4ms, application-code: 11ms)
+ GET / 200 in 601ms (next.js: 140ms, proxy.ts: 96ms, application-code: 364ms)
+[2026-05-10T04:51:54.537Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x8f15c869 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:51:54.538Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET /api/listings?limit=3 200 in 38ms (next.js: 8ms, application-code: 29ms)
+[2026-05-10T04:51:54.686Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x8f15c86a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:51:54.686Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET /api/listings 200 in 32ms (next.js: 9ms, application-code: 23ms)
+[2026-05-10T04:52:01.329Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c86c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:52:01.329Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:53:31.321Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c86d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:53:31.321Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+Error seeding listings: Error: Could not load the default credentials. Browse to https://cloud.google.com/docs/authentication/getting-started for more information.
+    at POST (app\api\seed\listings\route.ts:198:17)
+  196 |     });
+  197 |
+> 198 |     await batch.commit();
+      |                 ^
+  199 |     return NextResponse.json({
+  200 |       success: true,
+  201 |       message: `Added ${SAMPLE_LISTINGS.length} sample listings`,
+ POST /api/seed/listings 500 in 363ms (next.js: 90ms, application-code: 273ms)
+[2026-05-10T04:53:55.029Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f90a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:53:55.030Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:53:55.033Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f90b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:53:55.033Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:53:56.465Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f90c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:53:56.466Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:53:58.368Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f90d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:53:58.368Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:53:59.751Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f90e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:53:59.752Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:54:01.767Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f90f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:54:01.767Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:54:08.899Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f910 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:54:08.899Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:54:18.345Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f911 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:54:18.345Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:54:31.306Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f912 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:54:31.307Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:54:46.849Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f913 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:54:46.849Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:54:54.898Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c86e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:54:54.898Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:55:00.928Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f914 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:55:00.929Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:55:30.821Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c86f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:55:30.821Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:55:35.379Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f915 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:55:35.379Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:56:03.394Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c870 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:56:03.395Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:56:03.837Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x5c51f916 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:56:03.837Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:56:03.838Z]  @firebase/firestore: Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unknown]: undefined undefined: undefined
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.
+ GET /api/listings?limit=6 200 in 82ms (next.js: 37ms, application-code: 45ms)
+ GET / 200 in 688ms (next.js: 141ms, proxy.ts: 100ms, application-code: 447ms)
+ GET / 200 in 251ms (next.js: 18ms, proxy.ts: 29ms, application-code: 205ms)
+⚠ Blocked cross-origin request to Next.js dev resource /_next/webpack-hmr from "127.0.0.1".
+Cross-origin access to Next.js dev resources is blocked by default for safety.
+
+To allow this host in development, add it to "allowedDevOrigins" in next.config.js and restart the dev server:
+
+// next.config.js
+module.exports = {
+  allowedDevOrigins: ['127.0.0.1'],
+}
+
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+[2026-05-10T04:56:54.543Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f918 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:56:54.544Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:57:14.304Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c871 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:57:14.305Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 106ms (next.js: 11ms, proxy.ts: 10ms, application-code: 85ms)
+[2026-05-10T04:57:25.367Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x5c51f917 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:57:25.368Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET /api/listings?limit=6 200 in 21ms (next.js: 6ms, application-code: 15ms)
+[2026-05-10T04:57:28.750Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x5c51f919 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:57:28.751Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET /api/listings?limit=6 200 in 18ms (next.js: 4ms, application-code: 14ms)
+ GET / 200 in 96ms (next.js: 9ms, proxy.ts: 12ms, application-code: 76ms)
+[2026-05-10T04:58:02.590Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f91b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:58:02.591Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:58:09.734Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c872 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:58:09.734Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:58:48.626Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x5c51f91a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:58:48.627Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET /api/listings?limit=6 200 in 24ms (next.js: 5ms, application-code: 19ms)
+[2026-05-10T04:58:51.578Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x5c51f91c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:58:51.579Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET /api/listings?limit=6 200 in 30ms (next.js: 7ms, application-code: 23ms)
+ GET / 200 in 105ms (next.js: 10ms, proxy.ts: 9ms, application-code: 86ms)
+[2026-05-10T04:59:18.002Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c873 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:59:18.003Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T04:59:24.289Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f91e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T04:59:24.290Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:00:07.204Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f91f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:00:07.204Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:00:14.203Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c874 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:00:14.203Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 471ms (next.js: 121ms, proxy.ts: 78ms, application-code: 272ms)
+[2026-05-10T05:00:37.450Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x4841a43f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:00:37.453Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:00:37.455Z]  @firebase/firestore: Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unknown]: undefined undefined: undefined
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.
+ GET /api/listings?limit=6 200 in 288ms (next.js: 152ms, application-code: 136ms)
+[2026-05-10T05:00:40.454Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x4841a440 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:00:40.454Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET /api/listings?limit=6 200 in 15ms (next.js: 4ms, application-code: 11ms)
+ POST /api/seed/listings 401 in 41ms (next.js: 35ms, application-code: 7ms)
+[2026-05-10T05:01:19.878Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f920 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:01:19.878Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:01:43.169Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c875 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:01:43.170Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 96ms (next.js: 8ms, proxy.ts: 11ms, application-code: 76ms)
+[2026-05-10T05:02:13.887Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c876 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:02:13.887Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:02:36.888Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f921 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:02:36.888Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 60ms (next.js: 7ms, proxy.ts: 4ms, application-code: 49ms)
+Error seeding listings: Error: Could not load the default credentials. Browse to https://cloud.google.com/docs/authentication/getting-started for more information.
+    at POST (app\api\seed\listings\route.ts:198:17)
+  196 |     });
+  197 |
+> 198 |     await batch.commit();
+      |                 ^
+  199 |     return NextResponse.json({
+  200 |       success: true,
+  201 |       message: `Added ${SAMPLE_LISTINGS.length} sample listings`,
+ POST /api/seed/listings 500 in 209ms (next.js: 5ms, application-code: 204ms)
+Error seeding listings: Error: Could not load the default credentials. Browse to https://cloud.google.com/docs/authentication/getting-started for more information.
+    at POST (app\api\seed\listings\route.ts:198:17)
+  196 |     });
+  197 |
+> 198 |     await batch.commit();
+      |                 ^
+  199 |     return NextResponse.json({
+  200 |       success: true,
+  201 |       message: `Added ${SAMPLE_LISTINGS.length} sample listings`,
+ POST /api/seed/listings 500 in 128ms (next.js: 2ms, application-code: 125ms)
+[2026-05-10T05:03:26.099Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f922 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:03:26.099Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:03:37.160Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c877 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:03:37.161Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:04:06.950Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x734f5c9c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:04:06.953Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:04:06.954Z]  @firebase/firestore: Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unknown]: undefined undefined: undefined
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.
+ GET /api/listings?limit=6 200 in 272ms (next.js: 159ms, application-code: 113ms)
+ GET / 200 in 271ms (next.js: 59ms, proxy.ts: 41ms, application-code: 172ms)
+[2026-05-10T05:04:41.634Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c878 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:04:41.634Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:04:43.446Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f923 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:04:43.447Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:05:14.669Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f924 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:05:14.670Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 38ms (next.js: 3ms, proxy.ts: 4ms, application-code: 31ms)
+[2026-05-10T05:05:44.437Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c879 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:05:44.437Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:06:13.517Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f925 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:06:13.517Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:06:22.734Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c87a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:06:22.734Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:06:55.343Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f926 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:06:55.343Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 38ms (next.js: 4ms, proxy.ts: 4ms, application-code: 30ms)
+[2026-05-10T05:07:16.422Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c87b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:07:16.422Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:07:52.671Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f927 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:07:52.671Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:08:05.159Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c87c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:08:05.159Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 436ms (next.js: 78ms, proxy.ts: 64ms, application-code: 294ms)
+[2026-05-10T05:09:13.035Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f928 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:09:13.035Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:09:13.817Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c87d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:09:13.817Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 428ms (next.js: 82ms, proxy.ts: 63ms, application-code: 283ms)
+ GET / 200 in 496ms (next.js: 111ms, proxy.ts: 86ms, application-code: 299ms)
+[2026-05-10T05:10:02.758Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f929 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:10:02.759Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:10:09.264Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c87e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:10:09.264Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 35ms (next.js: 2ms, proxy.ts: 5ms, application-code: 27ms)
+[2026-05-10T05:10:57.679Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c87f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:10:57.680Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:11:09.922Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f92a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:11:09.922Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 250ms (next.js: 20ms, proxy.ts: 25ms, application-code: 205ms)
+[2026-05-10T05:11:38.709Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c880 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:11:38.711Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:12:25.666Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f92b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:12:25.666Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 239ms (next.js: 21ms, proxy.ts: 19ms, application-code: 199ms)
+[2026-05-10T05:13:00.889Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c881 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:13:00.889Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 202ms (next.js: 12ms, proxy.ts: 31ms, application-code: 159ms)
+[2026-05-10T05:13:12.541Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x4083cbd8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:13:12.548Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:13:12.553Z]  @firebase/firestore: Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unknown]: undefined undefined: undefined
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.
+ GET /api/listings?limit=6 200 in 1287ms (next.js: 547ms, application-code: 739ms)
+[2026-05-10T05:13:21.584Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f92c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:13:21.585Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 193ms (next.js: 17ms, proxy.ts: 16ms, application-code: 161ms)
+[2026-05-10T05:14:21.579Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c882 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:14:21.579Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:14:45.982Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f92d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:14:45.983Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 79ms (next.js: 7ms, proxy.ts: 7ms, application-code: 65ms)
+[2026-05-10T05:15:20.521Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c883 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:15:20.521Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 49ms (next.js: 5ms, proxy.ts: 3ms, application-code: 42ms)
+[2026-05-10T05:15:58.869Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c884 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:15:58.869Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:16:13.028Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f92e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:16:13.028Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:17:05.187Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f92f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:17:05.188Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 89ms (next.js: 9ms, proxy.ts: 6ms, application-code: 73ms)
+[2026-05-10T05:17:14.358Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c885 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:17:14.359Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:18:03.050Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f930 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:18:03.050Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:18:06.985Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c886 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:18:06.986Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 118ms (next.js: 10ms, proxy.ts: 10ms, application-code: 98ms)
+[2026-05-10T05:19:28.517Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f931 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:19:28.517Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:19:31.215Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c887 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:19:31.216Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+✓ Compiled in 561ms
+ GET / 200 in 372ms (next.js: 164ms, proxy.ts: 117ms, application-code: 91ms)
+✓ Compiled in 535ms
+ GET / 200 in 331ms (next.js: 142ms, proxy.ts: 116ms, application-code: 73ms)
+ GET / 200 in 376ms (next.js: 11ms, proxy.ts: 8ms, application-code: 356ms)
+[2026-05-10T05:20:01.928Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c888 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:20:01.928Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 1128ms (next.js: 527ms, proxy.ts: 208ms, application-code: 394ms)
+ GET / 200 in 613ms (next.js: 17ms, proxy.ts: 46ms, application-code: 550ms)
+ GET / 200 in 572ms (next.js: 40ms, proxy.ts: 38ms, application-code: 494ms)
+ GET / 200 in 572ms (next.js: 104ms, proxy.ts: 40ms, application-code: 428ms)
+ GET / 200 in 642ms (next.js: 184ms, proxy.ts: 42ms, application-code: 416ms)
+ GET / 200 in 636ms (next.js: 238ms, proxy.ts: 39ms, application-code: 359ms)
+ GET / 200 in 640ms (next.js: 288ms, proxy.ts: 41ms, application-code: 311ms)
+ GET / 200 in 513ms (next.js: 67ms, proxy.ts: 51ms, application-code: 395ms)
+ GET / 200 in 340ms (next.js: 72ms, proxy.ts: 33ms, application-code: 235ms)
+ GET / 200 in 345ms (next.js: 34ms, proxy.ts: 28ms, application-code: 284ms)
+ GET / 200 in 338ms (next.js: 176ms, proxy.ts: 30ms, application-code: 131ms)
+ GET / 200 in 346ms (next.js: 132ms, proxy.ts: 32ms, application-code: 183ms)
+ GET / 200 in 385ms (next.js: 218ms, proxy.ts: 26ms, application-code: 141ms)
+ GET / 200 in 362ms (next.js: 21ms, proxy.ts: 14ms, application-code: 326ms)
+ GET / 200 in 344ms (next.js: 29ms, proxy.ts: 75ms, application-code: 240ms)
+ GET / 200 in 301ms (next.js: 69ms, proxy.ts: 35ms, application-code: 198ms)
+ GET / 200 in 295ms (next.js: 120ms, proxy.ts: 25ms, application-code: 150ms)
+ GET / 200 in 293ms (next.js: 161ms, proxy.ts: 25ms, application-code: 108ms)
+ GET / 200 in 298ms (next.js: 150ms, proxy.ts: 66ms, application-code: 82ms)
+ GET / 200 in 364ms (next.js: 31ms, proxy.ts: 16ms, application-code: 317ms)
+ GET / 200 in 360ms (next.js: 31ms, proxy.ts: 67ms, application-code: 262ms)
+ GET / 200 in 352ms (next.js: 63ms, proxy.ts: 67ms, application-code: 222ms)
+ GET / 200 in 344ms (next.js: 110ms, proxy.ts: 61ms, application-code: 174ms)
+ GET / 200 in 314ms (next.js: 152ms, proxy.ts: 29ms, application-code: 134ms)
+ GET / 200 in 314ms (next.js: 107ms, proxy.ts: 103ms, application-code: 104ms)
+ GET / 200 in 346ms (next.js: 35ms, proxy.ts: 15ms, application-code: 296ms)
+ GET / 200 in 334ms (next.js: 68ms, proxy.ts: 31ms, application-code: 235ms)
+ GET / 200 in 331ms (next.js: 63ms, proxy.ts: 72ms, application-code: 196ms)
+ GET / 200 in 328ms (next.js: 101ms, proxy.ts: 74ms, application-code: 153ms)
+ GET / 200 in 282ms (next.js: 103ms, proxy.ts: 65ms, application-code: 113ms)
+ GET / 200 in 295ms (next.js: 98ms, proxy.ts: 103ms, application-code: 94ms)
+ GET / 200 in 351ms (next.js: 45ms, proxy.ts: 17ms, application-code: 290ms)
+ GET / 200 in 346ms (next.js: 93ms, proxy.ts: 33ms, application-code: 220ms)
+ GET / 200 in 334ms (next.js: 66ms, proxy.ts: 96ms, application-code: 172ms)
+ GET / 200 in 326ms (next.js: 99ms, proxy.ts: 89ms, application-code: 138ms)
+ GET / 200 in 326ms (next.js: 86ms, proxy.ts: 131ms, application-code: 108ms)
+ GET / 200 in 263ms (next.js: 127ms, proxy.ts: 57ms, application-code: 79ms)
+ GET / 200 in 336ms (next.js: 28ms, proxy.ts: 19ms, application-code: 289ms)
+ GET / 200 in 328ms (next.js: 58ms, proxy.ts: 59ms, application-code: 212ms)
+ GET / 200 in 342ms (next.js: 62ms, proxy.ts: 27ms, application-code: 252ms)
+ GET / 200 in 330ms (next.js: 101ms, proxy.ts: 58ms, application-code: 170ms)
+ GET / 200 in 331ms (next.js: 149ms, proxy.ts: 55ms, application-code: 127ms)
+ GET / 200 in 300ms (next.js: 100ms, proxy.ts: 96ms, application-code: 103ms)
+ GET / 200 in 372ms (next.js: 32ms, proxy.ts: 22ms, application-code: 318ms)
+ GET / 200 in 361ms (next.js: 78ms, proxy.ts: 71ms, application-code: 212ms)
+ GET / 200 in 369ms (next.js: 31ms, proxy.ts: 71ms, application-code: 267ms)
+ GET / 200 in 359ms (next.js: 117ms, proxy.ts: 69ms, application-code: 173ms)
+ GET / 200 in 363ms (next.js: 164ms, proxy.ts: 67ms, application-code: 131ms)
+ GET / 200 in 366ms (next.js: 107ms, proxy.ts: 117ms, application-code: 141ms)
+ GET / 200 in 336ms (next.js: 25ms, proxy.ts: 20ms, application-code: 290ms)
+ GET / 200 in 317ms (next.js: 31ms, proxy.ts: 67ms, application-code: 220ms)
+ GET / 200 in 315ms (next.js: 68ms, proxy.ts: 67ms, application-code: 180ms)
+ GET / 200 in 310ms (next.js: 103ms, proxy.ts: 67ms, application-code: 140ms)
+ GET / 200 in 278ms (next.js: 144ms, proxy.ts: 31ms, application-code: 103ms)
+ GET / 200 in 331ms (next.js: 49ms, proxy.ts: 138ms, application-code: 145ms)
+ GET / 200 in 362ms (next.js: 29ms, proxy.ts: 20ms, application-code: 313ms)
+ GET / 200 in 349ms (next.js: 77ms, proxy.ts: 82ms, application-code: 189ms)
+ GET / 200 in 354ms (next.js: 43ms, proxy.ts: 80ms, application-code: 231ms)
+ GET / 200 in 342ms (next.js: 118ms, proxy.ts: 80ms, application-code: 145ms)
+ GET / 200 in 341ms (next.js: 151ms, proxy.ts: 81ms, application-code: 108ms)
+ GET / 200 in 338ms (next.js: 9ms, proxy.ts: 187ms, application-code: 141ms)
+ GET / 200 in 284ms (next.js: 30ms, proxy.ts: 17ms, application-code: 236ms)
+ GET / 200 in 312ms (next.js: 27ms, proxy.ts: 68ms, application-code: 216ms)
+ GET / 200 in 309ms (next.js: 64ms, proxy.ts: 71ms, application-code: 174ms)
+ GET / 200 in 304ms (next.js: 131ms, proxy.ts: 69ms, application-code: 104ms)
+ GET / 200 in 310ms (next.js: 95ms, proxy.ts: 69ms, application-code: 145ms)
+ GET / 200 in 249ms (next.js: 11ms, proxy.ts: 12ms, application-code: 225ms)
+ GET / 200 in 313ms (next.js: 22ms, proxy.ts: 18ms, application-code: 273ms)
+ GET / 200 in 365ms (next.js: 63ms, proxy.ts: 63ms, application-code: 239ms)
+ GET / 200 in 369ms (next.js: 21ms, proxy.ts: 62ms, application-code: 286ms)
+ GET / 200 in 365ms (next.js: 102ms, proxy.ts: 59ms, application-code: 205ms)
+ GET / 200 in 365ms (next.js: 150ms, proxy.ts: 57ms, application-code: 158ms)
+ GET / 200 in 457ms (next.js: 16ms, proxy.ts: 14ms, application-code: 428ms)
+ GET / 200 in 392ms (next.js: 34ms, proxy.ts: 19ms, application-code: 340ms)
+ GET / 200 in 457ms (next.js: 54ms, proxy.ts: 95ms, application-code: 308ms)
+ GET / 200 in 454ms (next.js: 71ms, proxy.ts: 118ms, application-code: 265ms)
+ GET / 200 in 451ms (next.js: 171ms, proxy.ts: 121ms, application-code: 160ms)
+ GET / 200 in 458ms (next.js: 120ms, proxy.ts: 119ms, application-code: 219ms)
+ GET / 200 in 487ms (next.js: 20ms, proxy.ts: 14ms, application-code: 453ms)
+ GET / 200 in 477ms (next.js: 36ms, proxy.ts: 113ms, application-code: 328ms)
+ GET / 200 in 368ms (next.js: 24ms, proxy.ts: 84ms, application-code: 259ms)
+ GET / 200 in 367ms (next.js: 94ms, proxy.ts: 84ms, application-code: 189ms)
+ GET / 200 in 367ms (next.js: 145ms, proxy.ts: 84ms, application-code: 137ms)
+ GET / 200 in 365ms (next.js: 203ms, proxy.ts: 84ms, application-code: 78ms)
+✓ Compiled in 754ms
+ GET / 200 in 301ms (next.js: 145ms, proxy.ts: 91ms, application-code: 65ms)
+✓ Compiled in 459ms
+ GET / 200 in 488ms (next.js: 238ms, proxy.ts: 123ms, application-code: 128ms)
+✓ Compiled in 529ms
+ GET / 200 in 331ms (next.js: 148ms, proxy.ts: 102ms, application-code: 80ms)
+[2026-05-10T05:20:46.823Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f932 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:20:46.824Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+✓ Compiled in 669ms
+ GET / 200 in 849ms (next.js: 419ms, proxy.ts: 151ms, application-code: 279ms)
+ GET / 200 in 222ms (next.js: 5ms, proxy.ts: 4ms, application-code: 213ms)
+[2026-05-10T05:20:55.099Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c889 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:20:55.100Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:21:25.524Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f933 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:21:25.524Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:21:33.886Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c88a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:21:33.887Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 92ms (next.js: 6ms, proxy.ts: 8ms, application-code: 77ms)
+[2026-05-10T05:22:14.373Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c88b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:22:14.374Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:22:52.221Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f934 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:22:52.221Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:23:26.887Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c88c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:23:26.887Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:23:27.791Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f935 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:23:27.791Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 37ms (next.js: 2ms, proxy.ts: 3ms, application-code: 32ms)
+[2026-05-10T05:23:59.689Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f936 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:23:59.690Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:24:11.712Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c88d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:24:11.712Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 40ms (next.js: 4ms, proxy.ts: 5ms, application-code: 31ms)
+[2026-05-10T05:24:47.844Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c88e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:24:47.844Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:24:58.013Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f937 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:24:58.013Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 47ms (next.js: 5ms, proxy.ts: 3ms, application-code: 39ms)
+[2026-05-10T05:26:13.909Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c88f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:26:13.909Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:26:20.387Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f938 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:26:20.387Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 39ms (next.js: 2ms, proxy.ts: 6ms, application-code: 30ms)
+[2026-05-10T05:27:28.821Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c890 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:27:28.821Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:27:34.635Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f939 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:27:34.636Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 45ms (next.js: 7ms, proxy.ts: 3ms, application-code: 35ms)
+[2026-05-10T05:28:13.278Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c891 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:28:13.279Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:28:43.334Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c892 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:28:43.335Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:28:49.589Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f93a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:28:49.589Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 48ms (next.js: 3ms, proxy.ts: 3ms, application-code: 43ms)
+[2026-05-10T05:29:25.377Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c893 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:29:25.379Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:30:02.977Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f93b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:30:02.978Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:30:03.738Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c894 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:30:03.738Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 57ms (next.js: 4ms, proxy.ts: 7ms, application-code: 47ms)
+[2026-05-10T05:31:32.165Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f93c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:31:32.166Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:31:32.364Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c895 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:31:32.365Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 56ms (next.js: 7ms, proxy.ts: 3ms, application-code: 47ms)
+[2026-05-10T05:32:08.504Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c896 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:32:08.504Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 58ms (next.js: 4ms, proxy.ts: 5ms, application-code: 49ms)
+[2026-05-10T05:32:48.648Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f93d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:32:48.649Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:32:55.331Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c897 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:32:55.331Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 83ms (next.js: 7ms, proxy.ts: 5ms, application-code: 71ms)
+[2026-05-10T05:34:01.272Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f93e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:34:01.273Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:34:17.552Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c898 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:34:17.552Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:35:02.700Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f93f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:35:02.700Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 76ms (next.js: 5ms, proxy.ts: 4ms, application-code: 67ms)
+[2026-05-10T05:35:22.455Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c899 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:35:22.456Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:36:27.784Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f940 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:36:27.784Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:36:28.598Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c89a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:36:28.599Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 52ms (next.js: 2ms, proxy.ts: 4ms, application-code: 45ms)
+ GET / 200 in 49ms (next.js: 4ms, proxy.ts: 4ms, application-code: 41ms)
+[2026-05-10T05:37:30.817Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c89b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:37:30.817Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:37:57.092Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f941 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:37:57.093Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 65ms (next.js: 3ms, proxy.ts: 4ms, application-code: 58ms)
+[2026-05-10T05:38:47.408Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c89c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:38:47.408Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:39:04.564Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f942 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:39:04.564Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:39:29.146Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c89d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:39:29.147Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 53ms (next.js: 6ms, proxy.ts: 4ms, application-code: 43ms)
+[2026-05-10T05:40:01.099Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c89e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:40:01.100Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:40:29.177Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f943 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:40:29.178Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET /virtual-tour 200 in 815ms (next.js: 765ms, proxy.ts: 4ms, application-code: 45ms)
+ GET / 200 in 52ms (next.js: 4ms, proxy.ts: 5ms, application-code: 43ms)
+[2026-05-10T05:40:51.457Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x88ce5645 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:40:51.459Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:40:51.460Z]  @firebase/firestore: Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unknown]: undefined undefined: undefined
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.
+ GET /api/listings?limit=6 200 in 574ms (next.js: 225ms, application-code: 348ms)
+[2026-05-10T05:40:51.492Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x88ce5646 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:40:51.493Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET /api/listings?limit=6 200 in 20ms (next.js: 3ms, application-code: 17ms)
+[2026-05-10T05:41:12.222Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c89f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:41:12.222Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:41:23.475Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f944 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:41:23.475Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 39ms (next.js: 2ms, proxy.ts: 3ms, application-code: 34ms)
+[2026-05-10T05:42:26.619Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8a0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:42:26.620Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:42:46.071Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f945 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:42:46.071Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 120ms (next.js: 11ms, proxy.ts: 10ms, application-code: 99ms)
+[2026-05-10T05:43:42.947Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8a1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:43:42.947Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:44:07.247Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f946 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:44:07.248Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:44:45.215Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8a2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:44:45.215Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:44:57.411Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f947 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:44:57.411Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:45:33.628Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x22a35bcb error. Code: 2 Message: 2 UNKNOWN: 408:Request Timeout
+[2026-05-10T05:45:51.182Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8a3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:45:51.182Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:46:06.621Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x1d094cf5 error. Code: 2 Message: 2 UNKNOWN: 408:Request Timeout
+[2026-05-10T05:46:20.472Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f948 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:46:20.473Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:47:00.373Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f949 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:47:00.373Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:47:13.285Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8a4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:47:13.285Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:47:50.003Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8a5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:47:50.003Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:47:51.730Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f94a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:47:51.730Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:48:53.465Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8a6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:48:53.465Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:49:07.780Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f94b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:49:07.780Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:50:01.877Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8a7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:50:01.877Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:50:02.815Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f94c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:50:02.816Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:51:12.602Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f94d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:51:12.602Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:51:28.462Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8a8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:51:28.463Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:51:57.420Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x8f15c86b error. Code: 2 Message: 2 UNKNOWN: 408:Request Timeout
+[2026-05-10T05:52:25.496Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f94e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:52:25.496Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:52:49.330Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8a9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:52:49.330Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+✓ Compiled in 429ms
+ GET / 200 in 275ms (next.js: 121ms, proxy.ts: 99ms, application-code: 55ms)
+✓ Compiled in 944ms
+ GET / 200 in 684ms (next.js: 379ms, proxy.ts: 149ms, application-code: 156ms)
+[2026-05-10T05:53:28.874Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8aa error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:53:28.875Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:53:38.158Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f94f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:53:38.158Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+✓ Compiled in 376ms
+ GET / 200 in 233ms (next.js: 102ms, proxy.ts: 82ms, application-code: 49ms)
+✓ Compiled in 355ms
+ GET / 200 in 233ms (next.js: 104ms, proxy.ts: 75ms, application-code: 54ms)
+[2026-05-10T05:54:27.235Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ab error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:54:27.236Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+✓ Compiled in 315ms
+[2026-05-10T05:54:43.674Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f950 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:54:43.675Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 253ms (next.js: 115ms, proxy.ts: 77ms, application-code: 61ms)
+ GET / 200 in 327ms (next.js: 5ms, proxy.ts: 10ms, application-code: 312ms)
+[2026-05-10T05:55:45.453Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ac error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:55:45.453Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 52ms (next.js: 7ms, proxy.ts: 4ms, application-code: 41ms)
+[2026-05-10T05:55:51.057Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f951 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:55:51.058Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 124ms (next.js: 12ms, proxy.ts: 14ms, application-code: 98ms)
+[2026-05-10T05:56:26.538Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ad error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:56:26.539Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:57:10.089Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ae error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:57:10.089Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 116ms (next.js: 7ms, proxy.ts: 12ms, application-code: 97ms)
+[2026-05-10T05:57:14.914Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f952 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:57:14.914Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:57:52.763Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8af error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:57:52.764Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:58:19.076Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f953 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:58:19.077Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 141ms (next.js: 14ms, proxy.ts: 17ms, application-code: 109ms)
+ GET / 200 in 96ms (next.js: 10ms, proxy.ts: 10ms, application-code: 75ms)
+ GET / 200 in 106ms (next.js: 10ms, proxy.ts: 13ms, application-code: 83ms)
+[2026-05-10T05:58:42.590Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8b0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:58:42.590Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T05:58:52.970Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x5c51f91d error. Code: 2 Message: 2 UNKNOWN: 408:Request Timeout
+[2026-05-10T05:58:57.516Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f954 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T05:58:57.517Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 105ms (next.js: 9ms, proxy.ts: 12ms, application-code: 84ms)
+ GET / 200 in 58ms (next.js: 7ms, proxy.ts: 5ms, application-code: 46ms)
+ GET / 200 in 93ms (next.js: 6ms, proxy.ts: 14ms, application-code: 72ms)
+[2026-05-10T06:00:08.935Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f955 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:00:08.936Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:00:09.871Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8b1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:00:09.872Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 169ms (next.js: 15ms, proxy.ts: 15ms, application-code: 139ms)
+ GET / 200 in 155ms (next.js: 13ms, proxy.ts: 15ms, application-code: 127ms)
+ GET / 200 in 250ms (next.js: 17ms, proxy.ts: 30ms, application-code: 203ms)
+[2026-05-10T06:00:33.676Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x7c9e9f55 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:00:33.683Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:00:33.688Z]  @firebase/firestore: Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unknown]: undefined undefined: undefined
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.
+ GET /api/listings?limit=6 200 in 984ms (next.js: 483ms, application-code: 500ms)
+[2026-05-10T06:00:40.442Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x4841a441 error. Code: 2 Message: 2 UNKNOWN: 408:Request Timeout
+[2026-05-10T06:00:56.937Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f956 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:00:56.938Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 204ms (next.js: 15ms, proxy.ts: 18ms, application-code: 172ms)
+[2026-05-10T06:01:25.210Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8b2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:01:25.211Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:01:41.392Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f957 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:01:41.393Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:02:24.984Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f958 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:02:24.985Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:02:52.572Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8b3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:02:52.574Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:03:51.752Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f959 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:03:51.752Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:04:07.021Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x734f5c9d error. Code: 2 Message: 2 UNKNOWN: 408:Request Timeout
+[2026-05-10T06:04:07.369Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8b4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:04:07.370Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:05:10.713Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f95a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:05:10.715Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:05:18.621Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8b5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:05:18.622Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:06:23.978Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f95b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:06:23.978Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:06:36.978Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8b6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:06:36.979Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:07:32.267Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f95c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:07:32.268Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:07:34.212Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8b7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:07:34.213Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:08:33.553Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f95d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:08:33.553Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:08:41.085Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8b8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:08:41.086Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:09:13.873Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8b9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:09:13.874Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:09:47.262Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f95e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:09:47.262Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:10:11.719Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ba error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:10:11.720Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:10:58.388Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f95f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:10:58.388Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:11:21.711Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8bb error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:11:21.712Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:12:12.033Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f960 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:12:12.034Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:12:18.686Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8bc error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:12:18.686Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:12:54.052Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f961 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:12:54.052Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:13:12.829Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x4083cbd9 error. Code: 2 Message: 2 UNKNOWN: 408:Request Timeout
+[2026-05-10T06:13:19.688Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8bd error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:13:19.688Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:13:47.578Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f962 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:13:47.578Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:14:23.884Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8be error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:14:23.884Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:14:26.782Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f963 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:14:26.783Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:15:02.203Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8bf error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:15:02.204Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:15:19.889Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f964 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:15:19.890Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:15:49.699Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8c0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:15:49.699Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:16:20.214Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f965 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:16:20.215Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:16:44.227Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8c1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:16:44.227Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:16:51.554Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f966 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:16:51.555Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:17:48.642Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8c2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:17:48.642Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:18:00.522Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f967 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:18:00.522Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:18:37.545Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8c3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:18:37.546Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:18:50.334Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f968 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:18:50.334Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:19:38.055Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8c4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:19:38.055Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:20:10.322Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f969 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:20:10.322Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:20:13.485Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8c5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:20:13.486Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:20:51.950Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8c6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:20:51.951Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:21:30.484Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f96a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:21:30.485Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:21:34.033Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8c7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:21:34.033Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:22:36.632Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f96b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:22:36.632Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:22:46.364Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8c8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:22:46.364Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:23:35.757Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f96c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:23:35.758Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:23:45.593Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8c9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:23:45.593Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:24:38.334Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f96d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:24:38.334Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:24:42.415Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ca error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:24:42.416Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:25:30.800Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8cb error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:25:30.800Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:25:34.487Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f96e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:25:34.487Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:26:15.366Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f96f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:26:15.366Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:26:50.529Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8cc error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:26:50.529Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:26:56.127Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f970 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:26:56.128Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:27:37.091Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f971 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:27:37.092Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:27:37.791Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8cd error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:27:37.791Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:28:25.812Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ce error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:28:25.812Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:28:48.947Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f972 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:28:48.947Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:29:08.697Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8cf error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:29:08.697Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:29:25.822Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f973 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:29:25.822Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:29:41.603Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8d0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:29:41.604Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:30:29.649Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f974 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:30:29.649Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:31:02.091Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8d1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:31:02.092Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:31:12.274Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f975 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:31:12.274Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:32:10.553Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f976 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:32:10.553Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:32:27.814Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8d2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:32:27.815Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:33:05.846Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f977 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:33:05.847Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:33:32.185Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8d3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:33:32.185Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:34:00.826Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f978 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:34:00.827Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:34:54.445Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8d4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:34:54.446Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:35:18.155Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f979 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:35:18.155Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:35:48.217Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8d5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:35:48.217Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:35:54.453Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f97a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:35:54.453Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:36:48.168Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f97b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:36:48.168Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:37:15.126Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8d6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:37:15.126Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:37:44.186Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f97c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:37:44.187Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:38:29.789Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8d7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:38:29.790Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:39:07.392Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f97d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:39:07.393Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:39:12.841Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8d8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:39:12.842Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:39:45.081Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8d9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:39:45.081Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:40:29.024Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f97e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:40:29.025Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:40:35.297Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8da error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:40:35.297Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:40:52.001Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x88ce5647 error. Code: 2 Message: 2 UNKNOWN: 408:Request Timeout
+[2026-05-10T06:41:17.299Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8db error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:41:17.299Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:41:26.425Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f97f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:41:26.425Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:42:28.525Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f980 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:42:28.526Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:42:43.261Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8dc error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:42:43.261Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:43:27.327Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8dd error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:43:27.327Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:43:41.594Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f981 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:43:41.595Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:44:26.220Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8de error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:44:26.220Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:44:31.931Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f982 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:44:31.932Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:45:19.201Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f983 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:45:19.201Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:45:22.916Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8df error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:45:22.916Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:46:16.130Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f984 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:46:16.131Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:46:43.239Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8e0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:46:43.239Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:46:47.933Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f985 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:46:47.933Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:47:26.348Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8e1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:47:26.349Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:48:07.989Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f986 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:48:07.989Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:48:29.732Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8e2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:48:29.733Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:48:40.634Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f987 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:48:40.635Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:49:04.219Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8e3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:49:04.219Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:49:18.386Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f988 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:49:18.386Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:50:31.318Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8e4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:50:31.318Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:50:43.070Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f989 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:50:43.070Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:51:46.885Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f98a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:51:46.886Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:51:57.376Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8e5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:51:57.376Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:52:33.182Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8e6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:52:33.182Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:52:39.264Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f98b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:52:39.265Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:53:17.333Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8e7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:53:17.334Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:53:26.681Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f98c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:53:26.682Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:54:12.986Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8e8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:54:12.987Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:54:14.036Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f98d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:54:14.036Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:54:46.254Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f98e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:54:46.254Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:55:21.129Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8e9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:55:21.129Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:55:33.468Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f98f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:55:33.468Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:55:51.270Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ea error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:55:51.271Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:56:29.047Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f990 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:56:29.048Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:56:41.569Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8eb error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:56:41.569Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:57:17.419Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f991 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:57:17.419Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:57:27.002Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ec error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:57:27.002Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:58:40.031Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ed error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:58:40.032Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T06:58:44.282Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f992 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T06:58:44.282Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:00:06.313Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ee error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:00:06.314Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:00:12.220Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f993 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:00:12.221Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:00:33.909Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x7c9e9f56 error. Code: 2 Message: 2 UNKNOWN: 408:Request Timeout
+[2026-05-10T07:00:40.150Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ef error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:00:40.151Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:00:42.490Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f994 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:00:42.490Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:01:42.984Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8f0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:01:42.985Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:02:06.163Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f995 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:02:06.163Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:02:33.981Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8f1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:02:33.982Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:03:19.075Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8f2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:03:19.075Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:03:26.876Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f996 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:03:26.876Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:04:45.436Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8f3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:04:45.437Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:04:48.265Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f997 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:04:48.265Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:05:30.732Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8f4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:05:30.733Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:05:43.769Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f998 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:05:43.769Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:07:00.435Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8f5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:07:00.435Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:07:12.655Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f999 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:07:12.655Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:08:27.277Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8f6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:08:27.277Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:08:35.915Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f99a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:08:35.916Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:09:10.806Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8f7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:09:10.807Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:10:00.923Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f99b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:10:00.923Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:10:17.158Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8f8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:10:17.158Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:11:01.438Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f99c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:11:01.438Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:11:07.499Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8f9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:11:07.500Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:11:32.731Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f99d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:11:32.731Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:12:12.184Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8fa error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:12:12.184Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:12:44.936Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8fb error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:12:44.937Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:12:50.704Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f99e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:12:50.704Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:13:29.260Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f99f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:13:29.260Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:13:37.183Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8fc error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:13:37.183Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:14:11.069Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9a0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:14:11.069Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:14:42.608Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9a1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:14:42.609Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:14:56.395Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8fd error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:14:56.395Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:15:31.099Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9a2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:15:31.100Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:16:03.579Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9a3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:16:03.580Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:16:10.449Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8fe error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:16:10.449Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:17:07.014Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9a4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:17:07.015Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:17:19.166Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c8ff error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:17:19.166Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:17:50.859Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c900 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:17:50.859Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:18:25.688Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9a5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:18:25.688Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:18:31.190Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c901 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:18:31.191Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:19:02.390Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9a6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:19:02.390Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:19:10.387Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c902 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:19:10.387Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:19:55.140Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9a7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:19:55.141Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:20:11.882Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c903 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:20:11.883Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:20:39.244Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9a8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:20:39.245Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:20:51.470Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c904 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:20:51.470Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:21:09.684Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9a9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:21:09.685Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:22:08.514Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9aa error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:22:08.515Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:22:12.123Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c905 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:22:12.123Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:23:08.643Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c906 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:23:08.643Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:23:21.119Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ab error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:23:21.119Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:24:27.828Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c907 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:24:27.828Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:24:49.125Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ac error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:24:49.126Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:25:09.530Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c908 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:25:09.531Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:25:57.336Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ad error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:25:57.336Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:26:02.312Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c909 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:26:02.313Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:27:00.615Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c90a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:27:00.615Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:27:05.857Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ae error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:27:05.858Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:27:55.160Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c90b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:27:55.161Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:27:56.846Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9af error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:27:56.846Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:28:40.871Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c90c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:28:40.871Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:29:04.672Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9b0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:29:04.672Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:29:42.248Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c90d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:29:42.249Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:30:07.925Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9b1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:30:07.925Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:30:52.019Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c90e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:30:52.019Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:31:15.591Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9b2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:31:15.591Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:31:27.570Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c90f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:31:27.570Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:32:26.453Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9b3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:32:26.453Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:32:46.397Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c910 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:32:46.398Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:33:36.030Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9b4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:33:36.030Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:33:52.636Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c911 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:33:52.636Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:34:49.055Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9b5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:34:49.056Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:35:16.909Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c912 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:35:16.909Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:35:45.175Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9b6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:35:45.176Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:36:13.209Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c913 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:36:13.209Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:36:29.329Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9b7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:36:29.330Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:36:48.859Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c914 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:36:48.859Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:37:20.418Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9b8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:37:20.419Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:38:16.034Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c915 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:38:16.035Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:38:36.593Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9b9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:38:36.594Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:39:24.895Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c916 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:39:24.896Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:39:49.016Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ba error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:39:49.016Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:40:15.260Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c917 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:40:15.260Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:40:24.585Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9bb error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:40:24.586Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:40:53.475Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c918 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:40:53.475Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:41:06.615Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9bc error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:41:06.615Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:41:40.903Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9bd error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:41:40.903Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:42:03.213Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c919 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:42:03.213Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:42:40.118Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9be error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:42:40.118Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:43:18.177Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c91a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:43:18.177Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:43:34.875Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9bf error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:43:34.875Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:44:31.683Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9c0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:44:31.684Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:44:35.751Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c91b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:44:35.751Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:45:47.129Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9c1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:45:47.129Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:45:54.888Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c91c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:45:54.888Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:46:45.896Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c91d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:46:45.897Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:47:08.250Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9c2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:47:08.250Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:47:50.821Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9c3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:47:50.822Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:48:09.595Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c91e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:48:09.595Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:48:46.253Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9c4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:48:46.254Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:48:55.546Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c91f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:48:55.546Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:49:51.389Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9c5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:49:51.389Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:50:02.534Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c920 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:50:02.534Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:51:04.906Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c921 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:51:04.906Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:51:06.288Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9c6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:51:06.289Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:51:37.123Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c922 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:51:37.124Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:51:52.953Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9c7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:51:52.954Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:53:04.464Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9c8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:53:04.464Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:53:05.260Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c923 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:53:05.260Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:54:23.132Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9c9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:54:23.132Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:54:24.968Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c924 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:54:24.969Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:55:51.987Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ca error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:55:51.988Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:55:54.819Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c925 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:55:54.819Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:57:05.079Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9cb error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:57:05.080Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:57:23.751Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c926 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:57:23.752Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:57:59.148Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9cc error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:57:59.148Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:58:14.230Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c927 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:58:14.231Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:59:13.471Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9cd error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:59:13.472Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T07:59:21.753Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c928 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T07:59:21.753Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:00:24.345Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ce error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:00:24.346Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:00:50.356Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c929 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:00:50.356Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:01:28.659Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c92a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:01:28.659Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:01:38.856Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9cf error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:01:38.856Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:02:01.675Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c92b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:02:01.675Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:02:15.667Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9d0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:02:15.667Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:02:55.466Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c92c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:02:55.466Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:03:33.850Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9d1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:03:33.850Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:03:40.472Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c92d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:03:40.473Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:04:46.925Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9d2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:04:46.926Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:04:48.542Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c92e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:04:48.542Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:05:42.021Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9d3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:05:42.022Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:06:05.945Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c92f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:06:05.946Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:06:55.365Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9d4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:06:55.365Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:07:10.304Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c930 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:07:10.305Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:08:01.825Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c931 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:08:01.826Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:08:05.925Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9d5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:08:05.925Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:08:46.708Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c932 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:08:46.708Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:09:13.748Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9d6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:09:13.749Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:09:28.381Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c933 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:09:28.382Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:09:44.768Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9d7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:09:44.769Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:10:25.569Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c934 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:10:25.569Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:10:45.271Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9d8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:10:45.271Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:11:25.955Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9d9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:11:25.956Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:11:26.001Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c935 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:11:26.002Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:12:17.769Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c936 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:12:17.769Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:12:19.172Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9da error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:12:19.172Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:12:56.692Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c937 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:12:56.692Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:13:46.026Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9db error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:13:46.026Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:13:52.503Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c938 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:13:52.503Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:15:01.263Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9dc error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:15:01.264Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:15:11.557Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c939 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:15:11.557Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:15:42.840Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9dd error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:15:42.841Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:16:29.361Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c93a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:16:29.362Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:17:08.701Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c93b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:17:08.701Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:17:11.985Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9de error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:17:11.986Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:18:01.641Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9df error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:18:01.642Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:18:23.120Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c93c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:18:23.120Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:18:39.607Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9e0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:18:39.608Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:19:01.834Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c93d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:19:01.834Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:19:25.343Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9e1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:19:25.343Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:19:58.982Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c93e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:19:58.982Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:20:17.358Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9e2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:20:17.359Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:20:59.820Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c93f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:20:59.820Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:21:11.734Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9e3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:21:11.734Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:21:34.748Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c940 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:21:34.749Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:21:51.410Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9e4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:21:51.410Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:22:06.589Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c941 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:22:06.590Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:23:19.644Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9e5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:23:19.645Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:23:25.211Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c942 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:23:25.211Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:23:49.734Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9e6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:23:49.735Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:24:11.467Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c943 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:24:11.467Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:24:30.093Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9e7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:24:30.093Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:24:48.332Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c944 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:24:48.332Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:25:43.497Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9e8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:25:43.498Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:26:07.272Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c945 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:26:07.272Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:26:26.199Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9e9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:26:26.200Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:26:41.627Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c946 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:26:41.627Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:27:01.498Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ea error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:27:01.498Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:27:18.687Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c947 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:27:18.688Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:28:05.709Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9eb error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:28:05.709Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:28:29.873Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c948 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:28:29.873Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:28:47.880Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ec error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:28:47.880Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:29:23.533Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ed error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:29:23.534Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:29:31.671Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c949 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:29:31.672Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:30:48.671Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ee error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:30:48.672Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:30:48.987Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c94a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:30:48.987Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:31:40.889Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c94b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:31:40.889Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:32:16.460Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ef error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:32:16.461Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:32:59.679Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c94c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:32:59.680Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:33:22.874Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9f0 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:33:22.874Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:34:00.808Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c94d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:34:00.809Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:34:08.618Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9f1 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:34:08.619Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:35:09.448Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c94e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:35:09.448Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:35:17.351Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9f2 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:35:17.351Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:35:39.929Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c94f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:35:39.930Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:35:52.322Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9f3 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:35:52.322Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:36:18.415Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c950 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:36:18.416Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:36:25.920Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9f4 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:36:25.920Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:37:36.548Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c951 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:37:36.548Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:37:46.204Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9f5 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:37:46.205Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:39:01.898Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c952 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:39:01.898Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:39:08.272Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9f6 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:39:08.273Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:39:40.771Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9f7 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:39:40.772Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:40:12.650Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9f8 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:40:12.651Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:40:21.244Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c953 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:40:21.244Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:41:03.203Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9f9 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:41:03.203Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:41:18.874Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c954 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:41:18.874Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:42:24.335Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9fa error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:42:24.335Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:42:46.828Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c955 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:42:46.828Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:43:04.125Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9fb error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:43:04.126Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:43:24.214Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c956 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:43:24.214Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:43:37.881Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9fc error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:43:37.882Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:44:50.693Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c957 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:44:50.693Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:45:04.112Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9fd error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:45:04.112Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:45:47.723Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c958 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:45:47.724Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:45:49.079Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9fe error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:45:49.079Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:46:55.681Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51f9ff error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:46:55.681Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:47:01.410Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c959 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:47:01.411Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:47:36.376Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa00 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:47:36.376Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:47:36.552Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c95a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:47:36.552Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:48:49.837Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa01 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:48:49.838Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:48:53.385Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c95b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:48:53.385Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:50:08.784Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa02 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:50:08.785Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:50:13.712Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c95c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:50:13.713Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:51:15.471Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c95d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:51:15.471Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:51:38.032Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa03 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:51:38.033Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:52:16.367Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c95e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:52:16.368Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:52:40.635Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa04 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:52:40.636Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:52:51.625Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c95f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:52:51.625Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:53:21.799Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa05 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:53:21.799Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:53:27.032Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c960 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:53:27.033Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:53:58.798Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa06 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:53:58.798Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:54:39.017Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c961 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:54:39.018Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:55:21.508Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa07 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:55:21.510Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:55:42.862Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c962 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:55:42.862Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:55:54.164Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa08 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:55:54.165Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:56:56.379Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa09 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:56:56.380Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:56:56.642Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c963 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:56:56.642Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:57:29.182Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa0a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:57:29.182Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:57:51.514Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c964 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:57:51.515Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:58:46.731Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa0b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:58:46.732Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:59:01.850Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c965 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:59:01.850Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T08:59:22.677Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa0c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T08:59:22.678Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:00:00.797Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c966 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:00:00.798Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:00:16.926Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa0d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:00:16.927Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:00:59.563Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c967 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:00:59.564Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:01:04.641Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa0e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:01:04.642Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:02:28.842Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c968 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:02:28.842Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:02:34.107Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa0f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:02:34.108Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:03:22.253Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c969 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:03:22.254Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+✓ Compiled in 582ms
+ GET / 200 in 288ms (next.js: 118ms, proxy.ts: 85ms, application-code: 86ms)
+[2026-05-10T09:03:55.901Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa10 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:03:55.902Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:04:01.322Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c96a error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:04:01.322Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+✓ Compiled in 595ms
+ GET / 200 in 445ms (next.js: 146ms, proxy.ts: 237ms, application-code: 62ms)
+✓ Compiled in 487ms
+ GET / 200 in 320ms (next.js: 148ms, proxy.ts: 98ms, application-code: 74ms)
+✓ Compiled in 560ms
+ GET / 200 in 283ms (next.js: 107ms, proxy.ts: 88ms, application-code: 88ms)
+✓ Compiled in 521ms
+[2026-05-10T09:04:18.585Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x6bc98d40 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:04:18.588Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:04:18.589Z]  @firebase/firestore: Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unknown]: undefined undefined: undefined
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.
+ GET /api/listings?limit=6 200 in 497ms (next.js: 179ms, application-code: 319ms)
+ GET / 200 in 604ms (next.js: 415ms, proxy.ts: 99ms, application-code: 90ms)
+✓ Compiled in 515ms
+ GET / 200 in 300ms (next.js: 120ms, proxy.ts: 114ms, application-code: 66ms)
+✓ Compiled in 501ms
+ GET / 200 in 287ms (next.js: 122ms, proxy.ts: 105ms, application-code: 60ms)
+✓ Compiled in 511ms
+ GET / 200 in 239ms (next.js: 107ms, proxy.ts: 77ms, application-code: 54ms)
+[2026-05-10T09:04:44.404Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c96b error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:04:44.404Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+✓ Compiled in 527ms
+ GET / 200 in 415ms (next.js: 152ms, proxy.ts: 177ms, application-code: 86ms)
+✓ Compiled in 537ms
+ GET / 200 in 293ms (next.js: 127ms, proxy.ts: 112ms, application-code: 54ms)
+✓ Compiled in 467ms
+ GET / 200 in 298ms (next.js: 124ms, proxy.ts: 105ms, application-code: 69ms)
+[2026-05-10T09:05:10.880Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa11 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:05:10.881Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+✓ Compiled in 410ms
+ GET / 200 in 340ms (next.js: 152ms, proxy.ts: 105ms, application-code: 83ms)
+✓ Compiled in 370ms
+ GET / 200 in 355ms (next.js: 153ms, proxy.ts: 152ms, application-code: 50ms)
+✓ Compiled in 484ms
+ GET / 200 in 421ms (next.js: 205ms, proxy.ts: 131ms, application-code: 85ms)
+[2026-05-10T09:05:39.003Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c96c error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:05:39.004Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+✓ Compiled in 3.9s
+✓ Compiled in 4s
+ GET / 200 in 255ms (next.js: 103ms, proxy.ts: 100ms, application-code: 52ms)
+✓ Compiled in 568ms
+ GET / 200 in 283ms (next.js: 126ms, proxy.ts: 98ms, application-code: 59ms)
+✓ Compiled in 546ms
+ GET / 200 in 294ms (next.js: 127ms, proxy.ts: 113ms, application-code: 54ms)
+[2026-05-10T09:06:09.742Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c96d error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:06:09.743Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+✓ Compiled in 481ms
+ GET / 200 in 318ms (next.js: 109ms, proxy.ts: 137ms, application-code: 72ms)
+✓ Compiled in 514ms
+ GET / 200 in 344ms (next.js: 166ms, proxy.ts: 120ms, application-code: 58ms)
+[2026-05-10T09:06:36.138Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa12 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:06:36.138Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 568ms (next.js: 12ms, proxy.ts: 16ms, application-code: 539ms)
+[2026-05-10T09:07:21.631Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c96e error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:07:21.632Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:07:24.574Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa13 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:07:24.575Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+ GET / 200 in 182ms (next.js: 13ms, proxy.ts: 17ms, application-code: 151ms)
+[2026-05-10T09:08:01.633Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Listen' stream 0x45059b79 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:08:01.636Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:08:01.638Z]  @firebase/firestore: Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unknown]: undefined undefined: undefined
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.
+ GET /api/listings?limit=6 200 in 632ms (next.js: 341ms, application-code: 291ms)
+ GET / 200 in 120ms (next.js: 10ms, proxy.ts: 10ms, application-code: 99ms)
+[2026-05-10T09:08:38.584Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x8f15c96f error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:08:38.585Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+[2026-05-10T09:08:45.895Z]  @firebase/firestore: Firestore (12.12.0): GrpcConnection RPC 'Write' stream 0x5c51fa14 error. Code: undefined Message: undefined undefined: undefined
+[2026-05-10T09:08:45.896Z]  @firebase/firestore: Firestore (12.12.0): GRPC error has no .code
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.38:3000
+- Environments: .env.local
+✓ Ready in 1313ms
+⨯ Failed to load next.config.ts, see more info here https://nextjs.org/docs/messages/next-config-error
+ReferenceError: withNextIntl is not defined
+    at Object.<anonymous> (F:\Final Deployment project\Backend\next-backend\next.config.compiled.js:88:18)
+[?25h

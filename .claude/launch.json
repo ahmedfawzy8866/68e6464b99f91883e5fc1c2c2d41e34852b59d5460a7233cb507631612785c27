@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "next-dev",
+      "runtimeExecutable": "F:\\Final Deployment project\\Backend\\next-backend\\node_modules\\.bin\\next.cmd",
+      "runtimeArgs": ["dev", "--turbopack", "--port", "3002"],
+      "port": 3002
+    }
+  ]
+}
