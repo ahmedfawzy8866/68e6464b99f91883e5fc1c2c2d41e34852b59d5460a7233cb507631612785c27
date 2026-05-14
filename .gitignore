@@ -52,6 +52,10 @@ apps/whatsapp-scraper-bot/node_modules/
 *service-account*.json
 *serviceAccount*.json
 firebase-adminsdk*.json
+*firebase-adminsdk*.json
+sierra-blu-firebase-adminsdk*.json
+service-account.json
+
 
 # ── Large binary / archive folders ──
 *.zip
