@@ -1,0 +1,103 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+build/
+
+# Vercel
+.vercel/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# TypeScript
+tsconfig.tsbuildinfo
+# next-env.d.ts # Usually tracked
+
+# Firebase
+.firebase/
+service-account.json
+sierra-blu-firebase-adminsdk-*.json
+
+# Root level legacy files (non-app structure)
+/*.md
+!/README.md
+/*.txt
+/*.bat
+/*.sh
+/*.py
+/*.log
+/AGENTS.md
+/CLAUDE.md
+/CLAUDE_CODE_HANDOFF.md
+/CODEX.md
+/COWORK_HANDOFF.md
+/FILE_ORGANIZATION.md
+/FRONTEND_GUIDE.md
+/MASTER_ORDER.md
+/NEXUS_REGISTRY.md
+/POLISH_COMPLETE.md
+/SIERRA_BLU_FULL_REPORT.md
+/SYSTEM_AUDIT.md
+/TELEGRAM_BOT_README.md
+/BACKEND_SETUP.md
+/API_ROUTES_SPLIT.txt
+/FINAL_INSTRUCTIONS.txt
+/QUICK_START.txt
+/SKILL.md
+/SKILLS_QUICK_REFERENCE.txt
+
+# Root level legacy directories
+/11_Core_Intelligence/
+/Backend/
+/apps/
+/backend-integration/
+/bots/
+/config/
+/docs/
+/documents/
+/functions/
+/hooks/
+/ideas/
+/mempalace/
+/my-app/
+/prompts/
+/skills/
+/__tests__/
+/.claude/
+/.clj-kondo/
+/.lsp/
+/.genkit/
+/composio/
+/mcp-servers/
+
+# Root level miscellaneous files
+/entities.json
+/mempalace.yaml
+/proxy.ts
+/sierra-blu-mcp.json
+/sierra-blue-dsl-parser.ts
+/sierra-blue-pf-hooks-and-routes.ts
+/sierra-blue-property-finder.ts
+/sierra-blue-use-dsl-view.ts
+/sierra-blue-view-configs.ts
+/tweaks-panel.jsx
+/colors_and_type.css
+/landing-page-final.tsx
+/sierra-blu-landing.jsx
+/sierra_blu_realty_master_handoff_no_references.txt
+/SIERRA_BLU_FULL_REPORT last
+/sierra_blue_api_integration.py
+/sierra_blue_bot_implementation.py
+/system_prompt_and_deployment.py
+/git init → git add .ps1
+
+# OS Files
+.DS_Store
+Thumbs.db
