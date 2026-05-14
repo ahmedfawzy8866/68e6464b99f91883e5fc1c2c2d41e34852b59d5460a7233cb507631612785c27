@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes';
 import { AuthProvider } from '../lib/AuthContext';
 import { I18nProvider } from '../lib/I18nContext';
 import { Toaster } from 'react-hot-toast';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 
 const cinzel = Cinzel({
@@ -53,6 +54,7 @@ export default function RootLayout({
             </AuthProvider>
           </I18nProvider>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
