@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
           success: true,
           syncedCount: 0,
           failedCount: 0,
-          message: 'No new properties found',
+          message: 'No new Portfolio Assets found',
         },
         { status: 200 }
       );
@@ -149,7 +149,7 @@ export async function POST(request: NextRequest) {
         success: true,
         syncedCount,
         failedCount,
-        message: `Synced ${syncedCount} properties from Property Finder`,
+        message: `Synced ${syncedCount} Portfolio Assets from Property Finder`,
       },
       { status: 200 }
     );

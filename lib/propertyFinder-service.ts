@@ -96,9 +96,7 @@ class PropertyFinderService {
       throw new Error('Property Finder API key credentials are missing');
     }
 
-    const tokenUrl = this.usesLegacyCredentials
-      ? `${this.requestBaseUrl}/auth/token`
-      : `${this.requestBaseUrl}/auth/token`;
+    const tokenUrl = `${this.requestBaseUrl}/auth/token`;
 
     const body = this.usesLegacyCredentials
       ? { apiKey: this.apiKey, apiSecret: this.apiSecret }

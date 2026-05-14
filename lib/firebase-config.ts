@@ -3,7 +3,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 export { db };
 
-interface LeadRecord {
+interface InvestmentStakeholderRecord {
   propertyCode: string;
   visitorName: string;
   visitorEmail: string;
@@ -25,7 +25,7 @@ interface ViewingRequestRecord {
   status: string;
 }
 
-export async function addLead(payload: LeadRecord): Promise<string> {
+export async function addLead(payload: InvestmentStakeholderRecord): Promise<string> {
   const docRef = await addDoc(collection(db, 'leads'), {
     ...payload,
     createdAt: serverTimestamp(),
