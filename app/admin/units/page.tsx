@@ -9,6 +9,12 @@ import {
 } from 'firebase/firestore';
 import { Plus, Search } from 'lucide-react';
 
+type FirestoreTimestampLike =
+  | Date
+  | string
+  | { toDate: () => Date }
+  | { seconds: number };
+
 interface Unit {
   id: string;
   title: string;
@@ -19,11 +25,11 @@ interface Unit {
   price: number;
   status: string;
   isStale?: boolean;
-  updatedAt?: unknown;
-  lastSyncAt?: unknown;
+  updatedAt?: FirestoreTimestampLike;
+  lastSyncAt?: FirestoreTimestampLike;
   maintenanceNotes?: string;
   intelligence?: {
-    lastUpdatedAt?: unknown;
+    lastUpdatedAt?: FirestoreTimestampLike;
   };
 }
 
@@ -35,24 +41,22 @@ const STATUS_STYLES: Record<string, string> = {
 };
 const FRESHNESS_THRESHOLD_DAYS = 30;
 
-function getTimestampDate(value: unknown): Date | null {
+function getTimestampDate(value?: FirestoreTimestampLike): Date | null {
   if (!value) return null;
   if (value instanceof Date) return value;
 
   if (typeof value === 'string') {
     const parsed = new Date(value);
-    return Number.isNaN(parsed.getTime()) ? null : parsed;
+    return isNaN(parsed.getTime()) ? null : parsed;
   }
 
-  if (typeof value === 'object' && value !== null) {
-    if ('toDate' in value && typeof value.toDate === 'function') {
-      const parsed = value.toDate();
-      return parsed instanceof Date && !Number.isNaN(parsed.getTime()) ? parsed : null;
-    }
+  if ('toDate' in value && typeof value.toDate === 'function') {
+    const parsed = value.toDate();
+    return parsed instanceof Date && !isNaN(parsed.getTime()) ? parsed : null;
+  }
 
-    if ('seconds' in value && typeof value.seconds === 'number') {
-      return new Date(value.seconds * 1000);
-    }
+  if ('seconds' in value && typeof value.seconds === 'number') {
+    return new Date(value.seconds * 1000);
   }
 
   return null;
