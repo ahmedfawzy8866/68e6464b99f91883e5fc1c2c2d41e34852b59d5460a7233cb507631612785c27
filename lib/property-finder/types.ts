@@ -246,6 +246,19 @@ export interface PFAuthToken {
   tokenType: string;
 }
 
+export interface PFUser {
+  id: number;
+  name?: string;
+  email?: string;
+  phone?: string;
+  role?: string;
+  status?: 'active' | 'inactive';
+  publicProfile?: {
+    id: number;
+    name?: string;
+  };
+}
+
 /**
  * Egypt-Specific Validation Rules
  */
