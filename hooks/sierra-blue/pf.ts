@@ -15,6 +15,7 @@ import {
   doc,
   serverTimestamp,
   DocumentData,
+  QueryConstraint,
 } from "firebase/firestore";
 
 export type LeadStage =
@@ -93,15 +94,17 @@ export function usePFLeads(
 
   useEffect(() => {
     const db = getFirestore();
-    const constraints = [orderBy("createdAt", "desc")];
+    const constraints: QueryConstraint[] = [];
 
     if (sourceFilter === "property_finder") {
-      constraints.unshift(where("source", "==", "property_finder"));
+      constraints.push(where("source", "==", "property_finder"));
     }
 
     if (options.agentId) {
-      constraints.unshift(where("agentAssigned", "==", options.agentId));
+      constraints.push(where("agentAssigned", "==", options.agentId));
     }
+
+    constraints.push(orderBy("createdAt", "desc"));
 
     const q = query(collection(db, "leads"), ...constraints);
 
@@ -210,8 +213,8 @@ import {
   serverTimestamp as _serverTimestamp,
   DocumentData as _DocumentData,
 } from "firebase/firestore";
-import type { SBRListing, PFSyncResult } from "./property-finder";
-import { pushListingToPF, getPFListingAnalytics } from "./property-finder";
+import type { SBRListing, PFSyncResult } from "../../sierra-blue-property-finder";
+import { pushListingToPF, getPFListingAnalytics } from "../../sierra-blue-property-finder";
 
 export interface ListingWithAnalytics extends SBRListing {
   pfViews?: number;
@@ -219,6 +222,8 @@ export interface ListingWithAnalytics extends SBRListing {
   pfPhoneReveals?: number;
   pfImpressions?: number;
   pfCTR?: number;
+  syncedToPF?: boolean;
+  dealStatus?: string;
 }
 
 export function usePFListings(options: {
@@ -234,15 +239,15 @@ export function usePFListings(options: {
 
   _useEffect(() => {
     const db = _getFirestore();
-    const constraints: unknown[] = [
-      _where("status", "==", "active"),
-      _orderBy("aiScore", "desc"),
-    ];
+    const constraints: QueryConstraint[] = [];
 
-    if (syncedOnly) constraints.unshift(_where("syncedToPF", "==", true));
-    if (compound)   constraints.unshift(_where("compound", "==", compound));
+    if (syncedOnly) constraints.push(_where("syncedToPF", "==", true));
+    if (compound)   constraints.push(_where("compound", "==", compound));
+    
+    constraints.push(_where("status", "==", "active"));
+    constraints.push(_orderBy("aiScore", "desc"));
 
-    const q = _query(_collection(db, "listings"), ...(constraints as Parameters<typeof _query>[1][]));
+    const q = _query(_collection(db, "listings"), ...constraints);
 
     const unsub = _onSnapshot(q, snap => {
       const docs = snap.docs

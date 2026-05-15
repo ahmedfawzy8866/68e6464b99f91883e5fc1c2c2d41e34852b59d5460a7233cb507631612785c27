@@ -26,6 +26,23 @@ export interface ChatOptions {
   tools?: any[];
 }
 
+export interface ChatCompletionResponse {
+  choices: Array<{
+    message: {
+      role: string;
+      content: string;
+      tool_calls?: Array<{
+        id?: string;
+        type: string;
+        function: {
+          name?: string;
+          arguments: string;
+        };
+      }>;
+    };
+  }>;
+}
+
 export const GoogleAIService = {
   /**
    * Generates a text response using the selected Gemini model.
@@ -36,7 +53,7 @@ export const GoogleAIService = {
     stage: string,
     prompt: { system?: string; user: string | any[] },
     options: { model?: string; temperature?: number; jsonMode?: boolean } = {}
-  ) {
+  ): Promise<string> {
     if (!API_KEY) {
       throw new Error("GOOGLE_AI_API_KEY is not configured. Direct AI Studio integration disabled.");
     }
@@ -83,7 +100,7 @@ export const GoogleAIService = {
     unitName: string,
     messages: Array<{ role: string; content: string }>,
     options: ChatOptions = {}
-  ) {
+  ): Promise<ChatCompletionResponse> {
     return instrumentAgent(agentId, unitName, JSON.stringify(messages), async () => {
       const modelName = options.model || 'gemini-flash-latest';
       

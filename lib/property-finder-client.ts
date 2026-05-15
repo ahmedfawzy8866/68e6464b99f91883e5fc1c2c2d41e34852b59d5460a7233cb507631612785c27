@@ -141,24 +141,28 @@ class PropertyFinderClient {
     return this.request('/listings', { method: 'POST', body: JSON.stringify(listing) });
   }
 
-  public async updateListing(id: number, updates: Partial<PFListing>): Promise<PFListing> {
+  public async updateListing(id: string | number, updates: Partial<PFListing>): Promise<PFListing> {
     return this.request(`/listings/${id}`, { method: 'PUT', body: JSON.stringify(updates) });
   }
 
-  public async deleteListing(id: number): Promise<void> {
+  public async deleteListing(id: string | number): Promise<void> {
     return this.request(`/listings/${id}`, { method: 'DELETE' });
   }
 
-  public async publishListing(id: number): Promise<void> {
+  public async publishListing(id: string | number): Promise<void> {
     return this.request(`/listings/${id}/publish`, { method: 'POST' });
   }
 
-  public async unpublishListing(id: number): Promise<void> {
+  public async unpublishListing(id: string | number): Promise<void> {
     return this.request(`/listings/${id}/unpublish`, { method: 'POST' });
   }
 
-  public async getPublishPrice(id: number): Promise<any> {
+  public async getPublishPrice(id: string | number): Promise<any> {
     return this.request(`/listings/${id}/publish/prices`);
+  }
+
+  public async getAmenities(): Promise<string[]> {
+    return this.request('/amenities');
   }
 
   // ── Leads ──
@@ -166,6 +170,13 @@ class PropertyFinderClient {
   public async fetchLeads(params: Record<string, string> = {}): Promise<{ data: PFLead[]; pagination: any }> {
     const query = new URLSearchParams(params).toString();
     return this.request(`/leads${query ? `?${query}` : ''}`);
+  }
+
+  /**
+   * Alias for fetchLeads used by the Sierra Blu Wealth Registry protocol.
+   */
+  public async fetchInvestmentStakeholderRegistry(params: Record<string, string> = {}): Promise<{ data: PFLead[]; pagination: any }> {
+    return this.fetchLeads(params);
   }
 
   // ── Locations ──

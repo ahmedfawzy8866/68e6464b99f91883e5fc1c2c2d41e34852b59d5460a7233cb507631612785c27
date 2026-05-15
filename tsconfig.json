@@ -33,13 +33,12 @@
   "exclude": [
     "node_modules",
     "sierra-blue-*.ts",
-    "backend-integration/**/*",
     "skills/**/*",
     "my-app/**/*",
     "mempalace/**/*",
     "bots/**/*",
     "composio/**/*",
-    "functions/**/*",
-    "hooks/sierra-blue/**/*"
+    "functions/**/*"
   ]
 }
+

@@ -28,7 +28,7 @@ export type PropertyStatus = 'available' | 'reserved' | 'sold' | 'rented' | 'off
 export type PropertyType = 'apartment' | 'villa' | 'townhouse' | 'duplex' | 'penthouse' | 'studio' | 'chalet' | 'commercial' | 'land';
 export type PipelineStage = 'inbound' | 'qualify' | 'engage' | 'proposal' | 'viewing' | 'negotiate' | 'reserve' | 'contract' | 'handover' | 'closed-won';
 export type StakeholderAcquisitionSource = 'property-finder' | 'olx' | 'website' | 'referral' | 'walk-in' | 'social-media' | 'whatsapp' | 'other';
-export type CurrencyCode = 'EGP' | 'USD';
+export type CurrencyCode = 'EGP' | 'USD' | 'AED';
 export type FurnishingCode = 'F' | 'U' | 'K' | 'S';
 export type SierraFeatureCode = 'G' | 'P' | 'R' | 'V';
 export type ListingSentiment = 'positive' | 'neutral' | 'aggressive' | 'desperate';
@@ -95,6 +95,7 @@ export interface Unit extends BaseDocument {
   category: 'residential' | 'commercial';
   status: PropertyStatus;
   market: MarketCode;
+  currency?: CurrencyCode;
 
   // Location
   projectId?: string;       // FK to projects collection
@@ -564,7 +565,7 @@ export interface Activity extends BaseDocument {
 // ─── Collection Names (Constants) ───────────────────────────────────
 
 export const COLLECTIONS = {
-  units: 'listings',        // keeping backward compat with existing 'listings' collection
+  units: 'listings',
   projects: 'projects',
   developers: 'developers',
   mediaAssets: 'mediaAssets',
@@ -578,10 +579,13 @@ export const COLLECTIONS = {
   proposals: 'proposals',
   brokerListings: 'broker_listings',
   viewings: 'viewings',
-  intelligence: 'intelligence', // Global Neural Memory
-  conciergeSelections: 'concierge_selections', // S8 Curated Portfolios
-  markets: {
-    EGYPT: 'egypt',
-    UAE: 'uae'
-  }
+  intelligence: 'intelligence',
+  conciergeSelections: 'concierge_selections',
+} as const;
+
+export type CollectionName = typeof COLLECTIONS[keyof typeof COLLECTIONS];
+
+export const MARKETS = {
+  EGYPT: 'egypt',
+  UAE: 'uae'
 } as const;

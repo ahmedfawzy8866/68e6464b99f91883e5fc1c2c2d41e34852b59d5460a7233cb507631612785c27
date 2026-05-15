@@ -16,30 +16,52 @@ export const WealthService = {
     const rawAssets = await InventoryService.getFeaturedListings(count, market);
     
     const enriched = await Promise.all(
-      rawAssets.map(async (asset) => {
+      rawAssets.map(async (asset): Promise<IntelligentAsset> => {
         // Cast to Unit for ROI engine compatibility
         const unit: Unit = {
-          ...asset,
+          id: asset.id,
           title: asset.title,
           price: asset.price,
           location: asset.location,
           propertyType: asset.propertyType as any,
-          area: asset.area,
           category: asset.category,
           market: asset.market,
-          ownerType: asset.ownerType,
           status: asset.status as any,
+          finishingType: (asset.finishingType as any) || "not-finished",
+          area: asset.area,
+          bedrooms: asset.bedrooms || 0,
+          bathrooms: 0,
+          amenities: [],
+          images: [],
+          currency: asset.market === 'uae' ? 'AED' : 'EGP'
         };
 
         try {
           const financials = await analyzeAssetFinancials(unit);
           return {
-            ...asset,
-            financials
+            id: asset.id,
+            title: asset.title,
+            location: asset.location || '',
+            price: asset.price,
+            roi: financials.projectedROI,
+            yield: financials.annualYield,
+            tags: asset.category === 'commercial' ? ['High Yield', 'Strategic'] : ['Premium', 'Luxury'],
+            intelligenceScore: Math.min(Math.round((financials.projectedROI + financials.annualYield * 2)), 100),
+            reasoning: financials.valuationAnalysis
           };
         } catch (e) {
           console.error(`Wealth Intelligence failed for asset ${asset.id}`, e);
-          return asset;
+          return {
+            id: asset.id,
+            title: asset.title,
+            location: asset.location || '',
+            price: asset.price,
+            roi: 0,
+            yield: 0,
+            tags: [],
+            intelligenceScore: 0,
+            reasoning: "Intelligence analysis temporarily unavailable."
+          };
         }
       })
     );

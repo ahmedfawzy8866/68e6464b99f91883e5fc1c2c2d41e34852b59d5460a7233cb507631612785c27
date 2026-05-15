@@ -36,7 +36,7 @@ export const GoogleAIService = {
     stage: string,
     prompt: { system?: string; user: string | any[] },
     options: { model?: string; temperature?: number; jsonMode?: boolean } = {}
-  ): Promise<any> {
+  ): Promise<string> {
     if (!API_KEY) {
       throw new Error("GOOGLE_AI_API_KEY is not configured. Direct AI Studio integration disabled.");
     }
@@ -83,7 +83,22 @@ export const GoogleAIService = {
     unitName: string,
     messages: Array<{ role: string; content: string }>,
     options: ChatOptions = {}
-  ): Promise<any> {
+  ): Promise<{
+    choices: Array<{
+      message: {
+        role: string;
+        content: string;
+        tool_calls?: Array<{
+          id: string | undefined;
+          type: 'function';
+          function: {
+            name: string | undefined;
+            arguments: string;
+          };
+        }>;
+      };
+    }>;
+  }> {
     return instrumentAgent(agentId, unitName, JSON.stringify(messages), async () => {
       const modelName = options.model || 'gemini-flash-latest';
       

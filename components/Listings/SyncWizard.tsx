@@ -365,16 +365,19 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
                     onClick={async () => {
                       setStage('SYNCING');
                       try {
-                        const action = syncType === 'portfolio' ? 'search-listings' : 'search-stakeholders';
+                        const action = syncType === 'portfolio' ? 'search-listings' : 'fetch-leads';
                         const res = await fetch(`/api/property-finder?action=${action}`);
                         const result = await res.json();
                         
-                        if (!result.data || !Array.isArray(result.data)) {
+                        // Handle both 'data' (leads) and 'results' (listings) from normalized API
+                        const sourceData = result.data || result.results;
+
+                        if (!sourceData || !Array.isArray(sourceData)) {
                           throw new Error("Invalid portal data structure");
                         }
 
                         if (syncType === 'portfolio') {
-                          const mappedFromPF = result.data.map((pf: any) => {
+                          const mappedFromPF = sourceData.map((pf: any) => {
                             const pfPrice = pf.price?.value || 0;
                             return {
                               id: pf.reference_number || `PF-${pf.id}`,
@@ -408,7 +411,7 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
                           });
                           setMappedData(mappedFromPF);
                         } else {
-                          const mappedLeadsFromPF = result.data.map((pf: any) => ({
+                          const mappedLeadsFromPF = sourceData.map((pf: any) => ({
                             name: pf.customer?.name || 'Anonymous Stakeholder',
                             phone: pf.customer?.phone || 'N/A',
                             email: pf.customer?.email || 'N/A',

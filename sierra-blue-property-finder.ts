@@ -60,12 +60,12 @@ export interface SBRListing {
   amenities: string[];
   coordinates: { lat: number; lng: number };
   aiScore: number;                // 0-10
-  dealStatus: string;             // "Hidden Gem" | "Exceptional ROI" | ...
+  dealStatus?: string;             // "Hidden Gem" | "Exceptional ROI" | ...
   roiEstimate: number;            // percentage
   pricePerSqM: number;
   pfListingId?: string;           // returned by PF after first push
   status: "active" | "pending" | "draft" | "archived";
-  syncedToPF: boolean;
+  syncedToPF?: boolean;
   lastPFSync?: Date;
 }
 

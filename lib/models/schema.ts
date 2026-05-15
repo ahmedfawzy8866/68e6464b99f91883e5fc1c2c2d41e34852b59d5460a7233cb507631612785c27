@@ -28,10 +28,11 @@ export type PropertyStatus = 'available' | 'reserved' | 'sold' | 'rented' | 'off
 export type PropertyType = 'apartment' | 'villa' | 'townhouse' | 'duplex' | 'penthouse' | 'studio' | 'chalet' | 'commercial' | 'land';
 export type PipelineStage = 'inbound' | 'qualify' | 'engage' | 'proposal' | 'viewing' | 'negotiate' | 'reserve' | 'contract' | 'handover' | 'closed-won';
 export type StakeholderAcquisitionSource = 'property-finder' | 'olx' | 'website' | 'referral' | 'walk-in' | 'social-media' | 'whatsapp' | 'other';
-export type CurrencyCode = 'EGP' | 'USD';
+export type CurrencyCode = 'EGP' | 'USD' | 'AED';
 export type FurnishingCode = 'F' | 'U' | 'K' | 'S';
 export type SierraFeatureCode = 'G' | 'P' | 'R' | 'V';
 export type ListingSentiment = 'positive' | 'neutral' | 'aggressive' | 'desperate';
+export type MarketCode = 'egypt' | 'uae';
 
 export interface IntelligenceObject {
   code?: string;
@@ -93,6 +94,8 @@ export interface Unit extends BaseDocument {
   propertyType: PropertyType;
   category: 'residential' | 'commercial';
   status: PropertyStatus;
+  market: MarketCode;
+  currency?: CurrencyCode;
 
   // Location
   projectId?: string;       // FK to projects collection

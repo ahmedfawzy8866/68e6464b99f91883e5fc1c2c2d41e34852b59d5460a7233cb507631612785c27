@@ -33,7 +33,8 @@ export class OrchestratorService {
    * Can be started from any stage.
    */
   static async runPipeline(docId: string, collection: keyof typeof COLLECTIONS, forceStage?: OrchestrationStage) {
-    const docRef = adminDb.collection(COLLECTIONS[collection]).doc(docId);
+    const collectionName = COLLECTIONS[collection] as string;
+    const docRef = adminDb.collection(collectionName).doc(docId);
     
     return instrumentAgent('orchestrator', 'pipeline', docId, async () => {
       // 0. Fetch initial state
@@ -143,7 +144,8 @@ export class OrchestratorService {
    * Resumes a paused pipeline (e.g. after S7.5 human review)
    */
   static async resumePipeline(docId: string, collection: keyof typeof COLLECTIONS) {
-    const docRef = adminDb.collection(COLLECTIONS[collection]).doc(docId);
+    const collectionName = COLLECTIONS[collection] as string;
+    const docRef = adminDb.collection(collectionName).doc(docId);
     const doc = await docRef.get();
     if (!doc.exists) throw new Error("Document not found");
 
@@ -164,7 +166,8 @@ export class OrchestratorService {
     status: 'pending' | 'processing' | 'completed' | 'failed' | 'waiting_agent_review',
     errorMessage?: string
   ) {
-    const docRef = adminDb.collection(COLLECTIONS[collection]).doc(docId);
+    const collectionName = COLLECTIONS[collection] as string;
+    const docRef = adminDb.collection(collectionName).doc(docId);
     
     const historyEntry = {
       stage,

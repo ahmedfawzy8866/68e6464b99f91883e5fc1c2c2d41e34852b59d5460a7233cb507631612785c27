@@ -16,24 +16,30 @@ export const WealthService = {
     const rawAssets = await InventoryService.getFeaturedListings(count);
     
     const enriched = await Promise.all(
-      rawAssets.map(async (asset) => {
+      rawAssets.map(async (asset): Promise<IntelligentAsset> => {
         // Cast to Unit for ROI engine compatibility
         const unit: Unit = {
-          ...asset,
+          id: asset.id,
           title: asset.title,
           price: asset.price,
-          location: asset.location,
+          location: asset.location || '',
           propertyType: asset.propertyType as any,
           area: asset.area,
           status: asset.status as any,
+          finishingType: (asset.finishingType as any) || "not-finished",
           category: 'residential',
           ownerType: 'broker',
+          market: 'egypt', // Default
+          bedrooms: asset.bedrooms || 0,
+          bathrooms: 0,
+          amenities: [],
+          images: [],
+          currency: 'EGP'
         };
 
         try {
           const financials = await analyzeAssetFinancials(unit);
           return {
-            ...asset,
             id: asset.id,
             title: asset.title,
             location: asset.location || '',
@@ -43,11 +49,10 @@ export const WealthService = {
             tags: [],
             intelligenceScore: 85,
             reasoning: financials.valuationAnalysis,
-          } as IntelligentAsset;
+          };
         } catch (e) {
           console.error(`Wealth Intelligence failed for asset ${asset.id}`, e);
           return {
-            ...asset,
             id: asset.id,
             title: asset.title,
             location: asset.location || '',
@@ -56,8 +61,8 @@ export const WealthService = {
             yield: 0,
             tags: [],
             intelligenceScore: 0,
-            reasoning: '',
-          } as IntelligentAsset;
+            reasoning: "Intelligence analysis temporarily unavailable.",
+          };
         }
       })
     );
