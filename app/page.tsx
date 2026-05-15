@@ -445,8 +445,7 @@ export default function LandingPage() {
               </p>
 
               <div 
-                className={`flex gap-4 mb-12 ${isAr ? 'flex-row-reverse' : 'flex-row'} ${loaded ? 'animate-[fadeUp_.7s_ease_.46s_both]' : 'opacity-0'}`} 
-              >
+              <div className={`flex gap-4 mb-12 ${isAr ? 'flex-row-reverse' : 'flex-row'} ${loaded ? 'animate-[fadeUp_.7s_ease_.46s_both]' : 'opacity-0'}`}>
                 <Link href="/listings" className="lux-button lux-button-primary shadow-gold">
                   {T.btnDiscover}
                 </Link>
@@ -467,15 +466,32 @@ export default function LandingPage() {
             </div>
 
             {/* Hero card stack */}
-            <div className="hidden md:block relative h-[520px]" style={{ order: isAr ? 1 : 2, animation: loaded ? 'fadeUp .9s ease .45s both' : 'none' }}>
+            <div 
+              className={`hidden md:block relative h-[520px] ${isAr ? 'order-1' : 'order-2'} ${loaded ? 'animate-[fadeUp_.9s_ease_.45s_both]' : 'opacity-0'}`}
+            >
               <div className="absolute inset-0 flex items-center justify-center" style={{ opacity: mode === 'dark' ? 0.03 : 0.025 }}>
                 <ShieldLogo size={340} />
               </div>
               {[{ off: 2, op: 0.4 }, { off: 1, op: 0.65 }, { off: 0, op: 1 }].map(({ off, op }, idx) => (
-                <div key={idx} style={{ position: 'absolute', top: off * 20, left: off * 20, right: -(off * 20), bottom: -(off * 20), background: off === 0 ? th.card : th.surface, borderRadius: 18, overflow: off === 0 ? 'hidden' : undefined, border: off > 0 ? `1px solid ${th.border}` : undefined, opacity: op, boxShadow: off === 0 ? '0 40px 80px rgba(0,0,0,.4)' : undefined, zIndex: 3 - off }}>
+                <div 
+                  key={idx} 
+                  className="absolute rounded-[18px]"
+                  style={{ 
+                    top: off * 20, 
+                    left: off * 20, 
+                    right: -(off * 20), 
+                    bottom: -(off * 20), 
+                    background: off === 0 ? 'var(--bg-card)' : 'var(--surface)', 
+                    overflow: off === 0 ? 'hidden' : undefined, 
+                    border: off > 0 ? '1px solid var(--border)' : undefined, 
+                    opacity: op, 
+                    boxShadow: off === 0 ? '0 40px 80px rgba(0,0,0,.4)' : undefined, 
+                    zIndex: 3 - off 
+                  }}
+                >
                   {off === 0 && (
                     <>
-                      <img src={STATIC_LISTINGS[1].img} alt="" style={{ width: '100%', height: '62%', objectFit: 'cover' }} />
+                      <img src={STATIC_LISTINGS[1].img} alt="" className="w-full h-[62%] object-cover" />
                       <div className="absolute top-4 left-4 lux-glass !bg-[var(--gold-prime)] !text-[#071422] text-[10px] font-bold tracking-wider px-3 py-1 rounded-full font-body uppercase">{STATIC_LISTINGS[1].badge}</div>
                       <div className="p-6">
                         <div className="text-[10px] font-medium tracking-[0.15em] uppercase lux-gold-text mb-1.5 font-body">{isAr ? STATIC_LISTINGS[1].locationAr : STATIC_LISTINGS[1].location}</div>
@@ -493,17 +509,17 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div style={{ position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, opacity: 0.4, zIndex: 2 }}>
-          <span style={{ fontSize: 9, letterSpacing: '.24em', textTransform: 'uppercase', color: th.textMuted, fontFamily: "'Jost', sans-serif" }}>{T.scroll}</span>
-          <div className="animate-shimmer" style={{ width: 1, height: 32, background: `linear-gradient(180deg,${G},transparent)` }} />
+        <div className="absolute bottom-[28px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-[6px] opacity-40 z-10">
+          <span className="text-[9px] tracking-[.24em] uppercase text-[var(--text-muted)] font-body">{T.scroll}</span>
+          <div className="animate-shimmer w-[1px] h-[32px] bg-gradient-to-b from-[var(--gold-prime)] to-transparent" />
         </div>
       </section>
 
       {/* ══ LISTINGS ══ */}
-      <section id="listings" ref={listingsSectionRef} style={{ background: mode === 'dark' ? '#0A1520' : th.bgAlt, padding: '80px 0' }}>
-        <div style={sec}>
-          <div className="reveal flex justify-between items-end mb-12 flex-wrap gap-6" style={{ flexDirection: isAr ? 'row-reverse' : 'row' }}>
-            <div style={{ textAlign: isAr ? 'right' : 'left' }}>
+      <section id="listings" ref={listingsSectionRef} className={`lux-section-padding ${mode === 'dark' ? 'bg-[#0A1520]' : 'bg-[var(--bg-alt)]'}`}>
+        <div className="lux-container">
+          <div className={`reveal flex justify-between items-end mb-12 flex-wrap gap-6 ${isAr ? 'flex-row-reverse' : 'flex-row'}`}>
+            <div className={isAr ? 'text-right' : 'text-left'}>
               <div className="lux-section-subtitle">{T.secListings}</div>
               <h2 className="lux-section-title">{T.h2Listings}</h2>
             </div>
@@ -602,11 +618,11 @@ export default function LandingPage() {
       </section>
 
       {/* ══ INTELLIGENCE MAP ══ */}
-      <section id="intelligence" className="py-24" style={{ background: mode === 'dark' ? '#091828' : th.bgAlt }}>
-        <div className="mx-auto px-6 md:px-12 max-w-7xl">
-          <div className="grid md:grid-cols-2 gap-20 items-center">
-            <div className={isAr ? 'order-2' : 'order-1'}>
-              <div className={`reveal mb-10 ${isAr ? 'text-right' : 'text-left'}`}>
+      <section id="intelligence" className={`lux-section-padding ${mode === 'dark' ? 'bg-[#091828]' : 'bg-[var(--bg-alt)]'}`}>
+        <div className="lux-container">
+          <div className={`flex flex-col md:flex-row gap-16 items-center ${isAr ? 'md:flex-row-reverse' : ''}`}>
+            <div className="flex-1">
+              <div className={isAr ? 'text-right' : 'text-left'}>
                 <div className="lux-section-subtitle">{T.secMap}</div>
                 <h2 className="lux-section-title">
                   {T.mapH1}<br /><em className="lux-gold-text italic">{T.mapH2}</em>
@@ -641,7 +657,7 @@ export default function LandingPage() {
       </section>
 
       {/* ══ SIERRA AI ══ */}
-      <section className="py-24 border-y border-white/5" style={{ background: mode === 'dark' ? 'linear-gradient(135deg, #0A1520 0%, #0D2035 50%, #122A47 100%)' : `linear-gradient(135deg, ${th.bgAlt} 0%, ${th.bg} 50%, ${th.bg2} 100%)` }}>
+      <section className={`lux-section-padding border-y border-white/5 ${mode === 'dark' ? 'bg-gradient-to-br from-[#0A1520] via-[#0D2035] to-[#122A47]' : 'bg-gradient-to-br from-[var(--bg-alt)] via-[var(--bg)] to-[var(--bg-2)]'}`}>
         <div className="mx-auto px-6 md:px-12 max-w-7xl">
           <div className="grid md:grid-cols-2 gap-24 items-center">
             <div className={`reveal ${isAr ? 'order-2 text-right' : 'order-1 text-left'}`}>
@@ -699,7 +715,7 @@ export default function LandingPage() {
       </section>
 
       {/* ══ TESTIMONIALS ══ */}
-      <section className="py-24" style={{ background: mode === 'dark' ? '#0A1628' : th.bg2 }}>
+      <section className={`lux-section-padding ${mode === 'dark' ? 'bg-[#0A1628]' : 'bg-[var(--bg-2)]'}`}>
         <div className="mx-auto px-6 md:px-12 max-w-7xl">
           <div className="reveal text-center mb-16">
             <div className="lux-section-subtitle mx-auto">{T.secTesti}</div>
@@ -725,7 +741,7 @@ export default function LandingPage() {
       </section>
 
       {/* ══ CTA FORM ══ */}
-      <section id="contact" className="py-24 border-t border-white/5" style={{ background: mode === 'dark' ? 'linear-gradient(135deg, #0A1520, #0D2035)' : `linear-gradient(135deg, ${th.bg}, ${th.bgAlt})` }}>
+      <section id="contact" className={`lux-section-padding border-t border-white/5 ${mode === 'dark' ? 'bg-gradient-to-br from-[#0A1520] to-[#0D2035]' : 'bg-gradient-to-br from-[var(--bg)] to-[var(--bg-alt)]'}`}>
         <div className="mx-auto px-6 max-w-xl">
           <div className="reveal text-center mb-12">
             <div className="lux-section-subtitle mx-auto">{T.ctaTag}</div>
