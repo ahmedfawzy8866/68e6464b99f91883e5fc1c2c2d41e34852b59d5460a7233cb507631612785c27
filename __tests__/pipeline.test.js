@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 /**
  * DataPipeline tests — collectData & processDataForApp
  * Uses manual mocks for firebase-admin and firebase-functions so no real
@@ -55,7 +57,7 @@ jest.mock('firebase-functions', () => ({
       onCreate: jest.fn((handler) => handler),
     })),
   },
-}));
+}), { virtual: true });
 
 // --------------------------------------------------------------------------
 // Import the functions under test
