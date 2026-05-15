@@ -3,64 +3,18 @@
  * OAuth2 token auth with 30-min expiry, auto-refresh
  */
 
-export interface PFListing {
-  id?: number;
-  reference?: string;
-  title: string;
-  description: string;
-  price: { value: number; currency: string; type: 'sale' | 'rent' | 'yearly' | 'monthly' | 'weekly' | 'daily' };
-  type: 'apartment' | 'villa' | 'townhouse' | 'penthouse' | 'duplex' | 'hotel-apartment' | 'land' | 'chalet' | 'twin-house' | 'palace' | 'roof' | 'bungalow' | 'cabin' | 'whole-building';
-  category: 'residential' | 'commercial';
-  offering: 'sale' | 'rent';
-  status?: 'published' | 'draft' | 'unpublished';
-  bedrooms: number;
-  bathrooms: number;
-  area: number;
-  builtUpArea?: number;
-  locationId: number;
-  publicProfileId: number;
-  furnishing?: 'furnished' | 'semi-furnished' | 'unfurnished';
-  amenities?: string[];
-  media?: {
-    images: Array<{ original: { url: string } }>;
-  };
-  completionStatus?: 'off_plan' | 'off_plan_primary' | 'completed' | 'completed_primary';
-  createdAt?: string;
-  updatedAt?: string;
-}
+import { 
+  PFListing, 
+  PFListingRequest, 
+  PFLead, 
+  PFLocationInfo as PFLocation, 
+  PFAuthToken as PFAccessToken,
+  PFTranslation
+} from './property-finder/types';
+import { EgyptListingValidator } from './property-finder/validation';
 
-export interface PFLocation {
-  id: number;
-  name: string;
-  type: string;
-  coordinates: { lat: number; lng: number };
-  tree: Array<{ id: number; type: string; name: string }>;
-}
+export type { PFListing, PFListingRequest, PFLead, PFLocation, PFTranslation };
 
-export interface PFLead {
-  id: string;
-  entityType: 'listing' | 'company' | 'agent' | 'project' | 'developer';
-  channel: 'whatsapp' | 'email' | 'call';
-  status: 'sent' | 'delivered' | 'read' | 'replied';
-  sender: { name?: string; email?: string; phone?: string };
-  listing?: { reference?: string };
-  tags?: string[];
-  createdAt: string;
-}
-
-export interface PFUser {
-  id: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  publicProfile?: { id: number };
-}
-
-interface PFAccessToken {
-  accessToken: string;
-  expiresIn: number;
-  tokenType: string;
-}
 
 class PropertyFinderClient {
   private static instance: PropertyFinderClient;
@@ -141,13 +95,19 @@ class PropertyFinderClient {
     };
   }
 
-  public async createListing(listing: Omit<PFListing, 'id' | 'status' | 'createdAt' | 'updatedAt'>): Promise<PFListing> {
+  public async createListing(listing: PFListingRequest): Promise<PFListing> {
+    const validation = EgyptListingValidator.validate(listing);
+    if (!validation.isValid) {
+      throw new Error(`PF Validation failed: ${validation.errors.join('; ')}`);
+    }
     return this.request('/listings', { method: 'POST', body: JSON.stringify(listing) });
   }
 
-  public async updateListing(id: string | number, updates: Partial<PFListing>): Promise<PFListing> {
+  public async updateListing(id: string | number, updates: Partial<PFListingRequest>): Promise<PFListing> {
+    // Note: partial validation for updates is tricky, usually we validate the merged result
     return this.request(`/listings/${id}`, { method: 'PUT', body: JSON.stringify(updates) });
   }
+
 
   public async deleteListing(id: string | number): Promise<void> {
     return this.request(`/listings/${id}`, { method: 'DELETE' });
