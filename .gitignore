@@ -1,0 +1,73 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Production / Build
+/build
+/dist
+/.next/
+/out/
+.next
+build/
+
+# Misc
+.DS_Store
+*.pem
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production.local
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-project
+.sublime-workspace
+*.iml
+
+# Firebase / Service Accounts
+service-account.json
+sierra-blu-firebase-adminsdk-*.json
+*firebase-adminsdk*.json
+google-services.json
+GoogleService-Info.plist
+
+# Vercel
+.vercel/
+.vercelignore
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Local development artifacts
+.turbo/
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Temporary / scratch files
+*.tmp
+*.temp
+scratch/
+__tests__/temp/
+
+# Git hooks
+.husky/_
