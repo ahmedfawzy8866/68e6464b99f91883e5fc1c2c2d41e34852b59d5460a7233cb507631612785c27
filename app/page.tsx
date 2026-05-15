@@ -37,6 +37,7 @@ const THEMES = {
     textMuted: 'var(--text-muted)',
     navBg: 'var(--bg-nav)', 
     footerBg: 'var(--night-navy)', 
+    footerBgAlt: 'var(--deep-navy)',
     heroBg: 'var(--night-navy)',
   },
   light: {
@@ -54,6 +55,7 @@ const THEMES = {
     textMuted: 'var(--text-muted)',
     navBg: 'var(--bg-nav)', 
     footerBg: 'var(--deep-navy)', 
+    footerBgAlt: 'var(--deep-navy)',
     heroBg: 'var(--bg)',
   },
 };
@@ -169,7 +171,7 @@ const COPY = {
     mapDesc: 'بيانات فورية عبر مناطق الاستثمار المميزة في القاهرة الجديدة. تتبع ممرات النمو وعوائد الإيجار والإشارات الحصرية خارج السوق.',
     zones: [
       { area: 'التجمع الخامس', stat: 'نمو +١٢٪', color: '#4ECDC4' },
-      { area: 'مدينتي', stat: 'طلب مرتفع', color: G },
+      { area: 'مدينتي', stat: 'طلب مرتفع', color: 'var(--gold-prime)' },
       { area: 'ماونتن فيو', stat: 'عائد ٨٪', color: '#7EA8B4' },
       { area: 'مستقبل سيتي', stat: 'خارج السوق', color: '#C084FC' },
       { area: 'هايد بارك', stat: 'بريميوم', color: '#F97316' },
@@ -206,6 +208,60 @@ const COPY = {
     legal: ['سياسة الخصوصية', 'شروط الخدمة', 'ملفات الارتباط'],
   },
 };
+
+/**
+ * REFINED SEARCH BAR (V13.0 Digital Concierge Edition)
+ */
+function RefinedSearchBar({ onSearch }: { onSearch?: () => void }) {
+  const [activeFilter, setActiveFilter] = useState('For Sale');
+  const filters = ['For Sale', 'For Rent', 'New Portfolio Asset', 'Signature'];
+
+  return (
+    <div className="w-full max-w-4xl mx-auto reveal reveal-d2">
+      <div className="glass shadow-ambient flex flex-wrap lg:flex-nowrap divide-y lg:divide-y-0 lg:divide-x divide-black/5 overflow-hidden rounded-lg">
+        {[
+          { label: 'Market', val: 'New Cairo', placeholder: 'Area or Compound' },
+          { label: 'Category', val: 'Signature Villas', placeholder: 'Asset Type' },
+          { label: 'Budget', val: 'EGP 10M - 25M', placeholder: 'Target Range' }
+        ].map((item, i) => (
+          <div key={i} className="flex-1 p-6 flex flex-col justify-center text-left hover:bg-black/5 transition-colors cursor-text">
+            <label htmlFor={`search-${item.label}`} className="label-sm text-on-surface-variant mb-1">{item.label}</label>
+            <input 
+              id={`search-${item.label}`}
+              type="text" 
+              defaultValue={item.val} 
+              placeholder={item.placeholder}
+              aria-label={item.label}
+              className="bg-transparent border-none outline-none font-display font-medium text-sm text-on-surface w-full"
+            />
+          </div>
+        ))}
+        <button 
+          onClick={onSearch}
+          className="w-full lg:w-48 bg-primary text-on-primary font-display font-bold text-[11px] tracking-widest uppercase py-6 lg:py-0 hover:bg-primary-container transition-all"
+        >
+          Discover
+        </button>
+      </div>
+      
+      <div className="flex gap-3 mt-6 flex-wrap justify-center">
+        {filters.map(f => (
+          <button 
+            key={f} 
+            onClick={() => setActiveFilter(f)}
+            className={`px-6 py-2.5 rounded-full text-[10px] font-bold tracking-widest uppercase transition-all ${
+              activeFilter === f 
+                ? 'bg-secondary/10 text-secondary border border-secondary/30' 
+                : 'bg-white/5 text-on-surface-variant border border-outline-variant hover:border-secondary/40'
+            }`}
+          >
+            {f}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // ══════════════════════════════════════════════════════════
 //  STATIC LISTINGS (fallback while Firebase loads)
@@ -245,7 +301,9 @@ export default function LandingPage() {
   const [filterBedrooms, setFilterBedrooms] = useState('');
   const [filterPrice, setFilterPrice] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const listingsSectionRef = useRef<HTMLDivElement>(null);
+  const portfolioAssetsRef = useRef<HTMLDivElement>(null);
 
   const scrollTo = useCallback((id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -351,6 +409,7 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
+<<<<<<< Updated upstream
         <div className="hidden md:flex gap-8 items-center">
           {T.nav.map((n, i) => (
             <span 
@@ -381,6 +440,26 @@ export default function LandingPage() {
           >
             {T.cta}
           </button>
+=======
+
+        <div className="hidden lg:flex items-center gap-10">
+          {['Portfolio Assets', 'Intelligence', 'Concierge', 'Nexus'].map(link => (
+            <button key={link} className="label-sm text-on-surface-variant hover:text-secondary transition-colors">{link}</button>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button onClick={() => setLocale(locale === 'ar' ? 'en' : 'ar')} className="px-3 py-1.5 border border-outline-variant rounded text-[10px] font-bold text-secondary uppercase tracking-widest hover:border-secondary/50 transition-all">{locale === 'ar' ? 'EN' : 'AR'}</button>
+          <button 
+            onClick={() => setTheme(mode === 'dark' ? 'light' : 'dark')} 
+            title={`Switch to ${mode === 'dark' ? 'light' : 'dark'} mode`}
+            aria-label={`Switch to ${mode === 'dark' ? 'light' : 'dark'} mode`}
+            className="w-9 h-9 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:border-secondary/50 transition-all"
+          >
+            {mode === 'dark' ? '☀️' : '🌙'}
+          </button>
+          <button className="hidden sm:inline-flex px-7 py-3 bg-primary text-on-primary rounded font-display font-bold text-[10px] tracking-widest uppercase shadow-ambient hover:bg-primary-container transition-all">Enter Portal</button>
+>>>>>>> Stashed changes
         </div>
       </nav>
 
@@ -396,16 +475,68 @@ export default function LandingPage() {
         />
         <ParticleCanvas />
 
+<<<<<<< Updated upstream
         <div className="lux-container relative z-10 w-full">
           <div className="grid md:grid-cols-[55%_45%] gap-14 items-center py-[80px]">
             <div className={isAr ? 'order-2' : 'order-1'}>
               <div 
                 className={`inline-flex items-center gap-[10px] ${isAr ? 'flex-row-reverse' : 'flex-row'} ${loaded ? 'animate-[fadeUp_.6s_ease_.1s_both]' : 'opacity-0'}`}
+=======
+          <h1 className="display-lg mb-8 text-on-surface">
+            {t('landing.heroH1.0')}<br />
+            <span className="gold-gradient">{t('landing.heroH1.1')}</span>
+          </h1>
+
+          <p className="text-md font-light text-on-surface-variant max-w-2xl mx-auto mb-16 leading-relaxed">
+            {t('landing.heroDesc')}
+          </p>
+
+          <RefinedSearchBar />
+        </div>
+      </section>
+
+      {/* ══ STATS (Tonal Layering) ══ */}
+      <section className="bg-surface-container-lowest py-16 px-8 md:px-16">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12">
+          {[
+            ['1,200+', 'Assets'],
+            ['98%', 'Fidelity'],
+            ['8+', 'Sectors'],
+            ['4s', 'Relay Time']
+          ].map(([val, label], i) => (
+            <div key={i} className="reveal text-center border-r last:border-0 border-outline-variant">
+              <div className="font-display text-3xl font-extrabold text-primary mb-1">{val}</div>
+              <div className="label-sm text-secondary">{label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ══ PORTFOLIO ASSETS (Refined Grid) ══ */}
+      <section ref={portfolioAssetsRef} className="py-32 px-8 md:px-16 bg-surface">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div className="max-w-xl">
+              <span className="label-sm text-secondary mb-4 block">Strategic Pipeline</span>
+              <h2 className="display-lg text-3xl md:text-5xl">Vetted Luxury Assets.</h2>
+            </div>
+            <button className="label-sm border-b border-secondary pb-1 text-secondary hover:text-primary transition-all">Full Portfolio Access →</button>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {featured.map((p, i) => (
+              <Link 
+                href={`/portfolio/${p.id}`}
+                key={p.id} 
+                className="reveal group cursor-pointer block"
+                title={`View details for ${p.title}`}
+>>>>>>> Stashed changes
               >
                 <div className="w-[28px] h-[1px] bg-[var(--gold-prime)]" />
                 <span className="lux-section-subtitle !mb-0">{T.tagline}</span>
               </div>
 
+<<<<<<< Updated upstream
               <h1 
                 className={`lux-section-title !text-[clamp(32px,4vw,56px)] !mb-4 mt-5 ${isAr ? 'text-right' : 'text-left'} ${loaded ? 'animate-[fadeUp_.7s_ease_.2s_both]' : 'opacity-0'}`} 
               >
@@ -436,6 +567,29 @@ export default function LandingPage() {
                   <div key={i} className={`text-center py-5 px-3 ${i < T.stats.length - 1 ? 'border-r border-white/10' : ''}`}>
                     <div className="font-mono text-2xl font-medium lux-gold-text leading-none mb-1.5">{val}</div>
                     <div className="text-[9px] tracking-widest uppercase text-white/40 font-body">{lbl}</div>
+=======
+      {/* ══ MAP (Geospatial Hub) ══ */}
+      <section className="py-32 px-8 md:px-16 bg-surface-container-low border-y border-outline-variant">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-24 items-center">
+            <div>
+              <span className="label-sm text-secondary mb-4 block">Spatial Intelligence</span>
+              <h2 className="display-lg text-4xl mb-10 leading-tight">Investment<br /><span className="gold-gradient">Corridor Mapping</span></h2>
+              <p className="text-on-surface-variant font-light leading-relaxed mb-12">Real-time geographic distribution of active resale and rental units. Monitor ROI velocity across premium sectors.</p>
+              
+              <div className="space-y-4">
+                {[
+                  { area: 'Fifth Settlement', stat: '+12.4%', colorClass: 'bg-[#C9A84C]' },
+                  { area: 'Madinaty', stat: 'High Velocity', colorClass: 'bg-[#031632]' },
+                  { area: 'Mountain View', stat: '8.2% Yield', colorClass: 'bg-[#3a5570]' }
+                ].map((z, i) => (
+                  <div key={i} className="flex items-center justify-between p-5 rounded bg-surface-container-lowest hover:shadow-ambient transition-all cursor-pointer">
+                    <div className="flex items-center gap-4">
+                      <div className={`w-2 h-2 rounded-full ${z.colorClass}`} />
+                      <span className="font-display font-bold text-sm text-primary">{z.area}</span>
+                    </div>
+                    <span className="font-mono text-xs text-secondary">{z.stat}</span>
+>>>>>>> Stashed changes
                   </div>
                 ))}
               </div>

@@ -137,7 +137,7 @@ export default function InventoryGrid() {
                        <button 
                          className="w-12 h-12 flex items-center justify-center border border-[#F4F0E8]/10 rounded-full hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#050B14] transition-all duration-500 group-hover:scale-110"
                          aria-label="View Asset Details"
-                         title="View Details"
+                         title="View Asset Details"
                        >
                           <ExternalLink className="w-5 h-5" />
                        </button>

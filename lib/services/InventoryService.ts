@@ -28,8 +28,14 @@ export const InventoryService = {
     return null;
   },
 
-  async getFeaturedListings(count: number = 3): Promise<Property[]> {
-    const snapshot = await adminDb.collection(COLLECTIONS.units).limit(count).get();
+  async getFeaturedPortfolioAssets(count: number = 3, market?: 'egypt' | 'uae'): Promise<Property[]> {
+    let query = adminDb.collection(COLLECTIONS.units).limit(count);
+    
+    if (market) {
+      query = query.where('market', '==', market) as any;
+    }
+    
+    const snapshot = await query.get();
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Property));
   }
 };
