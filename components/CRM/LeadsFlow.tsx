@@ -29,13 +29,13 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import KPIProgressBar from '../UI/KPIProgressBar';
 
-export default function LeadsFlow() {
+export default function StakeholderFlow() {
   const { user } = useAuth();
   const { t, locale, dir } = useI18n();
-  const [leads, setLeads] = useState<any[]>([]);
-  const [activeLead, setActiveLead] = useState<any>(null);
-  const [isAddingLead, setIsAddingLead] = useState(false);
-  const [newLead, setNewLead] = useState({ name: '', phone: '' });
+  const [stakeholders, setStakeholders] = useState<any[]>([]);
+  const [activeStakeholder, setActiveStakeholder] = useState<any>(null);
+  const [isAddingStakeholder, setIsAddingStakeholder] = useState(false);
+  const [newStakeholder, setNewStakeholder] = useState({ name: '', phone: '' });
   const [loading, setLoading] = useState(true);
 
   const workflowSteps = useMemo(() => [
@@ -53,11 +53,11 @@ export default function LeadsFlow() {
     const q = query(leadsRef, orderBy('updatedAt', 'desc'));
     
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const leadsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setLeads(leadsData);
+      const stakeholdersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setStakeholders(stakeholdersData);
       setLoading(false);
     }, (error) => {
-      console.error("Leads sync error:", error);
+      console.error("Stakeholders sync error:", error);
       setLoading(false);
     });
     
@@ -65,28 +65,28 @@ export default function LeadsFlow() {
   }, [user]);
 
   // --- ACTIONS ---
-  const updateLeadStatus = async (leadId: string, newStatus: string) => {
+  const updateStakeholderStatus = async (stakeholderId: string, newStatus: string) => {
     if (!user) return;
-    const leadDoc = doc(db, 'leads', leadId);
+    const stakeholderDoc = doc(db, 'leads', stakeholderId);
     try {
-      await updateDoc(leadDoc, { 
+      await updateDoc(stakeholderDoc, { 
         status: newStatus, 
         updatedAt: serverTimestamp() 
       });
-      if (activeLead && activeLead.id === leadId) {
-        setActiveLead({ ...activeLead, status: newStatus });
+      if (activeStakeholder && activeStakeholder.id === stakeholderId) {
+        setActiveStakeholder({ ...activeStakeholder, status: newStatus });
       }
     } catch (err) { console.error(err); }
   };
 
-  const handleAddLead = async (e: React.FormEvent) => {
+  const handleAddStakeholder = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !newLead.name || !newLead.phone) return;
+    if (!user || !newStakeholder.name || !newStakeholder.phone) return;
     try {
       const leadsRef = collection(db, 'leads');
       await addDoc(leadsRef, {
-        name: newLead.name,
-        phone: newLead.phone,
+        name: newStakeholder.name,
+        phone: newStakeholder.phone,
         status: 'intake',
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -94,8 +94,8 @@ export default function LeadsFlow() {
         assignedTo: user.uid,
         phase: 'acquisition' // Compatible with ClientsScreen
       });
-      setNewLead({ name: '', phone: '' });
-      setIsAddingLead(false);
+      setNewStakeholder({ name: '', phone: '' });
+      setIsAddingStakeholder(false);
     } catch (err) { console.error(err); }
   };
 
@@ -125,7 +125,7 @@ export default function LeadsFlow() {
           <h1 className="serif gold-underline" style={{ fontSize: '32px' }}>{t('flow.title')}</h1>
           <div className="page-sub" style={{ opacity: 0.7 }}>{t('flow.subtitle')}</div>
         </div>
-        <button className="btn btn-gold shadow-gold" onClick={() => setIsAddingLead(true)}>
+        <button className="btn btn-gold shadow-gold" onClick={() => setIsAddingStakeholder(true)}>
           <Plus size={18} className="me-2"/> {t('flow.addLead')}
         </button>
       </div>
@@ -152,26 +152,26 @@ export default function LeadsFlow() {
 
           <h2 className="sidebar-section-title">{t('flow.listTitle')}</h2>
           <div className="leads-list">
-            {leads.length === 0 ? (
+            {stakeholders.length === 0 ? (
               <div className="p-8 text-center opacity-30 italic text-sm">{t('flow.noProspects')}</div>
             ) : (
-              leads.map(lead => (
+              stakeholders.map(stakeholder => (
                 <motion.div 
-                  layoutId={lead.id}
-                  key={lead.id} 
-                  onClick={() => setActiveLead(lead)}
-                  className={`lead-card-luxury glass-panel ${activeLead?.id === lead.id ? 'active' : ''}`}
+                   layoutId={stakeholder.id}
+                  key={stakeholder.id} 
+                  onClick={() => setActiveStakeholder(stakeholder)}
+                  className={`stakeholder-card-luxury glass-panel ${activeStakeholder?.id === stakeholder.id ? 'active' : ''}`}
                 >
                   <div className="lead-card-header">
                     <div className="lead-avatar">
-                      {lead.name?.[0] || 'U'}
+                      {stakeholder.name?.[0] || 'U'}
                     </div>
                     <div className="lead-info">
-                      <div className="lead-name">{lead.name || 'Unknown'}</div>
-                      <div className="lead-phone"><Phone size={12}/> {lead.phone}</div>
+                      <div className="lead-name">{stakeholder.name || 'Unknown'}</div>
+                      <div className="lead-phone"><Phone size={12}/> {stakeholder.phone}</div>
                     </div>
-                    <div className={`badge ${getStatusStyle(lead.status)}`} style={{ fontSize: '9px', marginLeft: 'auto' }}>
-                      {t(`flow.stages.${lead.status}`)}
+                    <div className={`badge ${getStatusStyle(stakeholder.status)}`} style={{ fontSize: '9px', marginLeft: 'auto' }}>
+                      {t(`flow.stages.${stakeholder.status}`)}
                     </div>
                   </div>
                 </motion.div>
@@ -183,9 +183,9 @@ export default function LeadsFlow() {
         {/* Engine Column */}
         <div className="engine-content">
           <AnimatePresence mode="wait">
-            {activeLead ? (
+            {activeStakeholder ? (
               <motion.div 
-                key={activeLead.id}
+                key={activeStakeholder.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -198,21 +198,21 @@ export default function LeadsFlow() {
                     </div>
                     <div>
                       <h2 className="serif text-2xl text-gold">{t('flow.engine')}</h2>
-                      <p className="text-secondary text-sm uppercase tracking-widest">{activeLead.name}</p>
+                      <p className="text-secondary text-sm uppercase tracking-widest">{activeStakeholder.name}</p>
                     </div>
                   </div>
-                  <button onClick={() => setActiveLead(null)} className="btn-ghost p-2 rounded-full"><X size={20}/></button>
+                  <button onClick={() => setActiveStakeholder(null)} className="btn-ghost p-2 rounded-full"><X size={20}/></button>
                 </div>
 
                 {/* Stepper */}
                 <div className="stepper-horizontal">
                   {workflowSteps.map((step, idx) => {
-                    const isActive = step.id === activeLead.status;
-                    const isPast = workflowSteps.findIndex(s => s.id === activeLead.status) > idx;
+                    const isActive = step.id === activeStakeholder.status;
+                    const isPast = workflowSteps.findIndex(s => s.id === activeStakeholder.status) > idx;
                     return (
                       <div key={step.id} className="step-item">
                         <button 
-                          onClick={() => updateLeadStatus(activeLead.id, step.id)}
+                          onClick={() => updateStakeholderStatus(activeStakeholder.id, step.id)}
                           className={`step-bubble ${isActive ? 'active' : isPast ? 'completed' : ''}`}
                         >
                           {isPast ? <CheckCircle size={18}/> : step.icon}
@@ -229,10 +229,10 @@ export default function LeadsFlow() {
                   <div className="script-box cinematic-glow">
                     <div className="script-header">
                       <MessageSquare size={14} className="text-gold"/>
-                      <span>{t(`flow.scripts.${activeLead.status}.title`)}</span>
+                      <span>{t(`flow.scripts.${activeStakeholder.status}.title`)}</span>
                     </div>
                     <div className="script-text">
-                      {t(`flow.scripts.${activeLead.status}.text`).replace('{name}', activeLead.name)}
+                      {t(`flow.scripts.${activeStakeholder.status}.text`).replace('{name}', activeStakeholder.name)}
                     </div>
                   </div>
 
@@ -243,7 +243,7 @@ export default function LeadsFlow() {
                       <span>{t('flow.engine')} Tasks</span>
                     </div>
                     <div className="tasks-grid">
-                      {(t(`flow.scripts.${activeLead.status}.tasks`) as unknown as string[]).map((task, i) => (
+                      {(t(`flow.scripts.${activeStakeholder.status}.tasks`) as unknown as string[]).map((task, i) => (
                         <div key={i} className="task-item">
                           <div className="task-number">{i+1}</div>
                           <div className="task-label">{task}</div>
@@ -252,7 +252,7 @@ export default function LeadsFlow() {
                     </div>
                   </div>
 
-                  <a href={`tel:${activeLead.phone}`} className="btn btn-primary w-full py-4 justify-center text-lg mt-4" style={{ borderRadius: '16px' }}>
+                  <a href={`tel:${activeStakeholder.phone}`} className="btn btn-primary w-full py-4 justify-center text-lg mt-4" style={{ borderRadius: '16px' }}>
                     <Phone size={20} className="me-3"/> {t('flow.callProspect')}
                   </a>
                 </div>
@@ -270,18 +270,18 @@ export default function LeadsFlow() {
         </div>
       </div>
 
-      {/* Add Lead Modal */}
-      {isAddingLead && (
+      {/* Add Stakeholder Modal */}
+      {isAddingStakeholder && (
         <div className="modal-overlay reveal">
           <div className="modal-content glass-panel" style={{ maxWidth: '480px', padding: '40px' }}>
             <h2 className="serif text-3xl text-gold mb-8">{t('flow.newProspect')}</h2>
-            <form onSubmit={handleAddLead} className="space-y-6">
+            <form onSubmit={handleAddStakeholder} className="space-y-6">
               <div className="form-group">
                 <label className="form-label">{t('crm.leadName')}</label>
                 <input 
                   autoFocus required type="text" 
-                  value={newLead.name} 
-                  onChange={(e) => setNewLead({...newLead, name: e.target.value})} 
+                  value={newStakeholder.name} 
+                  onChange={(e) => setNewStakeholder({...newStakeholder, name: e.target.value})} 
                   className="form-input" 
                   placeholder="e.g. John Doe"
                 />
@@ -290,8 +290,8 @@ export default function LeadsFlow() {
                 <label className="form-label">{t('crm.phone')}</label>
                 <input 
                   required type="tel" 
-                  value={newLead.phone} 
-                  onChange={(e) => setNewLead({...newLead, phone: e.target.value})} 
+                  value={newStakeholder.phone} 
+                  onChange={(e) => setNewStakeholder({...newStakeholder, phone: e.target.value})} 
                   className="form-input" 
                   dir="ltr"
                   placeholder="01xxxxxxxxx"
@@ -299,7 +299,7 @@ export default function LeadsFlow() {
               </div>
               <div className="flex gap-4 pt-6">
                 <button type="submit" className="btn btn-gold flex-1 justify-center py-4">{t('flow.saveProspect')}</button>
-                <button type="button" onClick={() => setIsAddingLead(false)} className="btn btn-ghost px-6">{t('common.cancel')}</button>
+                <button type="button" onClick={() => setIsAddingStakeholder(false)} className="btn btn-ghost px-6">{t('common.cancel')}</button>
               </div>
             </form>
           </div>

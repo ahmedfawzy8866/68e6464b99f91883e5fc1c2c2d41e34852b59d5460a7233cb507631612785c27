@@ -96,6 +96,7 @@ export interface Unit extends BaseDocument {
   status: PropertyStatus;
   market: MarketCode;
   currency?: CurrencyCode;
+  ownerType?: 'developer' | 'owner' | 'secondary' | 'internal' | 'broker';
 
   // Location
   projectId?: string;       // FK to projects collection
@@ -149,7 +150,6 @@ export interface Unit extends BaseDocument {
   };
 
   // Lifecycle
-  ownerType: 'owner' | 'broker' | 'internal';
   ownerContact?: string;
   dupeCheckHash?: string;
 
