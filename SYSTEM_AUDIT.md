@@ -4,17 +4,17 @@
 
 ### 🟢 BUILT & FUNCTIONAL (16 Screens)
 
-| # | Screen | File | Status |
-|---|--------|------|--------|
-| 1 | **Landing Page** (Hero + Parallax) | `app/landing/page.tsx` | ✅ Live — Needs "Quiet Luxury" polish |
-| 2 | **Portal Hub** (Main app shell) | `app/portal/page.tsx` | ✅ Live — Sidebar + Topbar + Routing |
-| 3 | **Dashboard V4** (KPIs + AI Panel) | `components/Dashboard/v4/` | ✅ Live — Connected to Firestore |
-| 4 | **Inventory Grid** (Portfolio Assets) | `components/Admin/PortfolioAssets.tsx` | ✅ Live — Reads from `listings` collection |
-| 5 | **CRM Kanban** (10-Stage Pipeline) | `components/CRM/CRMKanban.tsx` | ✅ Live — Reads from `leads` collection |
-| 6 | **Leads Flow** (Lead cards) | `components/CRM/LeadsFlow.tsx` | ✅ Live — Firestore-connected |
-| 7 | **Easy Listing** (Scribe Intake) | `components/Operations/EasyListing.tsx` | ✅ Live — AI extraction working |
-| 8 | **Proposal View** (Client-facing) | `components/Proposals/ProposalView.tsx` | ✅ Live — Public URL via `/proposals/[id]` |
-| 9 | **Selection Gallery** (Leila S8) | `components/Concierge/SelectionView.tsx` | ✅ Live — Swipe UI exists |
+| #  | Screen | File | Status |
+|----|--------|------|--------|
+| 1  | **Landing Page** (Hero + Parallax) | `app/landing/page.tsx` | ✅ Live — Needs "Quiet Luxury" polish |
+| 2  | **Portal Hub** (Main app shell) | `app/portal/page.tsx` | ✅ Live — Sidebar + Topbar + Routing |
+| 3  | **Dashboard V4** (KPIs + AI Panel) | `components/Dashboard/v4/` | ✅ Live — Connected to Firestore |
+| 4  | **Inventory Grid** (Portfolio Assets) | `components/Admin/PortfolioAssets.tsx` | ✅ Live — Reads from `listings` collection |
+| 5  | **CRM Kanban** (10-Stage Pipeline) | `components/CRM/CRMKanban.tsx` | ✅ Live — Reads from `leads` collection |
+| 6  | **Leads Flow** (Lead cards) | `components/CRM/LeadsFlow.tsx` | ✅ Live — Firestore-connected |
+| 7  | **Easy Listing** (Scribe Intake) | `components/Operations/EasyListing.tsx` | ✅ Live — AI extraction working |
+| 8  | **Proposal View** (Client-facing) | `components/Proposals/ProposalView.tsx` | ✅ Live — Public URL via `/proposals/[id]` |
+| 9  | **Selection Gallery** (Leila S8) | `components/Concierge/SelectionView.tsx` | ✅ Live — Swipe UI exists |
 | 10 | **Commission Ledger** | `components/Operations/CommissionLedger.tsx` | ✅ Live — Reads `sales` |
 | 11 | **Market Intelligence** | `components/Operations/MarketIntelligence.tsx` | ✅ Live — Mock data |
 | 12 | **Dedupe Review Queue** | `components/Admin/DedupeReviewQueue.tsx` | ✅ Live — Connected |
@@ -95,23 +95,27 @@
 
 ## Part 3: The Roadmap (Priority Order)
 
+
 ### 🔴 Phase 1: CRITICAL (This Week)
+
 1. **Add `GOOGLE_AI_API_KEY`** to `.env.local` → Unlocks all 4 AI agents
 2. **Add Firebase Admin credentials** (`serviceAccountKey.json`) → Unlocks server-side orchestration
 3. **Test the full S1→S10 pipeline** with one real listing
 4. **Deploy to Vercel** (already has `.vercel/` config) → Go live
 
 ### 🟡 Phase 2: FRONTEND "Quiet Luxury" Upgrade (Next 2 Weeks)
-5. **Rebuild Landing Page** → Cinematic Hero with Sky Blue/Gold palette from reference images
-6. **Build Unit Detail Page** → Full-width hero + ROI sidebar
-7. **Build Public Inventory** → Editorial grid with SBR Code filtering
-8. **Polish Selection Gallery (S8)** → Add WhatsApp CTA + Match Score badges
-9. **Add "Verified Listing" badge** to all property cards
-10. **Add 3D Virtual Tour placeholder** to unit cards
+
+1. **Rebuild Landing Page** → Cinematic Hero with Sky Blue/Gold palette from reference images
+2. **Build Unit Detail Page** → Full-width hero + ROI sidebar
+3. **Build Public Inventory** → Editorial grid with SBR Code filtering
+4. **Polish Selection Gallery (S8)** → Add WhatsApp CTA + Match Score badges
+5. **Add "Verified Listing" badge** to all property cards
+6. **Add 3D Virtual Tour placeholder** to unit cards
 
 ### 🟢 Phase 3: SCALE (Month 2)
-11. **WhatsApp Cloud API** webhook → Live ingestion from broker groups
-12. **Property Finder bi-directional sync** → Auto-publish listings
-13. **Firebase Storage migration** → All images in cloud
-14. **Investor Intelligence Page** → Price-per-meter analytics
-15. **Interactive Compound Map** → Leaflet + live inventory overlay
+
+1. **WhatsApp Cloud API** webhook → Live ingestion from broker groups
+2. **Property Finder bi-directional sync** → Auto-publish listings
+3. **Firebase Storage migration** → All images in cloud
+4. **Investor Intelligence Page** → Price-per-meter analytics
+5. **Interactive Compound Map** → Leaflet + live inventory overlay

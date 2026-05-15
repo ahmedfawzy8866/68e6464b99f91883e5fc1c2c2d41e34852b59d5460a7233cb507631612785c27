@@ -108,18 +108,21 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
         <div className={styles.mainArea}>
           {/* Tabs Navigation */}
           <div className={styles.sidebar} role="tablist">
-            {tabs.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`${styles.tabButton} ${activeTab === tab.id ? styles.active : ''}`}
-                aria-selected={activeTab === tab.id}
-                role="tab"
-              >
-                <span className={styles.tabIcon}>{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
+            {tabs.map(tab => {
+              const isSelected = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`${styles.tabButton} ${isSelected ? styles.active : ''}`}
+                  aria-selected={isSelected ? "true" : "false"}
+                  role="tab"
+                >
+                  <span className={styles.tabIcon}>{tab.icon}</span>
+                  {tab.label}
+                </button>
+              );
+            })}
           </div>
 
           {/* Tab Content */}
@@ -396,28 +399,18 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                         <div className={styles.flagTitle}>Featured Portfolio Asset</div>
                         <div className={styles.flagDesc}>Highlight within the elite collection and prioritize in search results</div>
                       </div>
-                      <input 
-                        id={`${formId}-is-featured`}
-                        type="checkbox" 
-                        className={styles.checkbox}
-                        checked={formData.is_featured} 
-                        onChange={e => handleChange('is_featured', e.target.checked)} 
-                        aria-label="Mark as Featured"
-                      />
+                      <button type="button" className="twk-toggle" data-on={formData.is_featured ? '1' : '0'}
+                        role="switch" aria-checked={formData.is_featured ? "true" : "false"}
+                        onClick={() => handleChange('is_featured', !formData.is_featured)} aria-label="Mark as Featured" title="Mark as Featured"><i /></button>
                     </div>
                     <div className={styles.flagCard}>
                       <div className={styles.flagInfo}>
                         <div className={styles.flagTitle}>Market Visibility</div>
                         <div className={styles.flagDesc}>Synchronize to public interfaces; if disabled, asset remains in strategic dark mode</div>
                       </div>
-                      <input 
-                        id={`${formId}-is-public`}
-                        type="checkbox" 
-                        className={styles.checkbox}
-                        checked={formData.is_public} 
-                        onChange={e => handleChange('is_public', e.target.checked)} 
-                        aria-label="Public Visibility"
-                      />
+                      <button type="button" className="twk-toggle" data-on={formData.is_public ? '1' : '0'}
+                        role="switch" aria-checked={formData.is_public ? "true" : "false"}
+                        onClick={() => handleChange('is_public', !formData.is_public)} aria-label="Public Visibility" title="Public Visibility"><i /></button>
                     </div>
                   </div>
                 )}

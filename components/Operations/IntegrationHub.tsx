@@ -371,6 +371,7 @@ function ConfigRange({ label, value, onChange }: { label: string; value: number;
         max={100}
         step={5}
         value={value}
+        aria-label={label}
         onChange={(event) => onChange(Number(event.target.value))}
         className="w-full accent-[#C9A24A]"
       />
