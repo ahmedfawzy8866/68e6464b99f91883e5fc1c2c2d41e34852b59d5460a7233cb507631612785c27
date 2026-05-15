@@ -37,6 +37,13 @@ Ensure you have a modern Node.js environment configured.
    npm run dev
    ```
 
+## Frontend consolidation status
+
+- Canonical public landing page: `/` via `app/page.tsx`
+- `/landing` reuses the same canonical experience
+- Donor/reference snapshots now live in `docs/archive/frontend-experiments/`
+- Consolidation summary: `docs/frontend-consolidation-report.md`
+
 ---
 
 *© 2026 Sierra Blu Realty. Elevate your perspective.*

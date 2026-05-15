@@ -44,7 +44,7 @@ export default function PropCard({ id, title, location, price, beds, baths, sqft
 
   return (
     <Link
-      href={`/portfolio/${id}`}
+        href={`/listings/${id}`}
       className={`deal-card${dealt ? ' dealt' : ''} block group no-underline h-full`}
       style={{ animationDelay: `${dealDelay}s` }}
     >
@@ -123,4 +123,3 @@ export default function PropCard({ id, title, location, price, beds, baths, sqft
     </Link>
   );
 }
-

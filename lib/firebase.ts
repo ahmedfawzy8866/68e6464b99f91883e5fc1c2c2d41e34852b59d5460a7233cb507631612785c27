@@ -22,6 +22,7 @@ const app: FirebaseApp = getApps().length
   : initializeApp(firebaseConfig);
 
 const hasClientApiKey = Boolean(firebaseConfig.apiKey);
+export const isFirebaseClientConfigured = hasClientApiKey;
 const unavailableClientService = <T>(serviceName: string): T =>
   new Proxy(
     {},
