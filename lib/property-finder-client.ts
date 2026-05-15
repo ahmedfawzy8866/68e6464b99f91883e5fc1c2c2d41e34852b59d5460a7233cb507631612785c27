@@ -9,11 +9,12 @@ import {
   PFLead, 
   PFLocationInfo as PFLocation, 
   PFAuthToken as PFAccessToken,
-  PFTranslation
+  PFTranslation,
+  PFUser
 } from './property-finder/types';
 import { EgyptListingValidator } from './property-finder/validation';
 
-export type { PFListing, PFListingRequest, PFLead, PFLocation, PFTranslation };
+export type { PFListing, PFListingRequest, PFLead, PFLocation, PFTranslation, PFUser };
 
 
 class PropertyFinderClient {

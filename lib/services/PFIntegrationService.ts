@@ -3,10 +3,11 @@
  * Syncs leads and listings between Sierra Blu CRM and PF Enterprise API (atlas.propertyfinder.com/v1)
  */
 
-import { pfClient, PFListing, PFLead } from '../property-finder-client';
+import { pfClient, PFListingRequest, PFLead } from '../property-finder-client';
 import { adminDb } from '../server/firebase-admin';
 import { Timestamp } from 'firebase-admin/firestore';
 import { Unit, Lead, COLLECTIONS, UserProfile } from '../models/schema';
+import { PFListing, PFPropertyType } from '../property-finder/types';
 
 export interface PFLeadSyncSummary {
   created: number;
@@ -25,7 +26,9 @@ export class PFIntegrationService {
         .where('pfLeadId', '==', lead.id)
         .get();
 
-      const phone = lead.sender?.phone || '';
+      const phone = lead.sender?.contacts?.find(c => c.type === 'phone')?.value || '';
+      const email = lead.sender?.contacts?.find(c => c.type === 'email')?.value || '';
+
       if (!phone && existing.empty) {
         summary.skipped++;
         continue;
@@ -34,7 +37,7 @@ export class PFIntegrationService {
       const payload: Partial<Lead> & Record<string, unknown> = {
         name: lead.sender?.name || 'Property Finder Lead',
         phone,
-        email: lead.sender?.email || '',
+        email,
         source: 'property-finder',
         stage: 'inbound',
         phase: lead.status === 'replied' ? 'consultation' : 'acquisition',
@@ -75,16 +78,30 @@ export class PFIntegrationService {
         .where('pfReferenceNumber', '==', ref)
         .get();
 
+      const priceVal = listing.price?.amounts?.sale || listing.price?.amounts?.yearly || listing.price?.amounts?.monthly || 0;
+
+      let beds = 0;
+      if (listing.bedrooms === 'studio') {
+        beds = 0;
+      } else if (listing.bedrooms) {
+        beds = parseInt(listing.bedrooms as string) || 0;
+      }
+
+      let baths = 0;
+      if (listing.bathrooms && listing.bathrooms !== 'none') {
+        baths = parseInt(listing.bathrooms as string) || 0;
+      }
+
       const payload: Partial<Unit> = {
-        title: listing.title || '',
-        description: listing.description || '',
-        price: listing.price?.value || 0,
+        title: listing.title?.en || '',
+        description: listing.description?.en || '',
+        price: priceVal,
         propertyType: listing.type as any,
-        status: listing.offering === 'rent' ? 'rented' : 'available',
+        status: listing.offeringType === 'rent' ? 'rented' : 'available',
         category: listing.category || 'residential',
-        bedrooms: listing.bedrooms || 0,
-        bathrooms: listing.bathrooms || 0,
-        area: listing.area || 0,
+        bedrooms: beds,
+        bathrooms: baths,
+        area: listing.size || 0,
         pfReferenceNumber: ref,
         updatedAt: Timestamp.now(),
         images: listing.media?.images?.map(i => i.original.url) || [],
@@ -110,18 +127,23 @@ export class PFIntegrationService {
     const locationId = await this.resolveLocationId(unit);
     const publicProfileId = await this.resolvePublicProfileId();
 
-    const pfListing: Omit<PFListing, 'id' | 'status' | 'createdAt' | 'updatedAt'> = {
-      title: unit.title,
-      description: unit.description || unit.title,
-      price: { value: unit.price, currency: 'EGP', type: unit.status === 'rented' ? 'rent' : 'sale' },
+    const isRent = unit.status === 'rented';
+
+    const pfListing: PFListingRequest = {
+      reference: unit.pfReferenceNumber || `SB-${unitId.slice(0, 8)}`,
+      title: { en: unit.title },
+      description: { en: unit.description || unit.title },
+      price: { 
+        type: isRent ? 'yearly' : 'sale',
+        amounts: isRent ? { yearly: unit.price } : { sale: unit.price }
+      },
       type: this.mapPropertyType(unit.propertyType),
       category: 'residential',
-      offering: unit.status === 'rented' ? 'rent' : 'sale',
-      bedrooms: unit.bedrooms || 0,
-      bathrooms: unit.bathrooms || 0,
-      area: Math.max(unit.area || 0, 1),
-      locationId,
-      publicProfileId,
+      offeringType: isRent ? 'rent' : 'sale',
+      bedrooms: String(unit.bedrooms || 0),
+      bathrooms: String(unit.bathrooms || 1),
+      size: Math.max(unit.area || 0, 1),
+      location: { id: locationId },
       media: {
         images: (unit.images || []).map(url => ({ original: { url } })),
       },
@@ -162,8 +184,8 @@ export class PFIntegrationService {
     }
   }
 
-  private static mapPropertyType(type: string): PFListing['type'] {
-    const mapping: Record<string, PFListing['type']> = {
+  private static mapPropertyType(type: string): PFPropertyType {
+    const mapping: Record<string, PFPropertyType> = {
       apartment: 'apartment', villa: 'villa', townhouse: 'townhouse',
       penthouse: 'penthouse', duplex: 'duplex', chalet: 'chalet',
       'twin-house': 'twin-house', palace: 'palace', land: 'land',
@@ -171,3 +193,4 @@ export class PFIntegrationService {
     return mapping[type?.toLowerCase()] || 'apartment';
   }
 }
+
