@@ -4,12 +4,12 @@ import { COLLECTIONS } from '@/lib/models/schema';
 import { Timestamp } from 'firebase-admin/firestore';
 import crypto from 'crypto';
 
-function getWebhookSecretValue() {
+function getWebhookSecret() {
   return process.env.PF_WEBHOOK_SECRET || '';
 }
 
 function verifySignature(payload: string, signature: string): boolean {
-  const webhookSecret = getWebhookSecretValue();
+  const webhookSecret = getWebhookSecret();
 
   if (!webhookSecret || !signature) return false;
   const expected = crypto.createHmac('sha256', webhookSecret).update(payload).digest('hex');
@@ -26,7 +26,14 @@ function verifySignature(payload: string, signature: string): boolean {
 export async function POST(request: NextRequest) {
   const rawBody = await request.text();
   const signature = request.headers.get('X-Signature') || '';
+  const webhookSecret = getWebhookSecret();
 
+  if (!webhookSecret) {
+    console.error('[PF Webhook] Missing PF_WEBHOOK_SECRET configuration');
+    return NextResponse.json({ error: 'Webhook secret is not configured' }, { status: 500 });
+  }
+
+  // Missing/invalid signatures are treated as client auth failures once the secret is configured.
   if (!verifySignature(rawBody, signature)) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
   }

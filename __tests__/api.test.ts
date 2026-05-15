@@ -24,6 +24,7 @@ jest.mock('@/lib/server/firebase-admin', () => ({
 jest.mock('googleapis', () => ({ google: { auth: { GoogleAuth: jest.fn() }, sheets: jest.fn(() => ({ spreadsheets: { values: { get: jest.fn(), update: jest.fn() } } })) } }));
 
 import { NextRequest } from 'next/server';
+import crypto from 'crypto';
 
 // --------------------------------------------------------------------------
 // Helper: build a NextRequest-like object
@@ -134,16 +135,29 @@ describe('POST /api/admin/deploy', () => {
 // --------------------------------------------------------------------------
 describe('POST /api/webhooks/property-finder', () => {
   let POST: (req: NextRequest) => Promise<Response>;
+  let consoleErrorSpy: jest.SpyInstance;
 
   beforeAll(async () => {
     ({ POST } = await import('@/app/api/webhooks/property-finder/route'));
   });
 
-  test('returns 401 when PF_WEBHOOK_SECRET is not configured', async () => {
+  beforeEach(() => {
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
+  });
+
+  test('returns 500 when PF_WEBHOOK_SECRET is not configured', async () => {
     delete process.env.PF_WEBHOOK_SECRET;
     const req = makeReq('POST', '/api/webhooks/property-finder', {}, { type: 'lead.created', data: { id: 'lead-1' } });
     const res = await POST(req);
-    expect(res.status).toBe(401);
+    const body = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(body).toEqual({ error: 'Webhook secret is not configured' });
+    expect(consoleErrorSpy).toHaveBeenCalledWith('[PF Webhook] Missing PF_WEBHOOK_SECRET configuration');
   });
 
   test('returns 401 when signature is missing', async () => {
@@ -151,5 +165,22 @@ describe('POST /api/webhooks/property-finder', () => {
     const req = makeReq('POST', '/api/webhooks/property-finder', {}, { type: 'lead.created', data: { id: 'lead-1' } });
     const res = await POST(req);
     expect(res.status).toBe(401);
+  });
+
+  test('accepts requests with a valid signature', async () => {
+    process.env.PF_WEBHOOK_SECRET = 'pf-secret';
+    const payload = JSON.stringify({ type: 'unhandled.event', data: { id: 'lead-1' } });
+    const signature = crypto.createHmac('sha256', process.env.PF_WEBHOOK_SECRET).update(payload).digest('hex');
+    const req = new NextRequest(new Request('http://localhost:3000/api/webhooks/property-finder', {
+      method: 'POST',
+      headers: new Headers({ 'X-Signature': signature }),
+      body: payload,
+    }));
+
+    const res = await POST(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body).toEqual({ received: true });
   });
 });
