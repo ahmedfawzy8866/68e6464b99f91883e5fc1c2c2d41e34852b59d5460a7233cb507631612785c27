@@ -11,9 +11,6 @@ export default function InventoryGrid() {
   const [filters, setFilters] = useState<PropertyFilters>({});
   const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    fetchInventory();
-  }, [filters]);
 
   const fetchInventory = async () => {
     setLoading(true);
@@ -26,6 +23,10 @@ export default function InventoryGrid() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchInventory();
+  }, [filters]);
 
   const filteredProperties = properties.filter(p => 
     p.compound_name.toLowerCase().includes(searchQuery.toLowerCase()) ||

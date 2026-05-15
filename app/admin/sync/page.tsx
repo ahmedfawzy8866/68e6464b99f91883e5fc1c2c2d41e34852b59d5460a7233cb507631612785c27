@@ -30,9 +30,6 @@ export default function AdminSyncPage() {
   const [credits, setCredits] = useState<any>(null);
   const [loadingCredits, setLoadingCredits] = useState(false);
 
-  useEffect(() => {
-    loadActivities();
-  }, []);
 
   async function loadActivities() {
     try {
@@ -47,6 +44,10 @@ export default function AdminSyncPage() {
       console.error('Failed to load activities:', err);
     }
   }
+
+  useEffect(() => {
+    loadActivities();
+  }, []);
 
   async function getAuthHeaders(): Promise<HeadersInit> {
     const token = await auth.currentUser?.getIdToken();

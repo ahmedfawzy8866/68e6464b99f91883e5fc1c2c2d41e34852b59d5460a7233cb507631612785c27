@@ -25,10 +25,10 @@ export const auth: Auth = getAuth(app);
 export const db: Firestore = getFirestore(app);
 export const storage: FirebaseStorage = getStorage(app);
 
-export function getAnalyticsInstance() {
+export async function getAnalyticsInstance() {
   if (typeof window === 'undefined') return null;
   try {
-    const { getAnalytics } = require('firebase/analytics');
+    const { getAnalytics } = await import('firebase/analytics');
     return getAnalytics(app);
   } catch {
     return null;

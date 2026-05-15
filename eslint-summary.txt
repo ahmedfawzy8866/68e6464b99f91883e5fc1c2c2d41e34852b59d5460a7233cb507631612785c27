@@ -1,0 +1,17 @@
+F:\project 555\my-sierra-project\__tests__\pipeline.test.js: @typescript-eslint/no-require-imports at line 43, @typescript-eslint/no-require-imports at line 63, @typescript-eslint/no-require-imports at line 64
+F:\project 555\my-sierra-project\app\admin\sync\page.tsx: react-hooks/immutability at line 34
+F:\project 555\my-sierra-project\app\landing\landing-page-v2.tsx: @next/next/no-html-link-for-pages at line 559
+F:\project 555\my-sierra-project\apps\whatsapp-scraper-bot\index.js: @typescript-eslint/no-require-imports at line 1, @typescript-eslint/no-require-imports at line 3, @typescript-eslint/no-require-imports at line 4, @typescript-eslint/no-require-imports at line 5
+F:\project 555\my-sierra-project\backend-integration\lib\models\schema.ts: @typescript-eslint/no-empty-object-type at line 166, @typescript-eslint/no-empty-object-type at line 397, @typescript-eslint/no-empty-object-type at line 464
+F:\project 555\my-sierra-project\bots\whatsapp-scraper\index.js: @typescript-eslint/no-require-imports at line 1, @typescript-eslint/no-require-imports at line 2, @typescript-eslint/no-require-imports at line 3
+F:\project 555\my-sierra-project\components\UI\LuxurySkeleton.tsx: @next/next/no-server-actions-in-client-components at line 2
+F:\project 555\my-sierra-project\components\inventory.tsx: react-hooks/immutability at line 15
+F:\project 555\my-sierra-project\functions\collectData.js: @typescript-eslint/no-require-imports at line 1, @typescript-eslint/no-require-imports at line 2
+F:\project 555\my-sierra-project\functions\processData.js: @typescript-eslint/no-require-imports at line 1, @typescript-eslint/no-require-imports at line 2
+F:\project 555\my-sierra-project\landing-page-final.tsx: react-hooks/static-components at line 431, react-hooks/static-components at line 449, react-hooks/static-components at line 470, react-hooks/static-components at line 472, react-hooks/static-components at line 526, react-hooks/static-components at line 529, react-hooks/static-components at line 567, react-hooks/static-components at line 592
+F:\project 555\my-sierra-project\lib\firebase.ts: @typescript-eslint/no-require-imports at line 31
+F:\project 555\my-sierra-project\lib\models\schema.ts: @typescript-eslint/no-empty-object-type at line 164, @typescript-eslint/no-empty-object-type at line 394, @typescript-eslint/no-empty-object-type at line 461
+F:\project 555\my-sierra-project\scripts\data-pipeline\collectData.js: @typescript-eslint/no-require-imports at line 1, @typescript-eslint/no-require-imports at line 2
+F:\project 555\my-sierra-project\scripts\data-pipeline\processData.js: @typescript-eslint/no-require-imports at line 1, @typescript-eslint/no-require-imports at line 2
+F:\project 555\my-sierra-project\skills\pptx\scripts\html2pptx.js: @typescript-eslint/no-require-imports at line 28, @typescript-eslint/no-require-imports at line 29, @typescript-eslint/no-require-imports at line 30
+F:\project 555\my-sierra-project\tweaks-panel.jsx: react-hooks/refs at line 235, react-hooks/refs at line 235, react-hooks/refs at line 235, react-hooks/refs at line 303

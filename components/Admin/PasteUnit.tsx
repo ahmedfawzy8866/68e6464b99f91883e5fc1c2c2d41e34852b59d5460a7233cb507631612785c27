@@ -53,7 +53,7 @@ export default function PasteUnit({ onSave, onClose }: PasteUnitProps) {
           position: 'relative'
         }}
       >
-        <button onClick={onClose} style={{ position: 'absolute', top: '24px', right: '24px', background: 'none', border: 'none', color: '#94A3B8', cursor: 'pointer' }}>
+        <button onClick={onClose} style={{ position: 'absolute', top: '24px', right: '24px', background: 'none', border: 'none', color: '#94A3B8', cursor: 'pointer' }} title="Close Modal" aria-label="Close">
           <X size={20} />
         </button>
 

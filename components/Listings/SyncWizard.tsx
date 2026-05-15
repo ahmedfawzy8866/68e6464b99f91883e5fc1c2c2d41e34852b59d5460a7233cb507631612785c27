@@ -198,22 +198,36 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
 
   const startMapping = () => {
     const processed = rawData.map((item) => {
-      const mappedItem = {
-        title: 'Pending identification',
-        location: 'Pending identification',
-        price: 'N/A',
-        type: 'Unclassified',
-        status: 'Available' as const,
-        agent: 'Systems Integrator',
-        listedDays: 0,
-        beds: readNumber(item, 'beds', 'Bedrooms', 'Rooms'),
-        baths: readNumber(item, 'baths', 'Bathrooms', 'WC'),
-        sqm: readNumber(item, 'sqm', 'Area', 'Size', 'Footprint'),
-        area: readString(item, 'Area', 'Region', 'Neighborhood') || 'Unspecified Sector',
+      const mappedItem: any = {
+        title_en: 'Pending identification',
+        title_ar: 'قيد التحديد',
+        compound_name: 'Pending identification',
+        compound_code: 'IMP',
+        area_slug: 'unspecified_sector',
+        price: 0,
+        currency: 'EGP',
+        unit_type: 'apartment',
+        offer_type: 'sale',
+        listing_type: 'primary',
+        status: 'available',
+        bedrooms: readNumber(item, 'beds', 'Bedrooms', 'Rooms'),
+        bathrooms: readNumber(item, 'baths', 'Bathrooms', 'WC'),
+        bua_m2: readNumber(item, 'sqm', 'Area', 'Size', 'Footprint'),
+        furnishing: 'unfurnished',
+        gallery_urls: [],
+        is_featured: false,
+        is_public: true,
+        stale_flag: false,
+        created_by: 'Systems Integrator',
+        normalized_key: `import_${safeUUID().slice(0, 8)}`,
       };
 
       REQUIRED_FIELDS.forEach((field) => {
-        mappedItem[field.key] = readString(item, mappings[field.key]) || 'Pending identification';
+        const val = readString(item, mappings[field.key]) || '';
+        if (field.key === 'title') mappedItem.title_en = val || 'Pending identification';
+        if (field.key === 'location') mappedItem.compound_name = val || 'Pending identification';
+        if (field.key === 'price') mappedItem.price = Number(val.replace(/[^0-9.-]+/g, '')) || 0;
+        if (field.key === 'type') mappedItem.unit_type = val.toLowerCase().includes('villa') ? 'villa' : 'apartment';
       });
 
       return mappedItem;
@@ -231,7 +245,7 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
       mappedData.forEach(item => {
         const newDocRef = doc(collection(db, collectionName));
         const finalData = syncType === 'portfolio' 
-          ? { ...item, id: createListingId(), createdAt: serverTimestamp() }
+          ? { ...item, id: createListingId(), unit_code: createListingId(), createdAt: serverTimestamp(), created_at: serverTimestamp() }
           : { ...item, createdAt: serverTimestamp() };
           
         batch.set(newDocRef, finalData);
@@ -360,22 +374,38 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
                         }
 
                         if (syncType === 'portfolio') {
-                          const mappedFromPF = result.data.map((pf: any) => ({
-                            id: pf.reference_number || `PF-${pf.id}`,
-                            title: pf.title?.en || 'Untitled Signature Asset',
-                            location: pf.location?.name || 'Dubai, UAE',
-                            area: pf.location?.name || 'Exclusive Sector',
-                            type: pf.type.charAt(0).toUpperCase() + pf.type.slice(1),
-                            status: pf.status === 'published' ? 'Available' : 'Pending',
-                            price: `${pf.price.currency} ${pf.price.value.toLocaleString()}`,
-                            beds: pf.bedrooms,
-                            baths: pf.bathrooms,
-                            sqm: pf.size.unit === 'sqm' ? pf.size.value : Math.round(pf.size.value * 0.092903),
-                            agent: 'Property Finder Gateway',
-                            listedDays: pf.created_at ? Math.floor((Date.now() - new Date(pf.created_at).getTime()) / (1000 * 60 * 60 * 24)) : 0,
-                            imageUrl: pf.images?.find((img: any) => img.is_main)?.url || pf.images?.[0]?.url || '',
-                          }));
-                          setMappedData(mappedFromPF);
+                          const mappedFromPF = result.data.map((pf: any) => {
+                            const pfPrice = pf.price?.value || 0;
+                            return {
+                              id: pf.reference_number || `PF-${pf.id}`,
+                              unit_code: pf.reference_number || `PF-${pf.id}`,
+                              title_en: pf.title?.en || 'Untitled Signature Asset',
+                              title_ar: pf.title?.ar || pf.title?.en || 'بدون عنوان',
+                              description_en: pf.description?.en || '',
+                              description_ar: pf.description?.ar || '',
+                              compound_name: pf.location?.name || 'Property Finder Location',
+                              compound_code: 'PF',
+                              area_slug: (pf.location?.name || 'PF').toLowerCase().replace(/\s+/g, '_'),
+                              unit_type: pf.type === 'apartment' ? 'apartment' : 'villa',
+                              offer_type: pf.offering_type === 'rent' ? 'rent' : 'sale',
+                              listing_type: 'primary',
+                              status: pf.status === 'published' ? 'available' : 'draft',
+                              price: pfPrice,
+                              currency: pf.price?.currency || 'AED',
+                              price_egp_normalized: pfPrice,
+                              bedrooms: pf.bedrooms || 0,
+                              bathrooms: pf.bathrooms || 0,
+                              bua_m2: pf.size?.unit === 'sqm' ? pf.size.value : Math.round((pf.size?.value || 0) * 0.092903),
+                              furnishing: 'unfurnished',
+                              gallery_urls: pf.images?.map((img: any) => img.url) || [],
+                              cover_image_url: pf.images?.find((img: any) => img.is_main)?.url || pf.images?.[0]?.url || '',
+                              is_featured: false,
+                              is_public: true,
+                              stale_flag: false,
+                              created_by: 'Property Finder Gateway',
+                              normalized_key: `pf_${pf.id}`,
+                            };
+                          });
                           setMappedData(mappedFromPF);
                         } else {
                           const mappedLeadsFromPF = result.data.map((pf: any) => ({
@@ -487,9 +517,9 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
                     <tbody>
                       {mappedData.slice(0, 10).map((row, i) => (
                         <tr key={i}>
-                          <td style={{ fontWeight: 500 }}>{syncType === 'portfolio' ? row.title : row.name}</td>
-                          <td style={{ color: 'var(--gold)', fontWeight: 700 }}>{syncType === 'portfolio' ? row.price : row.originChannel}</td>
-                          <td>{syncType === 'portfolio' ? row.location : row.phone}</td>
+                          <td style={{ fontWeight: 500 }}>{syncType === 'portfolio' ? row.title_en : row.name}</td>
+                          <td style={{ color: 'var(--gold)', fontWeight: 700 }}>{syncType === 'portfolio' ? `${row.currency} ${Number(row.price).toLocaleString()}` : row.originChannel}</td>
+                          <td>{syncType === 'portfolio' ? row.compound_name : row.phone}</td>
                           <td style={{ textAlign: 'center' }}><span style={{ color: 'var(--success)' }}>Ready</span></td>
                         </tr>
                       ))}

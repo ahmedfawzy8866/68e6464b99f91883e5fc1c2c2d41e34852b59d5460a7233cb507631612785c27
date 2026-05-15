@@ -231,8 +231,7 @@ function TweaksPanel({ title = 'Tweaks', children }) {
   return (
     <>
       <style>{__TWEAKS_STYLE}</style>
-      <div ref={dragRef} className="twk-panel"
-           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+      <div ref={dragRef} className="twk-panel">
         <div className="twk-hd" onMouseDown={onDragStart}>
           <b>{title}</b>
           <button className="twk-x" aria-label="Close tweaks"
@@ -300,7 +299,7 @@ function TweakRadio({ label, value, options, onChange }) {
   // The active value is read by pointer-move handlers attached for the lifetime
   // of a drag — ref it so a stale closure doesn't fire onChange for every move.
   const valueRef = React.useRef(value);
-  valueRef.current = value;
+  React.useEffect(() => { valueRef.current = value; }, [value]);
 
   const segAt = (clientX) => {
     const r = trackRef.current.getBoundingClientRect();

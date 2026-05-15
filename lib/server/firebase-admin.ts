@@ -7,7 +7,7 @@ import 'server-only';
 import * as admin from 'firebase-admin';
 
 // Proxy returned when Admin SDK is unavailable — prevents hard crashes
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 const makeUnavailable = (name: string): any =>
   new Proxy(
     {},

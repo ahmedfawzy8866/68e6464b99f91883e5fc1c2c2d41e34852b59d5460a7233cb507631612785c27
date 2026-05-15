@@ -24,7 +24,9 @@ const eslintConfig = defineConfig([
       "@next/next/no-img-element": "off",
       "@typescript-eslint/no-unused-vars": "off",
       "react-hooks/set-state-in-effect": "off",
-      "react-hooks/purity": "off"
+      "react-hooks/purity": "off",
+      "@next/next/no-page-custom-font": "off",
+      "@typescript-eslint/no-require-imports": "off"
     }
   }
 ]);

@@ -171,7 +171,7 @@ export default function ImageLinkHub() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="group relative aspect-square rounded-2xl overflow-hidden border border-white/10 bg-navy-dark"
                 >
-                  <img src={item.preview} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <img src={item.preview} alt="Asset media preview" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <button 
                     onClick={() => removeFile(index)}
                     className="absolute top-2 right-2 p-1.5 bg-black/50 backdrop-blur-md rounded-lg text-white opacity-0 group-hover:opacity-100 transition-opacity"

@@ -108,7 +108,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
             <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 600 }}>{property ? 'Modify Asset' : 'Incorporate New Asset'}</h2>
             <div style={{ color: 'var(--gold)', fontSize: '12px', fontFamily: 'monospace', marginTop: '4px' }}>CODE: {formData.unit_code}</div>
           </div>
-          <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', padding: '8px', borderRadius: '50%', cursor: 'pointer' }}>
+          <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', padding: '8px', borderRadius: '50%', cursor: 'pointer' }} title="Close Form" aria-label="Close">
             <X size={20} />
           </button>
         </div>
@@ -169,14 +169,14 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
                       <div className="input-group">
                         <label>Offer Type</label>
-                        <select value={formData.offer_type} onChange={e => handleChange('offer_type', e.target.value)}>
+                        <select value={formData.offer_type} onChange={e => handleChange('offer_type', e.target.value)} title="Offer Type" aria-label="Offer Type">
                           <option value="sale">Sale</option>
                           <option value="rent">Rent</option>
                         </select>
                       </div>
                       <div className="input-group">
                         <label>Listing Type</label>
-                        <select value={formData.listing_type} onChange={e => handleChange('listing_type', e.target.value)}>
+                        <select value={formData.listing_type} onChange={e => handleChange('listing_type', e.target.value)} title="Listing Type" aria-label="Listing Type">
                           <option value="resale">Resale</option>
                           <option value="primary">Primary</option>
                           <option value="landlord_direct">Direct from Owner</option>
@@ -185,7 +185,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                       </div>
                       <div className="input-group">
                         <label>Status</label>
-                        <select value={formData.status} onChange={e => handleChange('status', e.target.value)}>
+                        <select value={formData.status} onChange={e => handleChange('status', e.target.value)} title="Status" aria-label="Status">
                           <option value="draft">Draft</option>
                           <option value="available">Available</option>
                           <option value="reserved">Reserved</option>
@@ -205,7 +205,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                       </div>
                       <div className="input-group">
                         <label>Area Slug</label>
-                        <select value={formData.area_slug} onChange={e => handleChange('area_slug', e.target.value)}>
+                        <select value={formData.area_slug} onChange={e => handleChange('area_slug', e.target.value)} title="Area Slug" aria-label="Area Slug">
                           <option value="new_cairo">New Cairo</option>
                           <option value="fifth_settlement">Fifth Settlement</option>
                           <option value="sheikh_zayed">Sheikh Zayed</option>
@@ -238,7 +238,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                       <div className="input-group">
                         <label>Furnishing</label>
-                        <select value={formData.furnishing} onChange={e => handleChange('furnishing', e.target.value)}>
+                        <select value={formData.furnishing} onChange={e => handleChange('furnishing', e.target.value)} title="Furnishing" aria-label="Furnishing">
                           <option value="unfurnished">Unfurnished</option>
                           <option value="semi-furnished">Semi-Furnished</option>
                           <option value="furnished">Fully Furnished</option>
@@ -246,7 +246,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                       </div>
                       <div className="input-group">
                         <label>Finishing</label>
-                        <select value={formData.finishing} onChange={e => handleChange('finishing', e.target.value)}>
+                        <select value={formData.finishing} onChange={e => handleChange('finishing', e.target.value)} title="Finishing" aria-label="Finishing">
                           <option value="core">Core & Shell</option>
                           <option value="semi">Semi Finished</option>
                           <option value="fully">Fully Finished</option>
@@ -266,7 +266,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                       </div>
                       <div className="input-group">
                         <label>Currency</label>
-                        <select value={formData.currency} onChange={e => handleChange('currency', e.target.value)}>
+                        <select value={formData.currency} onChange={e => handleChange('currency', e.target.value)} title="Currency" aria-label="Currency">
                           <option value="EGP">EGP</option>
                           <option value="USD">USD</option>
                         </select>
@@ -275,7 +275,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                       <div className="input-group">
                         <label>Payment Type</label>
-                        <select value={formData.payment_type} onChange={e => handleChange('payment_type', e.target.value)}>
+                        <select value={formData.payment_type} onChange={e => handleChange('payment_type', e.target.value)} title="Payment Type" aria-label="Payment Type">
                           <option value="cash">Cash</option>
                           <option value="installment">Installment</option>
                           <option value="both">Both</option>

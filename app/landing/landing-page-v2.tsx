@@ -556,9 +556,9 @@ function LandingContent() {
             <h2 className="sb-h2 reveal">{ar ? (<>عقارات <em>مميزة</em></>) : (<>Featured <em>Assets</em></>)}</h2>
             <p className="sb-section-sub reveal">{ar ? "أفضل الوحدات في كمباوندات التجمع الخامس — متزامنة مع بروبرتي فايندر." : "Hand-picked from New Cairo's most coveted compounds — synced live with Property Finder."}</p>
           </div>
-          <a href="/listings" className="sb-btn-ghost reveal" style={{ alignSelf: "flex-end", textDecoration: "none" }}>
+          <Link href="/listings" className="sb-btn-ghost reveal" style={{ alignSelf: "flex-end", textDecoration: "none" }}>
             {ar ? "كل العقارات" : "View All"} →
-          </a>
+          </Link>
         </div>
 
         <div className="sb-listings">

@@ -51,6 +51,8 @@ export default function PropertyDrawer({ property, onClose, onEdit, onDelete }: 
             <button 
               onClick={onClose}
               style={{ padding: '10px', borderRadius: '50%', background: 'white', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', cursor: 'pointer' }}
+              title="Close Drawer"
+              aria-label="Close"
             >
               <X size={18} />
             </button>
@@ -168,6 +170,8 @@ export default function PropertyDrawer({ property, onClose, onEdit, onDelete }: 
                 padding: '12px', borderRadius: '12px', border: 'none', 
                 background: '#FEF2F2', color: '#EF4444', cursor: 'pointer' 
               }}
+              title="Delete Asset"
+              aria-label="Delete"
             >
               <Trash2 size={18} />
             </button>

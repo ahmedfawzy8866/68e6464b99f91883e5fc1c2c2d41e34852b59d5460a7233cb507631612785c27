@@ -268,7 +268,7 @@ function PropCard({ p, isAr, th, bedsLabel, bathsLabel }: {
       style={{ background:th.card, border:`1px solid ${hov?'rgba(233,193,118,0.35)':th.cardBorder}`, borderRadius:14, overflow:'hidden', cursor:'pointer' }}
     >
       <div className="card-img" style={{ height:200, position:'relative', overflow:'hidden', background:'#0A1E35' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         <img src={p.img} alt={isAr ? p.titleAr : p.title} style={{ width:'100%', height:'100%', objectFit:'cover' }}/>
         <div style={{ position:'absolute', inset:0, background:'linear-gradient(transparent 40%,rgba(0,0,0,0.55))' }}/>
         <span style={{ position:'absolute', top:12, [isAr?'right':'left']:12, background:p.badgeColor, color:'#fff', fontSize:9, fontWeight:700, letterSpacing:'.08em', padding:'4px 10px', borderRadius:50, fontFamily:"'Jost',sans-serif", textTransform:'uppercase' }}>{p.badge}</span>
@@ -289,6 +289,11 @@ function PropCard({ p, isAr, th, bedsLabel, bathsLabel }: {
 // ══════════════════════════════════════════════════════════
 //  MAIN PAGE
 // ══════════════════════════════════════════════════════════
+const Label = ({ children }: { children: React.ReactNode }) => (
+  <div style={{ fontSize:10, fontWeight:500, letterSpacing:'.24em', textTransform:'uppercase', color:G, marginBottom:10, fontFamily:"'Jost',sans-serif" }}>{children}</div>
+);
+const GoldRule = () => <div style={{ width:40, height:2, background:`linear-gradient(90deg,${G2},${G})`, borderRadius:1, margin:'14px 0' }}/>;
+
 export default function LandingPage() {
   const [mode,      setMode]      = useState<'dark'|'light'>('dark');
   const [lang,      setLang]      = useState<'en'|'ar'>('en');
@@ -325,11 +330,6 @@ export default function LandingPage() {
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
     return () => obs.disconnect();
   }, [lang, mode]);
-
-  const Label = ({ children }: { children: React.ReactNode }) => (
-    <div style={{ fontSize:10, fontWeight:500, letterSpacing:'.24em', textTransform:'uppercase', color:G, marginBottom:10, fontFamily:"'Jost',sans-serif" }}>{children}</div>
-  );
-  const GoldRule = () => <div style={{ width:40, height:2, background:`linear-gradient(90deg,${G2},${G})`, borderRadius:1, margin:'14px 0' }}/>;
 
   return (
     <>
@@ -404,7 +404,7 @@ export default function LandingPage() {
                 {[{off:2,op:.4},{off:1,op:.65},{off:0}].map(({off,op},idx)=>(
                   <div key={idx} style={{ position:'absolute', top:off*20, left:off*20, right:-(off*20), bottom:-(off*20), background:off===0?th.card:th.surface, borderRadius:18, overflow:off===0?'hidden':'visible', border:off>0?`1px solid ${th.border}`:undefined, opacity:op||1, boxShadow:off===0?'0 40px 80px rgba(0,0,0,.4)':undefined, zIndex:3-off }}>
                     {off===0&&<>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      { }
                       <img src={LISTINGS[1].img} alt="" style={{ width:'100%', height:'62%', objectFit:'cover' }}/>
                       <div style={{ position:'absolute', top:12, left:12, background:G2, color:'#fff', fontSize:9, fontWeight:700, letterSpacing:'.08em', padding:'4px 10px', borderRadius:50, fontFamily:"'Jost',sans-serif", textTransform:'uppercase' }}>{LISTINGS[1].badge}</div>
                       <div style={{ padding:'18px 22px' }}>
