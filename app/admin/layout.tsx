@@ -55,7 +55,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen flex bg-[#f8f9fa]" style={{ fontFamily: 'var(--font-body)' }}>
+    <div className="min-h-screen flex bg-[#f8f9fa] font-body">
 
       {/* ══ SIDEBAR (Desktop) ══ */}
       <aside className="hidden lg:flex flex-col w-[280px] shrink-0 bg-[#031632] min-h-screen fixed top-0 left-0 z-50">
@@ -63,8 +63,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="flex items-center gap-3 px-8 py-8 border-b border-white/5">
           <Shield className="text-[#C9A84C]" size={28} />
           <div>
-            <div className="text-white font-bold text-base tracking-tight uppercase"
-              style={{ fontFamily: 'var(--font-display)' }}>
+            <div className="text-white font-bold text-base tracking-tight uppercase font-display">
               Sierra Blu
             </div>
             <div className="text-white/30 text-[9px] tracking-widest uppercase font-mono">
@@ -114,10 +113,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="flex items-center justify-between px-8 py-6 border-b border-white/5">
               <div className="flex items-center gap-3">
                 <Shield className="text-[#C9A84C]" size={24} />
-                <span className="text-white font-bold uppercase tracking-tight"
-                  style={{ fontFamily: 'var(--font-display)' }}>Sierra Blu</span>
+                <span className="text-white font-bold uppercase tracking-tight font-display">Sierra Blu</span>
               </div>
-              <button onClick={() => setMobileOpen(false)} className="text-white/40 hover:text-white">
+              <button onClick={() => setMobileOpen(false)} className="text-white/40 hover:text-white" aria-label="Close menu" title="Close menu">
                 <X size={20} />
               </button>
             </div>
@@ -152,6 +150,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <button
             className="lg:hidden text-[#071422]/60 hover:text-[#071422]"
             onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+            title="Open menu"
           >
             <Menu size={22} />
           </button>

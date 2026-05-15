@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/lib/AuthContext';
 import { useI18n } from '@/lib/I18nContext';
 import dynamic from 'next/dynamic';
+import '../../landing-page-final.css';
 
 // Constants & Design Tokens
 const COLORS = {
@@ -240,57 +241,31 @@ export default function LandingPage() {
     <>
       <style>{GlobalStyle}</style>
       <div
+        className="lp-root"
         style={{
           background: th.bg,
           color: th.text,
-          minHeight: '100vh',
-          fontFamily: '"Jost", "Inter", sans-serif',
           direction: T.dir as 'ltr' | 'rtl',
-          transition: 'background 500ms ease, color 500ms ease',
         }}
       >
         {/* ══ NAVIGATION ══ */}
         <nav
+          className="lp-nav"
           style={{
-            position: 'sticky',
-            top: 0,
-            zIndex: 100,
-            backdropFilter: 'blur(20px)',
             background: `rgba(7, 20, 34, ${mode === 'dark' ? '0.96' : '0.1'})`,
             borderBottom: `1px solid ${th.border}`,
-            padding: '16px 60px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
           }}
         >
-          <div
-            style={{
-              fontFamily: '"Cormorant Garamond", serif',
-              fontSize: '24px',
-              fontWeight: 600,
-              letterSpacing: '0.2em',
-              color: COLORS.gold,
-            }}
-          >
+          <div className="lp-brand">
             {T.brand}
           </div>
 
-          <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
+          <div className="lp-nav-links">
             {T.nav.map((item, i) => (
               <button
                 key={i}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: th.textSub,
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  letterSpacing: '0.13em',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  transition: 'color 250ms ease',
-                }}
+                className="navlink"
+                style={{ color: th.textSub }}
                 onMouseEnter={(e) => ((e.target as HTMLElement).style.color = COLORS.gold)}
                 onMouseLeave={(e) => ((e.target as HTMLElement).style.color = th.textSub)}
               >
@@ -299,18 +274,11 @@ export default function LandingPage() {
             ))}
           </div>
 
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <div className="lp-nav-right">
             <button
               onClick={toggleTheme}
-              style={{
-                background: 'none',
-                border: `1px solid ${th.border}`,
-                color: th.text,
-                borderRadius: '6px',
-                padding: '8px 12px',
-                cursor: 'pointer',
-                fontSize: '12px',
-              }}
+              className="sb-btn-ghost"
+              style={{ border: `1px solid ${th.border}`, color: th.text }}
             >
               {mode === 'dark' ? '☀️' : '🌙'}
             </button>
