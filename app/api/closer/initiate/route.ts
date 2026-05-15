@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { closerAgent } from '@/agents/stage-9-closer/CloserAgent';
+import { CloserAgent } from '@/agents/stage-9-closer/CloserAgent';
+
+const closerAgent = CloserAgent.getInstance();
 
 /**
  * API: INITIATE CLOSING (STAGE 9)

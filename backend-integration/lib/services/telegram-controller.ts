@@ -5,7 +5,7 @@
 
 import { db } from '../firebase';
 import { doc, getDoc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
-import { COLLECTIONS, type Unit, type Lead, type Proposal } from '../models/schema';
+import { COLLECTIONS, type Unit, type Lead, type Proposal } from '../../../lib/models/schema';
 import { generateLegalSummary, assessLegalRisk } from './legal-brain';
 import { formatPercent, formatEGP } from '../financial-engine';
 

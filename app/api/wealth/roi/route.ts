@@ -4,7 +4,8 @@
  */
 
 import { NextResponse } from 'next/server';
-import { adminDb } from '@/lib/server/firebase-admin';
+import { db } from '@/lib/firebase';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { COLLECTIONS, Proposal, Unit } from '@/lib/models/schema';
 import { analyzeAssetFinancials } from '@/lib/services/roi-service';
 
@@ -16,8 +17,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Proposal ID is required' }, { status: 400 });
     }
 
-    const proposalSnap = await adminDb.collection(COLLECTIONS.proposals).doc(proposalId).get();
-    if (!proposalSnap.exists) {
+    const proposalSnap = await getDoc(doc(db, COLLECTIONS.proposals, proposalId));
+    if (!proposalSnap.exists()) {
       return NextResponse.json({ error: 'Proposal not found' }, { status: 404 });
     }
 
@@ -28,11 +29,11 @@ export async function POST(req: Request) {
 
     // Re-analyze each unit
     for (const unitItem of proposal.units) {
-      const unitSnap = await adminDb.collection(COLLECTIONS.units).doc(unitItem.id).get();
-      if (unitSnap.exists) {
+      const unitSnap = await getDoc(doc(db, COLLECTIONS.units, unitItem.id));
+      if (unitSnap.exists()) {
         const unit = { id: unitSnap.id, ...unitSnap.data() } as Unit;
         const financials = await analyzeAssetFinancials(unit);
-
+        
         updatedUnits.push({
           ...unitItem,
           financialAnalysis: {
@@ -56,15 +57,15 @@ export async function POST(req: Request) {
     };
 
     // Update Proposal in Firestore
-    await adminDb.collection(COLLECTIONS.proposals).doc(proposalId).update({
+    await updateDoc(doc(db, COLLECTIONS.proposals, proposalId), {
       units: updatedUnits,
       financialAnalysis,
       updatedAt: new Date(),
     });
 
-    return NextResponse.json({
-      success: true,
-      financialAnalysis
+    return NextResponse.json({ 
+      success: true, 
+      financialAnalysis 
     });
 
   } catch (error: any) {

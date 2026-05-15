@@ -1,6 +1,6 @@
 import 'server-only'; // gRPC dependency — server only
 import { adminDb } from '../server/firebase-admin';
-import { COLLECTIONS } from '../models/schema';
+import { COLLECTIONS } from '../../../lib/models/schema';
 import { instrumentAgent } from '../arize';
 import { OrchestrationStage } from '../services/orchestrator';
 import { GoogleAIService } from '../server/google-ai';
@@ -26,35 +26,24 @@ export const runCurator = async (
       
       // Fetch media if available to inform branding
       const mediaUrls = data?.mediaUrls || [];
-      const videoUrl = data?.videoUrl;
       let visualContext: any[] = [];
       
-      // Image Context
       if (mediaUrls.length > 0) {
         console.log(`📸 [CURATOR] Incorporating visual context from ${mediaUrls[0]}`);
         try {
+          // Download the image for multimodal processing
           const response = await fetch(mediaUrls[0]);
           const buffer = await response.arrayBuffer();
           const base64 = Buffer.from(buffer).toString('base64');
-          visualContext.push({
+          visualContext = [{
             inlineData: {
               data: base64,
               mimeType: 'image/jpeg'
             }
-          });
+          }];
         } catch (e) {
           console.error(`❌ [CURATOR] Failed to fetch media context:`, e);
         }
-      }
-
-      // Video Context (Gemini 1.5 Pro supports video if provided as base64 or URI)
-      if (videoUrl) {
-        console.log(`🎥 [CURATOR] Incorporating video context from ${videoUrl}`);
-        // Note: For large videos, we'd typically use the File API, 
-        // but for short branding clips, we can attempt a multimodal hint.
-        visualContext.push({
-          text: `[PROPERTY VIDEO ATTACHED: ${videoUrl}] Please incorporate any cinematic cues from the video into the branding.`
-        });
       }
 
       const systemPrompt = `You are "The Curator", the Architect of Desire for Sierra Blu Realty.
@@ -82,10 +71,9 @@ Deliverables (JSON):
 
         // --- NEW: Visual Branding Engine ---
         let brandedMediaUrls: string[] = [];
-        let brandedVideoUrl = videoUrl;
-
         if (mediaUrls.length > 0) {
           console.log(`🖼️ [CURATOR] Starting Visual Branding Engine for ${mediaUrls.length} assets...`);
+          // Limit to first 3 images for heavy processing safety
           const sourceLimit = mediaUrls.slice(0, 3); 
           brandedMediaUrls = await Promise.all(
             sourceLimit.map((url: string, index: number) => 
@@ -94,17 +82,11 @@ Deliverables (JSON):
           );
         }
 
-        if (videoUrl) {
-          console.log(`🎥 [CURATOR] Starting Video Branding Engine...`);
-          brandedVideoUrl = await BrandingService.brandPropertyVideo(docId, videoUrl, data?.id || 'UNIT-VIDEO');
-        }
-
         await docRef.update({
           'descriptionEn': branded.descriptionEn,
           'descriptionAr': branded.descriptionAr,
           'tagline': branded.tagline,
           'brandedMediaUrls': brandedMediaUrls,
-          'videoUrl': brandedVideoUrl,
           'automation.isBranded': true,
           'orchestrationState.stage': 'S4',
           'orchestrationState.status': 'completed'

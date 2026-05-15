@@ -1,6 +1,5 @@
-import { adminDb } from '@/lib/server/firebase-admin';
-import { Timestamp } from 'firebase-admin/firestore';
-import { COLLECTIONS } from '@/lib/models/schema';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 /**
  * SIERRA BLU — VOICE SERVICE (V1.0)
@@ -50,13 +49,13 @@ export class VoiceService {
       // In a real implementation, we would upload the buffer to Firebase Storage.
       // For the "Sales Machine" prototype, we log the intent and return a mock URL.
       const audioBuffer = await response.arrayBuffer();
-
-      await adminDb.collection(COLLECTIONS.activities).add({
+      
+      await addDoc(collection(db, 'activities'), {
         type: 'voice_note_generated',
         leadId,
         actorName: 'Sierra Concierge',
         text: `Generated personalized voice briefing for stakeholder.`,
-        createdAt: Timestamp.now(),
+        createdAt: serverTimestamp(),
       });
 
       return `https://sierra-blu-assets.s3.amazonaws.com/voice/sierra_${Date.now()}.mp3`;

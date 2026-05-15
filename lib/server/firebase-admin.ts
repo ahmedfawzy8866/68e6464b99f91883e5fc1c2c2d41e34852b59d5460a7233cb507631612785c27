@@ -1,13 +1,10 @@
-/**
- * SIERRA BLU — FIREBASE ADMIN SERVICE (V12.1 Hardened)
- * 
- * IMPORTANT: This file must ONLY be imported in server-side components or API routes.
- */
-import 'server-only';
 import * as admin from 'firebase-admin';
 
+/**
+ * SIERRA BLU — FIREBASE ADMIN SERVICE (V12.1 Hardened)
+ */
+
 // Proxy returned when Admin SDK is unavailable — prevents hard crashes
- 
 const makeUnavailable = (name: string): any =>
   new Proxy(
     {},

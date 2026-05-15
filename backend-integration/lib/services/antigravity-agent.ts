@@ -6,7 +6,7 @@
 import { GoogleAIService } from '../server/google-ai';
 import { db } from '../firebase';
 import { collection, query, where, getDocs, limit } from 'firebase/firestore';
-import { COLLECTIONS, type Lead, type Unit } from '../models/schema';
+import { COLLECTIONS, type Lead, type Unit } from '../../../lib/models/schema';
 import { generateOptionsPackage } from './sales-engine';
 import { runMatchingForLead } from './matching-engine';
 import { assessLegalRisk, generateLegalSummary } from './legal-brain';

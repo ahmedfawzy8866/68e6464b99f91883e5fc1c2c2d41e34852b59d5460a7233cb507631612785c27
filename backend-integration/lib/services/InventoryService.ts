@@ -10,6 +10,8 @@ import {
   QueryConstraint
 } from 'firebase/firestore';
 import { initializeApp, getApps } from 'firebase/app';
+import { COLLECTIONS, type PortfolioAsset as Property } from '../../../lib/models/schema';
+export { COLLECTIONS, type Property };
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -23,30 +25,9 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-export interface Property {
-  id: string;
-  title: string;
-  propertyType: string;
-  category: 'residential' | 'commercial';
-  status: string;
-  market: 'egypt' | 'uae';
-  ownerType: 'owner' | 'broker' | 'internal';
-  compound: string;
-  location: string;
-  city: string;
-  area: number;
-  bedrooms: number;
-  bathrooms: number;
-  price: number;
-  pricePerSqm: number;
-  coordinates?: { lat: number; lng: number };
-  finishingType?: string;
-  description?: string;
-}
-
 export const InventoryService = {
   async getProperty(id: string): Promise<Property | null> {
-    const docRef = doc(db, 'listings', id);
+    const docRef = doc(db, COLLECTIONS.portfolioAssets, id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return { id: docSnap.id, ...docSnap.data() } as Property;
@@ -59,7 +40,7 @@ export const InventoryService = {
     if (market) {
       constraints.unshift(where('market', '==', market));
     }
-    const q = query(collection(db, 'listings'), ...constraints);
+    const q = query(collection(db, COLLECTIONS.portfolioAssets), ...constraints);
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Property));
   }

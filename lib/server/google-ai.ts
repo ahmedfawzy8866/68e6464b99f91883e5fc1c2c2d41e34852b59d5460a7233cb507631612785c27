@@ -26,6 +26,23 @@ export interface ChatOptions {
   tools?: any[];
 }
 
+export interface ChatCompletionResponse {
+  choices: Array<{
+    message: {
+      role: string;
+      content: string;
+      tool_calls?: Array<{
+        id?: string;
+        type: string;
+        function: {
+          name?: string;
+          arguments: string;
+        };
+      }>;
+    };
+  }>;
+}
+
 export const GoogleAIService = {
   /**
    * Generates a text response using the selected Gemini model.
@@ -41,8 +58,8 @@ export const GoogleAIService = {
       throw new Error("GOOGLE_AI_API_KEY is not configured. Direct AI Studio integration disabled.");
     }
 
-    // Default to 'gemini-1.5-flash' - the most cost-effective performance model
-    const modelName = options.model || "gemini-1.5-flash";
+    // Default to 'gemini-flash-latest' to avoid 404s on older version strings
+    const modelName = options.model || "gemini-flash-latest";
     
     try {
       const model = genAI.getGenerativeModel({
@@ -83,24 +100,9 @@ export const GoogleAIService = {
     unitName: string,
     messages: Array<{ role: string; content: string }>,
     options: ChatOptions = {}
-  ): Promise<{
-    choices: Array<{
-      message: {
-        role: string;
-        content: string;
-        tool_calls?: Array<{
-          id: string | undefined;
-          type: 'function';
-          function: {
-            name: string | undefined;
-            arguments: string;
-          };
-        }>;
-      };
-    }>;
-  }> {
+  ): Promise<ChatCompletionResponse> {
     return instrumentAgent(agentId, unitName, JSON.stringify(messages), async () => {
-      const modelName = options.model || 'gemini-1.5-flash';
+      const modelName = options.model || 'gemini-flash-latest';
       
       try {
         const model = genAI.getGenerativeModel({ 
@@ -147,7 +149,7 @@ export const GoogleAIService = {
       } catch (err: any) {
         console.error(`❌ [GoogleAI] Chat Error with ${modelName}:`, err.message);
         if (err.message.includes('404') && modelName !== 'gemini-flash-latest') {
-          return this.chatCompletions(agentId, unitName, messages, { ...options, model: 'gemini-1.5-flash' });
+          return this.chatCompletions(agentId, unitName, messages, { ...options, model: 'gemini-flash-latest' });
         }
         throw err;
       }

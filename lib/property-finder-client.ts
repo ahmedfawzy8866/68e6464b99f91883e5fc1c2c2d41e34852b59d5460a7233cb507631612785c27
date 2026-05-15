@@ -1,34 +1,72 @@
 /**
- * Property Finder Enterprise API Client (atlas.propertyfinder.com/v1)
- * OAuth2 token auth with 30-min expiry, auto-refresh
+ * PROPERTY FINDER ENTERPRISE API GATEWAY (v2)
+ * Implementation for Sierra Blu Realty Operational Intelligence
  */
 
-import { 
-  PFListing, 
-  PFListingRequest, 
-  PFLead, 
-  PFLocationInfo as PFLocation, 
-  PFAuthToken as PFAccessToken,
-  PFTranslation,
-  PFUser
-} from './property-finder/types';
-import { EgyptListingValidator } from './property-finder/validation';
+export interface PFListing {
+  id?: string;
+  reference_number: string;
+  title: {
+    en: string;
+    ar?: string;
+  };
+  description: {
+    en: string;
+    ar?: string;
+  };
+  price: {
+    value: number;
+    currency: string;
+    period?: 'yearly' | 'monthly' | 'weekly' | 'daily';
+  };
+  type: 'apartment' | 'villa' | 'townhouse' | 'penthouse' | 'duplex' | 'hotel' | 'land' | 'commercial';
+  offering_type: 'sale' | 'rent';
+  status: 'published' | 'draft' | 'archived' | 'rejected';
+  bedrooms: number;
+  bathrooms: number;
+  size: {
+    value: number;
+    unit: 'sqft' | 'sqm';
+  };
+  location: {
+    id: number;
+    name?: string;
+  };
+  amenities?: number[];
+  images?: Array<{
+    url: string;
+    is_main?: boolean;
+    category?: string;
+  }>;
+  created_at?: string;
+  updated_at?: string;
+}
 
-export type { PFListing, PFListingRequest, PFLead, PFLocation, PFTranslation, PFUser };
+export interface PFLocation {
+  id: number;
+  name: string;
+  full_name: string;
+  type: string;
+}
 
+export interface PFAccessToken {
+  access_token: string;
+  expires_in: number;
+  token_type: string;
+}
 
 class PropertyFinderClient {
   private static instance: PropertyFinderClient;
   private baseUrl: string;
-  private apiKey: string;
-  private apiSecret: string;
+  private clientId: string;
+  private clientSecret: string;
   private accessToken: string | null = null;
   private tokenExpiry: number | null = null;
 
   private constructor() {
-    this.baseUrl = process.env.PROPERTY_FINDER_API_GATEWAY || 'https://atlas.propertyfinder.com';
-    this.apiKey = process.env.PROPERTY_FINDER_API_KEY || '';
-    this.apiSecret = process.env.PROPERTY_FINDER_API_SECRET || '';
+    this.baseUrl = process.env.PROPERTY_FINDER_API_GATEWAY || 'https://gateway.propertyfinder.com/v2';
+    this.clientId = process.env.PROPERTY_FINDER_CLIENT_ID || '';
+    this.clientSecret = process.env.PROPERTY_FINDER_CLIENT_SECRET || '';
   }
 
   public static getInstance(): PropertyFinderClient {
@@ -44,142 +82,164 @@ class PropertyFinderClient {
       return this.accessToken;
     }
 
-    const response = await fetch(`${this.baseUrl}/v1/auth/token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ apiKey: this.apiKey, apiSecret: this.apiSecret }),
-    });
+    try {
+      const response = await fetch(`${this.baseUrl}/auth/token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          grant_type: 'client_credentials',
+          client_id: this.clientId,
+          client_secret: this.clientSecret,
+        }),
+      });
 
-    if (!response.ok) {
-      const err = await response.text();
-      throw new Error(`PF Auth failed (${response.status}): ${err}`);
+      if (!response.ok) {
+        throw new Error(`Authentication Protocol Failed: ${response.statusText}`);
+      }
+
+      const data: PFAccessToken = await response.json();
+      this.accessToken = data.access_token;
+      // Set expiry with a 60s buffer
+      this.tokenExpiry = now + (data.expires_in - 60) * 1000;
+      
+      return this.accessToken;
+    } catch (error) {
+      console.error('Property Finder Auth Error:', error);
+      throw error;
     }
-
-    const data: PFAccessToken = await response.json();
-    this.accessToken = data.accessToken;
-    this.tokenExpiry = now + (data.expiresIn - 60) * 1000;
-    return this.accessToken;
   }
 
-  private async request<T = any>(path: string, options: RequestInit = {}): Promise<T> {
+  private async request(path: string, options: RequestInit = {}): Promise<any> {
     const token = await this.getAuthToken();
-    const url = `${this.baseUrl}/v1${path}`;
+    const url = `${this.baseUrl}${path}`;
+    
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      ...options.headers,
+    };
 
-    const response = await fetch(url, {
-      ...options,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        ...options.headers,
-      },
-    });
+    const response = await fetch(url, { ...options, headers });
 
-    if (response.status === 204) return null as T;
-
+    if (response.status === 204) return null;
+    
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ detail: response.statusText }));
-      throw new Error(`PF API ${response.status}: ${errorData.detail || errorData.title || 'Unknown error'}`);
+      const errorData = await response.json().catch(() => ({ message: response.statusText }));
+      throw new Error(`Gateway Error (${response.status}): ${errorData.message || 'Unknown integration failure'}`);
     }
 
     return response.json();
   }
 
-  // ── Listings ──
-
-  public async searchListings(params: Record<string, string> = {}): Promise<{ data: PFListing[]; pagination: any }> {
-    const query = new URLSearchParams(params).toString();
-    const response = await this.request<any>(`/listings${query ? `?${query}` : ''}`);
+  /**
+   * Search for portfolio assets with filters
+   */
+  public async searchPortfolioAssets(filters: Record<string, any> = {}): Promise<{ data: PFListing[], meta: any }> {
+    const query = new URLSearchParams(filters).toString();
+    const response = await this.request(`/listings?${query}`);
     return {
-      data: response.results || [],
-      pagination: response.pagination || {}
+      data: response.data || response.results || [],
+      meta: response.meta || response.pagination || {}
     };
   }
 
-  public async createListing(listing: PFListingRequest): Promise<PFListing> {
-    const validation = EgyptListingValidator.validate(listing);
-    if (!validation.isValid) {
-      throw new Error(`PF Validation failed: ${validation.errors.join('; ')}`);
-    }
-    return this.request('/listings', { method: 'POST', body: JSON.stringify(listing) });
-  }
-
-  public async updateListing(id: string | number, updates: Partial<PFListingRequest>): Promise<PFListing> {
-    // Note: partial validation for updates is tricky, usually we validate the merged result
-    return this.request(`/listings/${id}`, { method: 'PUT', body: JSON.stringify(updates) });
-  }
-
-
-  public async deleteListing(id: string | number): Promise<void> {
-    return this.request(`/listings/${id}`, { method: 'DELETE' });
-  }
-
-  public async publishListing(id: string | number): Promise<void> {
-    return this.request(`/listings/${id}/publish`, { method: 'POST' });
-  }
-
-  public async unpublishListing(id: string | number): Promise<void> {
-    return this.request(`/listings/${id}/unpublish`, { method: 'POST' });
-  }
-
-  public async getPublishPrice(id: string | number): Promise<any> {
-    return this.request(`/listings/${id}/publish/prices`);
-  }
-
-  public async getAmenities(): Promise<string[]> {
-    return this.request('/amenities');
-  }
-
-  // ── Leads ──
-
-  public async fetchLeads(params: Record<string, string> = {}): Promise<{ data: PFLead[]; pagination: any }> {
-    const query = new URLSearchParams(params).toString();
-    return this.request(`/leads${query ? `?${query}` : ''}`);
+  /**
+   * Get a single portfolio asset by ID or reference number
+   */
+  public async getPortfolioAsset(id: string): Promise<PFListing> {
+    return this.request(`/listings/${id}`);
   }
 
   /**
-   * Alias for fetchLeads used by the Sierra Blu Wealth Registry protocol.
+   * Create a new premium portfolio asset
    */
-  public async fetchInvestmentStakeholderRegistry(params: Record<string, string> = {}): Promise<{ data: PFLead[]; pagination: any }> {
-    return this.fetchLeads(params);
-  }
-
-  // ── Locations ──
-
-  public async searchLocations(search: string): Promise<{ data: PFLocation[] }> {
-    return this.request(`/locations?search=${encodeURIComponent(search)}`);
-  }
-
-  public async getLocations(params: Record<string, string> = {}): Promise<{ data: PFLocation[]; pagination: any }> {
-    const query = new URLSearchParams(params).toString();
-    return this.request(`/locations${query ? `?${query}` : ''}`);
-  }
-
-  // ── Users ──
-
-  public async getUsers(params: Record<string, string> = {}): Promise<{ data: PFUser[]; pagination: any }> {
-    const query = new URLSearchParams(params).toString();
-    return this.request(`/users${query ? `?${query}` : ''}`);
-  }
-
-  // ── Webhooks ──
-
-  public async subscribeWebhook(eventId: string, url: string, secret?: string): Promise<any> {
-    return this.request('/webhooks', {
+  public async createPortfolioAsset(listing: PFListing): Promise<PFListing> {
+    return this.request('/listings', {
       method: 'POST',
-      body: JSON.stringify({ eventId, url, ...(secret ? { secret } : {}) }),
+      body: JSON.stringify(listing),
     });
   }
 
-  public async listWebhooks(): Promise<any> {
-    return this.request('/webhooks');
+  /**
+   * Update existing portfolio asset protocol
+   */
+  public async updatePortfolioAsset(id: string, updates: Partial<PFListing>): Promise<PFListing> {
+    return this.request(`/listings/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updates),
+    });
   }
 
-  // ── Credits ──
-
-  public async getCreditBalance(): Promise<any> {
-    return this.request('/credits/balance');
+  /**
+   * De-list a portfolio asset
+   */
+  public async deletePortfolioAsset(id: string): Promise<void> {
+    return this.request(`/listings/${id}`, {
+      method: 'DELETE',
+    });
   }
+
+  /**
+   * Publish a portfolio asset
+   */
+  public async publishPortfolioAsset(id: string): Promise<void> {
+    return this.request(`/listings/${id}/publish`, {
+      method: 'POST',
+    });
+  }
+
+  /**
+   * Unpublish a portfolio asset
+   */
+  public async unpublishPortfolioAsset(id: string): Promise<void> {
+    return this.request(`/listings/${id}/unpublish`, {
+      method: 'POST',
+    });
+  }
+
+  /**
+   * Retrieve incoming investment stakeholder protocols from the strategic pipeline
+   */
+  public async fetchInvestmentStakeholderRegistry(filters: Record<string, any> = {}): Promise<{ data: PFStakeholderProtocol[], meta: any }> {
+    const query = new URLSearchParams(filters).toString();
+    const response = await this.request(`/leads?${query}`);
+    return {
+      data: response.data || response.results || [],
+      meta: response.meta || response.pagination || {}
+    };
+  }
+
+  /**
+   * Search locations for precision mapping
+   */
+  public async searchLocations(query: string): Promise<{ data: PFLocation[] }> {
+    return this.request(`/reference/locations/search?q=${encodeURIComponent(query)}`);
+  }
+
+  /**
+   * Get reference amenities protocols
+   */
+  public async getAmenities(): Promise<any> {
+    return this.request('/reference/amenities');
+  }
+}
+
+export interface PFStakeholderProtocol {
+  id: string;
+  listing_id?: string;
+  listing_reference_number?: string;
+  customer: {
+    name: string;
+    email?: string;
+    phone: string;
+  };
+  message?: string;
+  source: string;
+  created_at: string;
+  status: 'new' | 'contacted' | 'qualified' | 'lost' | 'won';
 }
 
 export const pfClient = PropertyFinderClient.getInstance();

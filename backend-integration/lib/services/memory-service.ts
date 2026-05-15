@@ -9,7 +9,7 @@ import {
   serverTimestamp, 
   increment 
 } from 'firebase/firestore';
-import { COLLECTIONS } from '../models/schema';
+import { COLLECTIONS } from '../../../lib/models/schema';
 
 /**
  * SIERRA BLU NEURAL MEMORY HUB

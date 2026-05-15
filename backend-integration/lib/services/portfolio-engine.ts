@@ -16,7 +16,7 @@ import {
   serverTimestamp,
   Timestamp,
 } from 'firebase/firestore';
-import { COLLECTIONS, type Lead, type Unit, type Proposal } from '../models/schema';
+import { COLLECTIONS, type Lead, type Unit, type Proposal } from '../../../lib/models/schema';
 import { GoogleAIService } from '../server/google-ai';
 import { analyzeAssetFinancials } from './roi-service';
 import { TelegramAlertService } from './telegram-alert-service';

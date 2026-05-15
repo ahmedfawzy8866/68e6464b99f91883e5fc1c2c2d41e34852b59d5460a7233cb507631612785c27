@@ -1,7 +1,6 @@
 import { sendPortfolioViaWhatsApp } from '@/lib/services/portfolio-engine';
-import { adminDb } from '@/lib/server/firebase-admin';
-import { Timestamp } from 'firebase-admin/firestore';
-import { COLLECTIONS } from '@/lib/models/schema';
+import { getDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import { NextRequest, NextResponse } from 'next/server';
 
 interface SendPortfolioRequest {
@@ -22,15 +21,15 @@ export const POST = async (req: NextRequest) => {
     }
 
     // Fetch lead to get phone number if not provided
-    const leadSnap = await adminDb.collection('stakeholders').doc(leadId).get();
-    if (!leadSnap.exists) {
+    const leadSnap = await getDoc(doc(db, 'stakeholders', leadId));
+    if (!leadSnap.exists()) {
       return NextResponse.json(
         { error: 'Lead not found' },
         { status: 404 }
       );
     }
 
-    const lead = leadSnap.data()!;
+    const lead = leadSnap.data();
     const phone = phoneNumber || lead.phone || lead.whatsapp;
 
     if (!phone) {
@@ -41,7 +40,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     // Fetch the concierge portfolio
-    const portfolioSnap = await adminDb.collection('stakeholders').doc(leadId).get();
+    const portfolioSnap = await getDoc(doc(db, 'stakeholders', leadId));
     const portfolioId = portfolioSnap.data()?.conciergePortfolioId;
 
     if (!portfolioId) {
@@ -51,8 +50,8 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    const portfolioSnap2 = await adminDb.collection(COLLECTIONS.conciergeSelections).doc(portfolioId).get();
-    if (!portfolioSnap2.exists) {
+    const portfolioSnap2 = await getDoc(doc(db, 'concierge_selections', portfolioId));
+    if (!portfolioSnap2.exists()) {
       return NextResponse.json(
         { error: 'Portfolio data not found' },
         { status: 404 }
@@ -65,8 +64,8 @@ export const POST = async (req: NextRequest) => {
     await sendPortfolioViaWhatsApp(leadId, portfolio, phone);
 
     // Update lead record
-    await adminDb.collection('stakeholders').doc(leadId).update({
-      'conciergePortfolioSentAt': Timestamp.now(),
+    await updateDoc(doc(db, 'stakeholders', leadId), {
+      'conciergePortfolioSentAt': serverTimestamp(),
       'conciergePortfolioSentVia': 'whatsapp',
     });
 

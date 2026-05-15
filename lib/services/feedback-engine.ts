@@ -3,9 +3,9 @@
  * Closes the circle by capturing stakeholder satisfaction and triggering re-match logic.
  */
 
-import { adminDb } from '../server/firebase-admin';
-import { Timestamp } from 'firebase-admin/firestore';
-import { COLLECTIONS, type Lead } from '../models/schema';
+import { db } from '../firebase';
+import { doc, updateDoc, serverTimestamp, getDoc } from 'firebase/firestore';
+import { COLLECTIONS, type Lead } from '../../../lib/models/schema';
 import { sendTelegramMessage } from './telegram-controller';
 
 /**
@@ -13,11 +13,11 @@ import { sendTelegramMessage } from './telegram-controller';
  */
 export async function initiateFeedbackLoop(leadId: string, saleId: string) {
   console.log(`[FeedbackLoop] Initiating for Lead: ${leadId}`);
-
+  
   // 1. Send Survey (Simulated via automated log)
-  await adminDb.collection(COLLECTIONS.stakeholders).doc(leadId).update({
+  await updateDoc(doc(db, COLLECTIONS.stakeholders, leadId), {
     'automation.feedbackRequested': true,
-    'automation.lastFeedbackAt': Timestamp.now(),
+    'automation.lastFeedbackAt': serverTimestamp(),
     'orchestrationState.stage': 'S10_FEEDBACK_PENDING',
     stage: 'closed-won'
   });
@@ -33,7 +33,7 @@ export async function initiateFeedbackLoop(leadId: string, saleId: string) {
  * Captures the actual feedback result.
  */
 export async function submitStakeholderFeedback(leadId: string, score: number, comment: string) {
-  await adminDb.collection(COLLECTIONS.stakeholders).doc(leadId).update({
+  await updateDoc(doc(db, COLLECTIONS.stakeholders, leadId), {
     'aiProfiling.satisfactionScore': score,
     'intelligence.lastFeedbackComment': comment,
     'orchestrationState.stage': 'S10_COMPLETED',
@@ -48,17 +48,17 @@ export async function submitStakeholderFeedback(leadId: string, score: number, c
  * Powers the Learning Loop to make the Matching Engine smarter.
  */
 export async function recordSelectionFeedback(
-  leadId: string,
-  unitId: string,
+  leadId: string, 
+  unitId: string, 
   action: 'pass' | 'interested',
   reason?: string
 ) {
-  const leadRef = adminDb.collection(COLLECTIONS.stakeholders).doc(leadId);
-  const leadSnap = await leadRef.get();
-  if (!leadSnap.exists) return;
+  const leadRef = doc(db, COLLECTIONS.stakeholders, leadId);
+  const leadSnap = await getDoc(leadRef);
+  if (!leadSnap.exists()) return;
   const lead = leadSnap.data() as Lead;
 
-  const timestamp = Timestamp.now();
+  const timestamp = serverTimestamp();
 
   // 1. Record in Interaction History
   const historyItem = { unitId, action, timestamp, reason };
@@ -73,7 +73,7 @@ export async function recordSelectionFeedback(
   if (action === 'pass' && reason) {
     const objection = { unitId, reason, timestamp };
     updateData['intelligence.objections'] = [...(lead.intelligence?.objections || []), objection];
-
+    
     // Simple Learning: If reason mentions 'dark' or 'low floor', add to dislikes
     const existingDislikes = lead.intelligence?.preferences?.dislikes || [];
     if (reason.toLowerCase().includes('dark') && !existingDislikes.includes('dark units')) {
@@ -81,7 +81,7 @@ export async function recordSelectionFeedback(
     }
   }
 
-  await leadRef.update(updateData);
+  await updateDoc(leadRef, updateData);
 
   // 3. Notify agent if 'interested'
   if (action === 'interested') {

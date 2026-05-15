@@ -177,7 +177,6 @@ export default function ImageLinkHub() {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
                   />
                   <button 
-                    title="Remove file"
                     onClick={() => removeFile(index)}
                     className="absolute top-2 right-2 p-1.5 bg-black/50 backdrop-blur-md rounded-lg text-white opacity-0 group-hover:opacity-100 transition-opacity"
                     aria-label="Remove media"

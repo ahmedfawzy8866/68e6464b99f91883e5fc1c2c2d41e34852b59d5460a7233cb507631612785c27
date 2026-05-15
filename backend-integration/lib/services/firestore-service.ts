@@ -24,7 +24,7 @@ import {
   onSnapshot,
   Unsubscribe,
 } from 'firebase/firestore';
-import { COLLECTIONS, type BaseDocument } from '../models/schema';
+import { COLLECTIONS, type BaseDocument } from '../../../lib/models/schema';
 
 // ─── Generic CRUD ────────────────────────────────────────────────────
 

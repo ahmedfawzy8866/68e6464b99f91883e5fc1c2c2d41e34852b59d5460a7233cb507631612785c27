@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { syncBatch, getPendingDedupeItems, resolveDedupeItem } from '@/lib/services/sync-engine';
 import { PFIntegrationService } from '@/lib/services/PFIntegrationService';
-import { pfClient } from '@/lib/property-finder-client';
+import { pfClient } from '../../../lib/property-finder-client';
 import { verifyRequest, unauthorizedResponse } from '@/lib/server/auth-guard';
 import { adminDb } from '@/lib/server/firebase-admin';
 
 /**
  * SYNC MANAGEMENT API
- * Handles PF ↔ Firestore sync operations and dedup queue management.
+ * Handles Property Finder ↔ Firestore sync operations and Strategic Pipeline (dedup) management.
  */
 
 async function isAdmin(uid: string): Promise<boolean> {
@@ -67,29 +67,24 @@ export async function POST(request: NextRequest) {
     switch (action) {
       case 'run-sync': {
         const filters = body.filters || {};
-        const pfResult = await pfClient.searchListings(filters);
-        const listings = pfResult.data || [];
-        const syncResult = await syncBatch(listings as unknown as Record<string, unknown>[]);
+        const pfResult = await pfClient.searchPortfolioAssets(filters);
         
-        // Also sync leads + listings automatically as part of full run
-        const leadsResult = await PFIntegrationService.syncIncomingLeads();
-        const pfListingsResult = await PFIntegrationService.syncIncomingListings();
-
-        return NextResponse.json({
-          listings: syncResult,
-          leads: leadsResult,
-          pfListings: pfListingsResult,
+        // Sync Portfolio Assets (formerly listings)
+        const portfolioAssets = pfResult.results || [];
+        const syncResult = await syncBatch(portfolioAssets as unknown as Record<string, unknown>[]);
+        
+        // Also sync Investment Stakeholders (formerly leads) automatically
+        const stakeholdersResult = await PFIntegrationService.syncIncomingStakeholders();
+        
+        return NextResponse.json({ 
+          portfolioAssets: syncResult, 
+          investmentStakeholders: stakeholdersResult 
         });
       }
 
-      case 'sync-leads': {
-        const leadsResult = await PFIntegrationService.syncIncomingLeads();
-        return NextResponse.json(leadsResult);
-      }
-
-      case 'sync-listings': {
-        const listingsResult = await PFIntegrationService.syncIncomingListings();
-        return NextResponse.json(listingsResult);
+      case 'sync-stakeholders': {
+        const stakeholdersResult = await PFIntegrationService.syncIncomingStakeholders();
+        return NextResponse.json(stakeholdersResult);
       }
 
       case 'resolve': {

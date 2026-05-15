@@ -1,7 +1,7 @@
 import { db } from '../firebase';
 import { doc, getDoc, updateDoc, serverTimestamp, addDoc, collection } from 'firebase/firestore';
 import { assessLegalRisk } from './legal-brain';
-import { Unit } from '../models/schema';
+import { Unit } from '../../../lib/models/schema';
 
 /**
  * SIERRA BLU — STAGE 10: CLOSING SIMULATOR

@@ -13,7 +13,7 @@ import {
   serverTimestamp,
   Timestamp,
 } from 'firebase/firestore';
-import { COLLECTIONS, type Lead, type Proposal, type Unit, type Voucher } from '../models/schema';
+import { COLLECTIONS, type Lead, type Proposal, type Unit, type Voucher } from '../../../lib/models/schema';
 import { GoogleAIService } from '../server/google-ai';
 import { analyzeAssetFinancials } from './roi-service';
 

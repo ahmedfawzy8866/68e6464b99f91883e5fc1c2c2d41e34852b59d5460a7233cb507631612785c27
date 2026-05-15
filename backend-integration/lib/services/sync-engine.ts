@@ -20,6 +20,7 @@ import {
   serverTimestamp,
   Timestamp,
 } from 'firebase/firestore';
+import { COLLECTIONS } from '../../../lib/models/schema';
 
 // ─── Types ───────────────────────────────────────────────────────────
 
@@ -51,11 +52,6 @@ export interface SyncResult {
 
 const MATCH_THRESHOLD_HIGH = 90;   // Auto-match
 const MATCH_THRESHOLD_LOW = 50;    // Send to dedup queue
-const COLLECTIONS = {
-  listings: 'listings',
-  syncQueue: 'syncQueue',
-  syncLog: 'syncLog',
-} as const;
 
 // ─── Matching Logic ──────────────────────────────────────────────────
 
@@ -207,7 +203,7 @@ export async function resolveDedupeItem(
 
   if (resolution === 'matched' && firestoreDocId) {
     // 1. Resolve as Match — Apply PF data to existing listing
-    const fsRef = doc(db, COLLECTIONS.listings, firestoreDocId);
+    const fsRef = doc(db, COLLECTIONS.portfolioAssets, firestoreDocId);
     const fsSnap = await getDoc(fsRef);
     
     if (fsSnap.exists()) {
@@ -221,7 +217,7 @@ export async function resolveDedupeItem(
     }
   } else if (resolution === 'new') {
     // 2. Resolve as New — Create new listing
-    await addDoc(collection(db, COLLECTIONS.listings), {
+    await addDoc(collection(db, COLLECTIONS.portfolioAssets), {
       ...record.pfData,
       syncSource: 'property-finder',
       manualOverrides: [],
@@ -296,7 +292,7 @@ export async function syncBatch(
 
       // 1. Try exact match by reference number
       const exactQuery = query(
-        collection(db, COLLECTIONS.listings),
+        collection(db, COLLECTIONS.portfolioAssets),
         where('referenceNumber', '==', refNum)
       );
       const exactSnapshot = await getDocs(exactQuery);
@@ -322,14 +318,14 @@ export async function syncBatch(
           result.dedupeQueue++;
         } else {
           // Clean merge — update directly
-          await updateDoc(doc(db, COLLECTIONS.listings, fsDoc.id), merged);
+          await updateDoc(doc(db, COLLECTIONS.portfolioAssets, fsDoc.id), merged);
           result.matched++;
         }
         continue;
       }
 
       // 2. No exact match — search for fuzzy matches
-      const allListingsSnapshot = await getDocs(collection(db, COLLECTIONS.listings));
+      const allListingsSnapshot = await getDocs(collection(db, COLLECTIONS.portfolioAssets));
       let bestMatch: { docId: string; confidence: number; data: Record<string, unknown> } | null = null;
 
       for (const fsDoc of allListingsSnapshot.docs) {
@@ -343,7 +339,7 @@ export async function syncBatch(
         // High confidence — auto-merge with protection
         const protectedFields = getProtectedFields(bestMatch.data);
         const { merged } = mergeWithProtection(pfData, bestMatch.data, protectedFields);
-        await updateDoc(doc(db, COLLECTIONS.listings, bestMatch.docId), merged);
+        await updateDoc(doc(db, COLLECTIONS.portfolioAssets, bestMatch.docId), merged);
         result.matched++;
       } else if (bestMatch && bestMatch.confidence >= MATCH_THRESHOLD_LOW) {
         // Medium confidence — send to dedup queue
@@ -358,7 +354,7 @@ export async function syncBatch(
         result.dedupeQueue++;
       } else {
         // No match at all — create new listing
-        await addDoc(collection(db, COLLECTIONS.listings), {
+        await addDoc(collection(db, COLLECTIONS.portfolioAssets), {
           ...pfData,
           syncSource: 'property-finder',
           manualOverrides: [],

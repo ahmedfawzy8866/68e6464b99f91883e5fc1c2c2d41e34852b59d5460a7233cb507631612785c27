@@ -33,14 +33,11 @@ export class StorageService {
     mimeType: string, 
     originalName: string = 'upload.jpg'
   ): Promise<string> {
-    const bucket = this.getBucket();
     const extension = mimeType.split('/')[1] || 'jpg';
     const filename = `${uuidv4()}.${extension}`;
     const filePath = `properties/${docId}/${filename}`;
-<<<<<<< HEAD
-=======
+    
     const bucket = this.getBucket();
->>>>>>> fix: harden firebase build-time initialization
     const file = bucket.file(filePath);
 
     const buffer = Buffer.from(base64Data, 'base64');
@@ -58,7 +55,6 @@ export class StorageService {
     });
 
     // Return the public URL
-    // Note: In production, you might want to use signed URLs or Firebase's download tokens
     return `https://storage.googleapis.com/${bucket.name}/${filePath}`;
   }
 }

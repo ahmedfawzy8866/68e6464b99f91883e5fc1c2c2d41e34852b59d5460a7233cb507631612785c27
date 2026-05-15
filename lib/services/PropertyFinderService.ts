@@ -1,7 +1,8 @@
 /**
- * Sierra Blu Strategic Pipeline Gateway - Portfolio Asset & Stakeholder Service
+ * Sierra Blu Enterprise Gateway - Property Finder Service
  *
- * This client-side service talks to the internal Strategic Pipeline API.
+ * This client-side service talks to the internal Next.js Property Finder API
+ * instead of using mock timeout data.
  */
 
 import type { PFListing } from '../property-finder-client';
@@ -32,10 +33,10 @@ export class PropertyFinderService {
   }
 
   /**
-   * Fetch the latest portfolio assets from the internal gateway.
+   * Fetch the latest listings from the internal gateway.
    */
-  public async fetchPortfolioAssets(filters: Record<string, string | number> = { status: 'published' }): Promise<PFListing[]> {
-    const params = new URLSearchParams({ action: 'search-portfolio-assets' });
+  public async fetchListings(filters: Record<string, string | number> = { status: 'published' }): Promise<PFListing[]> {
+    const params = new URLSearchParams({ action: 'search-listings' });
     Object.entries(filters).forEach(([key, value]) => params.set(key, String(value)));
 
     const response = await fetch(`${this.apiBase}?${params.toString()}`, {
@@ -52,10 +53,10 @@ export class PropertyFinderService {
   }
 
   /**
-   * Trigger an investment stakeholder sync from the Strategic Pipeline.
+   * Trigger a lead sync from Property Finder into the CRM.
    */
-  public async syncIncomingStakeholders(): Promise<{ created: number; updated: number; skipped: number }> {
-    const response = await fetch(`${this.apiBase}?action=sync-stakeholders`, {
+  public async syncIncomingLeads(): Promise<{ created: number; updated: number; skipped: number }> {
+    const response = await fetch(`${this.apiBase}?action=sync-leads`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -72,15 +73,15 @@ export class PropertyFinderService {
   }
 
   /**
-   * Publish a local Portfolio Asset to the Strategic Pipeline.
+   * Publish a local Sierra Blu unit to Property Finder through the server API.
    */
-  public async publishToPF(assetId: string): Promise<{ success: boolean; externalId?: string }> {
-    const response = await fetch(`${this.apiBase}?action=publish-asset`, {
+  public async publishToPF(listingId: string): Promise<{ success: boolean; externalId?: string }> {
+    const response = await fetch(`${this.apiBase}?action=publish-unit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id: assetId }),
+      body: JSON.stringify({ unitId: listingId }),
     });
 
     const result = await response.json() as PublishListingResponse;
@@ -90,7 +91,7 @@ export class PropertyFinderService {
 
     return {
       success: true,
-      externalId: result.result?.reference,
+      externalId: result.result?.reference_number,
     };
   }
 }

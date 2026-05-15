@@ -270,10 +270,4 @@ export interface EgyptComplianceRules {
   descriptionLengthMin: number;
 }
 
-export interface PFUser {
-  id: number;
-  name?: string;
-  publicProfile?: {
-    id: number;
-  };
-}
+

@@ -5,7 +5,7 @@
 
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, Timestamp, doc, updateDoc, getDoc } from 'firebase/firestore';
-import { COLLECTIONS, type Viewing, type Lead } from '../models/schema';
+import { COLLECTIONS, type Viewing, type Lead } from '../../../lib/models/schema';
 import { sendTelegramMessage } from './telegram-controller';
 
 /**
@@ -31,7 +31,7 @@ export async function scheduleViewing(
   const docRef = await addDoc(collection(db, COLLECTIONS.viewings), viewingData);
   
   // Update Lead Stage
-  await updateDoc(doc(db, COLLECTIONS.stakeholders, leadId), {
+  await updateDoc(doc(db, COLLECTIONS.investmentStakeholders, leadId), {
     'orchestrationState.stage': 'S8_VIEWING_SCHEDULED',
     'status': 'negotiating'
   });
@@ -61,7 +61,7 @@ export async function completeViewing(viewingId: string, notes?: string) {
   });
   
   // Transition to Closing Ready
-  await updateDoc(doc(db, COLLECTIONS.stakeholders, viewing.leadId), {
+  await updateDoc(doc(db, COLLECTIONS.investmentStakeholders, viewing.leadId), {
     'orchestrationState.stage': 'S9_CLOSING_READY'
   });
 

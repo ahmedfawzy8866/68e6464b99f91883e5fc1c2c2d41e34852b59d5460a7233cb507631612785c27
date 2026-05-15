@@ -1,12 +1,30 @@
 /**
  * SIERRA BLU — FIRESTORE SERVICE LAYER
  * Generic CRUD operations for all collections.
- * Type-safe wrappers around Firestore Admin SDK.
+ * Type-safe wrappers around Firestore SDK.
  */
 
-import { adminDb } from '../server/firebase-admin';
-import { Timestamp } from 'firebase-admin/firestore';
-import { COLLECTIONS, type BaseDocument } from '../models/schema';
+import { db } from '../firebase';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  where,
+  orderBy,
+  limit,
+  startAfter,
+  serverTimestamp,
+  DocumentSnapshot,
+  QueryConstraint,
+  onSnapshot,
+  Unsubscribe,
+} from 'firebase/firestore';
+import { COLLECTIONS, type BaseDocument } from '../../../lib/models/schema';
 
 // ─── Generic CRUD ────────────────────────────────────────────────────
 
@@ -17,10 +35,10 @@ export async function createDocument<T extends BaseDocument>(
   collectionName: string,
   data: Omit<T, 'id' | 'createdAt' | 'updatedAt'>
 ): Promise<string> {
-  const docRef = await adminDb.collection(collectionName).add({
+  const docRef = await addDoc(collection(db, collectionName), {
     ...data,
-    createdAt: Timestamp.now(),
-    updatedAt: Timestamp.now(),
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
   });
   return docRef.id;
 }
@@ -32,8 +50,9 @@ export async function getDocument<T extends BaseDocument>(
   collectionName: string,
   docId: string
 ): Promise<T | null> {
-  const docSnap = await adminDb.collection(collectionName).doc(docId).get();
-  if (!docSnap.exists) return null;
+  const docRef = doc(db, collectionName, docId);
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) return null;
   return { id: docSnap.id, ...docSnap.data() } as T;
 }
 
@@ -45,9 +64,10 @@ export async function updateDocument<T extends BaseDocument>(
   docId: string,
   data: Partial<Omit<T, 'id' | 'createdAt'>>
 ): Promise<void> {
-  await adminDb.collection(collectionName).doc(docId).update({
+  const docRef = doc(db, collectionName, docId);
+  await updateDoc(docRef, {
     ...data,
-    updatedAt: Timestamp.now(),
+    updatedAt: serverTimestamp(),
   });
 }
 
@@ -58,17 +78,18 @@ export async function deleteDocument(
   collectionName: string,
   docId: string
 ): Promise<void> {
-  await adminDb.collection(collectionName).doc(docId).delete();
+  const docRef = doc(db, collectionName, docId);
+  await deleteDoc(docRef);
 }
 
 // ─── Query Helpers ───────────────────────────────────────────────────
 
 export interface QueryOptions {
-  filters?: Array<{ field: string; op: FirebaseFirestore.WhereFilterOp; value: unknown }>;
+  filters?: Array<{ field: string; op: '==' | '!=' | '<' | '<=' | '>' | '>=' | 'in' | 'array-contains'; value: unknown }>;
   sortBy?: string;
   sortDirection?: 'asc' | 'desc';
   pageSize?: number;
-  startAfterDoc?: FirebaseFirestore.DocumentSnapshot;
+  startAfterDoc?: DocumentSnapshot;
 }
 
 /**
@@ -77,31 +98,32 @@ export interface QueryOptions {
 export async function queryDocuments<T extends BaseDocument>(
   collectionName: string,
   options: QueryOptions = {}
-): Promise<{ data: T[]; lastDoc: FirebaseFirestore.DocumentSnapshot | null }> {
-  let q: FirebaseFirestore.Query = adminDb.collection(collectionName);
+): Promise<{ data: T[]; lastDoc: DocumentSnapshot | null }> {
+  const constraints: QueryConstraint[] = [];
 
   // Add filters
   if (options.filters) {
     for (const f of options.filters) {
-      q = q.where(f.field, f.op, f.value);
+      constraints.push(where(f.field, f.op, f.value));
     }
   }
 
   // Add sorting
   if (options.sortBy) {
-    q = q.orderBy(options.sortBy, options.sortDirection || 'desc');
+    constraints.push(orderBy(options.sortBy, options.sortDirection || 'desc'));
   }
 
   // Add pagination
   if (options.pageSize) {
-    q = q.limit(options.pageSize);
+    constraints.push(limit(options.pageSize));
   }
 
   if (options.startAfterDoc) {
-    q = q.startAfter(options.startAfterDoc);
+    constraints.push(startAfter(options.startAfterDoc));
   }
 
-  const snapshot = await q.get();
+  const q = query(collection(db, collectionName), ...constraints);
+  const snapshot = await getDocs(q);
   const data = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as T));
   const lastDoc = snapshot.docs[snapshot.docs.length - 1] || null;
 
@@ -110,30 +132,31 @@ export async function queryDocuments<T extends BaseDocument>(
 
 /**
  * Subscribe to real-time updates on a collection.
- * Note: Admin SDK supports onSnapshot for server-side listeners.
  */
 export function subscribeToCollection<T extends BaseDocument>(
   collectionName: string,
   callback: (data: T[]) => void,
   options: Omit<QueryOptions, 'startAfterDoc'> = {}
-): () => void {
-  let q: FirebaseFirestore.Query = adminDb.collection(collectionName);
+): Unsubscribe {
+  const constraints: QueryConstraint[] = [];
 
   if (options.filters) {
     for (const f of options.filters) {
-      q = q.where(f.field, f.op, f.value);
+      constraints.push(where(f.field, f.op, f.value));
     }
   }
 
   if (options.sortBy) {
-    q = q.orderBy(options.sortBy, options.sortDirection || 'desc');
+    constraints.push(orderBy(options.sortBy, options.sortDirection || 'desc'));
   }
 
   if (options.pageSize) {
-    q = q.limit(options.pageSize);
+    constraints.push(limit(options.pageSize));
   }
 
-  return q.onSnapshot((snapshot) => {
+  const q = query(collection(db, collectionName), ...constraints);
+
+  return onSnapshot(q, (snapshot) => {
     const data = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as T));
     callback(data);
   });

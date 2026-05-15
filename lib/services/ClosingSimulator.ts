@@ -1,7 +1,7 @@
-import { adminDb } from '../server/firebase-admin';
-import { Timestamp } from 'firebase-admin/firestore';
+import { db } from '../firebase';
+import { doc, getDoc, updateDoc, serverTimestamp, addDoc, collection } from 'firebase/firestore';
 import { assessLegalRisk } from './legal-brain';
-import { Unit, COLLECTIONS } from '../models/schema';
+import { Unit } from '../../../lib/models/schema';
 
 /**
  * SIERRA BLU — STAGE 10: CLOSING SIMULATOR
@@ -16,19 +16,19 @@ export class ClosingSimulator {
    */
   static async runClosingSimulation(leadId: string, unitId: string) {
     console.log(`--- 🎰 Running Strategic Closing Simulation: ${leadId} -> ${unitId} ---`);
-
+    
     try {
       // 1. Fetch Stakeholder & Asset Data in Parallel
       const [leadSnap, unitSnap] = await Promise.all([
-        adminDb.collection(COLLECTIONS.stakeholders).doc(leadId).get(),
-        adminDb.collection(COLLECTIONS.units).doc(unitId).get()
+        getDoc(doc(db, 'leads', leadId)),
+        getDoc(doc(db, 'listings', unitId))
       ]);
 
-      if (!leadSnap.exists || !unitSnap.exists) {
+      if (!leadSnap.exists() || !unitSnap.exists()) {
         throw new Error("Critical synchronization error: Stakeholder or Asset missing in Pipeline.");
       }
 
-      const lead = leadSnap.data()!;
+      const lead = leadSnap.data();
       const unit = unitSnap.data() as Unit;
 
       // 2. Intelligence: Legal Risk Calculation via LegalBrain
@@ -37,12 +37,12 @@ export class ClosingSimulator {
       // 3. Financial: Forecasted Settlement & Payouts
       // Pricing logic accounts for hypothetical negotiation margins
       const basePrice = unit.price || 0;
-      const settlementPrice = basePrice * (lead.negotiationLeverage || 0.98);
-
+      const settlementPrice = basePrice * (lead.negotiationLeverage || 0.98); 
+      
       const financialSimulation = {
         settlementPrice,
         registrationFees: settlementPrice * 0.04, // 4% DLD / Local Registry standard
-        trusteeFees: 5250,
+        trusteeFees: 5250, 
         legalConveyancing: 7500,
         totalCapitalOutlay: settlementPrice + (settlementPrice * 0.04) + 12750 + (settlementPrice * 0.02), // Price + Fees + 2% Comms
         commissionProjected: settlementPrice * 0.02,
@@ -57,7 +57,7 @@ export class ClosingSimulator {
       ];
 
       // 5. Store Simulation Result for Audit Trail
-      const simRef = await adminDb.collection('closing_simulations').add({
+      const simRef = await addDoc(collection(db, 'closing_simulations'), {
         leadId,
         unitId,
         advisorId: lead.assignedAdvisor || 'system_gen',
@@ -66,8 +66,8 @@ export class ClosingSimulator {
         executionTimeline,
         status: 'simulated',
         isActionable: legalAudit.isApprovedForProposal,
-        createdAt: Timestamp.now(),
-        strategicRecommendation: legalAudit.isApprovedForProposal
+        createdAt: serverTimestamp(),
+        strategicRecommendation: legalAudit.isApprovedForProposal 
           ? "Asset is legally sound. Recommended action: Proceed to MOU with negotiated settlement price."
           : `CAUTION: High-risk flags [${legalAudit.flags.join(', ')}] detected. Manual legal vetting required.`
       });

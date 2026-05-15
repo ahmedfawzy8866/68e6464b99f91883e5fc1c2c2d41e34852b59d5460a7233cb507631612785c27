@@ -1,117 +1,130 @@
 /**
- * Property Finder Integration Service
- * Syncs Investment Stakeholders and Portfolio Assets between Sierra Blu Strategic Pipeline and PF Enterprise API (atlas.propertyfinder.com/v1)
+ * PROPERTY FINDER INTEGRATION SERVICE
+ * Synchronizes leads and listings between Sierra Blu and Property Finder Enterprise.
  */
 
-import { pfClient, PFListingRequest, PFLead } from '../property-finder-client';
+import { pfClient, PFListing, PFStakeholderProtocol } from '../property-finder-client';
 import { adminDb } from '../server/firebase-admin';
 import { Timestamp } from 'firebase-admin/firestore';
-import { Unit, Lead, COLLECTIONS, UserProfile } from '../models/schema';
-import { PFListing, PFPropertyType } from '../property-finder/types';
+import { Unit, Lead, COLLECTIONS, UserProfile } from '../../../lib/models/schema';
 
-export interface PFStakeholderSyncSummary {
+interface PFStakeholderRecord extends PFStakeholderProtocol {
+  agent_id?: string;
+}
+
+interface AssignmentResolution {
+  userId?: string;
+  displayName?: string;
+}
+
+export interface PFLeadSyncSummary {
   created: number;
   updated: number;
   skipped: number;
 }
 
 export class PFIntegrationService {
+  /**
+   * Synchronize incoming leads from Property Finder into the local CRM.
+   */
+  static async syncIncomingLeads(): Promise<PFLeadSyncSummary> {
+    const summary: PFLeadSyncSummary = { created: 0, updated: 0, skipped: 0 };
+    const pfLeads = await pfClient.fetchInvestmentStakeholderRegistry();
 
-  static async syncIncomingStakeholders(): Promise<PFStakeholderSyncSummary> {
-    const summary: PFStakeholderSyncSummary = { created: 0, updated: 0, skipped: 0 };
-    const pfLeads = await pfClient.fetchInvestmentStakeholderRegistry({ perPage: '50' });
-
-    for (const lead of pfLeads.data) {
-      const existing = await adminDb.collection(COLLECTIONS.investmentStakeholders)
+    for (const lead of pfLeads.data as PFStakeholderRecord[]) {
+      const assignment = await this.resolveAssignment(lead);
+      const existingSnapshot = await adminDb.collection(COLLECTIONS.investmentStakeholders)
         .where('pfLeadId', '==', lead.id)
         .get();
 
-      const phone = lead.sender?.contacts?.find(c => c.type === 'phone')?.value || '';
-      const email = lead.sender?.contacts?.find(c => c.type === 'email')?.value || '';
-
-      if (!phone && existing.empty) {
-        summary.skipped++;
-        continue;
-      }
-
       const payload: Partial<Lead> & Record<string, unknown> = {
-        name: lead.sender?.name || 'Property Finder Lead',
-        phone,
-        email,
+        name: lead.customer.name || 'Property Finder Lead',
+        phone: lead.customer.phone || '',
+        email: lead.customer.email || '',
         source: 'property-finder',
         stage: 'inbound',
-        phase: lead.status === 'replied' ? 'consultation' : 'acquisition',
-        originChannel: `Property Finder (${lead.channel})`,
+        phase: this.mapPFStatusToPhase(lead.status),
+        originChannel: 'Property Finder',
         pfLeadId: lead.id,
-        pfListingReferenceNumber: lead.listing?.reference || '',
+        pfListingReferenceNumber: lead.listing_reference_number || '',
+        notes: lead.message || '',
+        assignedTo: assignment.userId || undefined,
+        assignedPartnerId: assignment.userId || undefined,
+        assignedPartnerName: assignment.displayName || '',
+        automation: {
+          botInitiated: false,
+          scoringCompleted: false,
+          whatsappFollowupSent: false,
+          viewingReminderSent: false,
+        },
         updatedAt: Timestamp.now(),
       };
 
-      if (existing.empty) {
+      if (existingSnapshot.empty) {
+        if (!payload.phone) {
+          summary.skipped += 1;
+          continue;
+        }
+
         await adminDb.collection(COLLECTIONS.investmentStakeholders).add({
           ...payload,
-          automation: { botInitiated: false, scoringCompleted: false, whatsappFollowupSent: false, viewingReminderSent: false },
           createdAt: Timestamp.now(),
         });
-        summary.created++;
-      } else {
-        await existing.docs[0].ref.update(payload);
-        summary.updated++;
+        summary.created += 1;
+        continue;
       }
+
+      await existingSnapshot.docs[0].ref.update(payload);
+      summary.updated += 1;
     }
 
     return summary;
   }
 
-  static async syncIncomingPortfolioAssets() {
+  /**
+   * Synchronize active listings from Property Finder into local CRM.
+   */
+  static async syncIncomingListings() {
     let imported = 0;
     let updated = 0;
 
-    const pfResult = await pfClient.searchPortfolioAssets({ perPage: '100' });
-    console.log('[PF API] Found listings count:', pfResult.data?.length || 0);
+    const pfProperties = await pfClient.searchPortfolioAssets({
+      limit: 100, // adjust as needed or support pagination
+      category: 'residential',
+    });
 
-    const listings = pfResult.data || [];
-
-    for (const listing of listings) {
-      const ref = listing.reference || String(listing.id);
-      const existing = await adminDb.collection(COLLECTIONS.portfolioAssets)
-        .where('pfReferenceNumber', '==', ref)
+    for (const listing of pfProperties.data) {
+      const existingSnapshot = await adminDb.collection(COLLECTIONS.portfolioAssets)
+        .where('pfReferenceNumber', '==', listing.reference_number)
         .get();
 
-      const priceVal = listing.price?.amounts?.sale || listing.price?.amounts?.yearly || listing.price?.amounts?.monthly || 0;
-
-      let beds = 0;
-      if (listing.bedrooms === 'studio') {
-        beds = 0;
-      } else if (listing.bedrooms) {
-        beds = parseInt(listing.bedrooms as string) || 0;
-      }
-
-      let baths = 0;
-      if (listing.bathrooms && listing.bathrooms !== 'none') {
-        baths = parseInt(listing.bathrooms as string) || 0;
-      }
+      const propertyType = (listing.type as string) === 'chalet' ? 'villa' : listing.type;
 
       const payload: Partial<Unit> = {
         title: listing.title?.en || '',
+        titleAr: listing.title?.ar || '',
         description: listing.description?.en || '',
-        price: priceVal,
-        propertyType: listing.type as any,
-        status: listing.offeringType === 'rent' ? 'rented' : 'available',
-        category: listing.category || 'residential',
-        bedrooms: beds,
-        bathrooms: baths,
-        area: listing.size || 0,
-        pfReferenceNumber: ref,
+        descriptionAr: listing.description?.ar || '',
+        price: listing.price?.value || 0,
+        propertyType: propertyType as any, // fallback mapped
+        status: listing.offering_type === 'rent' ? 'rented' : 'available',
+        category: 'residential',
+        bedrooms: listing.bedrooms || 0,
+        bathrooms: listing.bathrooms || 0,
+        area: listing.size?.value || 0,
+        pfReferenceNumber: listing.reference_number,
         updatedAt: Timestamp.now(),
-        images: listing.media?.images?.map(i => i.original.url) || [],
+        images: listing.images?.map(i => i.url) || [],
       };
 
-      if (existing.empty) {
-        await adminDb.collection(COLLECTIONS.portfolioAssets).add({ ...payload, createdAt: Timestamp.now() });
+      if (existingSnapshot.empty) {
+        await adminDb.collection(COLLECTIONS.portfolioAssets).add({
+          ...payload,
+          createdAt: Timestamp.now(),
+        });
         imported++;
       } else {
-        await existing.docs[0].ref.update(payload);
+        await existingSnapshot.docs[0].ref.update(payload);
         updated++;
       }
     }
@@ -119,54 +132,102 @@ export class PFIntegrationService {
     return { imported, updated };
   }
 
+  /**
+   * Push a Sierra Blu unit to Property Finder.
+   */
   static async publishListing(unitId: string) {
     const unitSnap = await adminDb.collection(COLLECTIONS.portfolioAssets).doc(unitId).get();
-    if (!unitSnap.exists) throw new Error('Unit not found');
+    if (!unitSnap.exists) {
+      throw new Error('Unit not found');
+    }
 
     const unit = { id: unitSnap.id, ...unitSnap.data() } as Unit;
     const locationId = await this.resolveLocationId(unit);
-    const publicProfileId = await this.resolvePublicProfileId();
 
-    const isRent = unit.status === 'rented';
-
-    const pfListing: PFListingRequest = {
-      reference: unit.pfReferenceNumber || `SB-${unitId.slice(0, 8)}`,
-      title: { en: unit.title },
-      description: { en: unit.description || unit.title },
-      price: { 
-        type: isRent ? 'yearly' : 'sale',
-        amounts: isRent ? { yearly: unit.price } : { sale: unit.price }
+    const pfListing: PFListing = {
+      reference_number: unit.referenceNumber || unit.code || `SB-${unitId.substring(0, 6).toUpperCase()}`,
+      title: {
+        en: unit.title,
+        ar: unit.titleAr || unit.title,
+      },
+      description: {
+        en: unit.description || unit.title,
+        ar: unit.descriptionAr || unit.titleAr || unit.title,
+      },
+      price: {
+        value: unit.price,
+        currency: 'EGP',
       },
       type: this.mapPropertyType(unit.propertyType),
-      category: 'residential',
-      offeringType: isRent ? 'rent' : 'sale',
-      bedrooms: String(unit.bedrooms || 0),
-      bathrooms: String(unit.bathrooms || 1),
-      size: Math.max(unit.area || 0, 1),
-      location: { id: locationId },
-      media: {
-        images: (unit.images || []).map(url => ({ original: { url } })),
+      offering_type: unit.status === 'rented' ? 'rent' : 'sale',
+      status: 'published',
+      bedrooms: unit.bedrooms || 0,
+      bathrooms: unit.bathrooms || 0,
+      size: {
+        value: Math.max(unit.area || 0, 1),
+        unit: 'sqm',
       },
+      location: {
+        id: locationId,
+        name: unit.location || unit.compound || unit.city || 'New Cairo',
+      },
+      images: (unit.images || []).map((url, index) => ({
+        url,
+        is_main: index === 0,
+      })),
     };
 
     const result = await pfClient.createPortfolioAsset(pfListing);
 
     await adminDb.collection(COLLECTIONS.portfolioAssets).doc(unitId).update({
-      'automation.isPublishedToPF': true,
-      pfReferenceNumber: result.reference || String(result.id),
+      automation: {
+        ...(unit.automation || {
+          isBranded: false,
+          isPublishedToPF: false,
+          isPublishedToFB: false,
+          whatsappAdGenerated: false,
+        }),
+        isPublishedToPF: true,
+        pfReference: result.reference_number,
+      },
+      pfReferenceNumber: result.reference_number,
       lastSyncAt: Timestamp.now(),
       syncSource: 'property-finder',
     });
 
-    if (result.id) {
-      await pfClient.publishPortfolioAsset(result.id);
-    }
-
     return result;
   }
 
+  private static async resolveAssignment(lead: PFStakeholderRecord): Promise<AssignmentResolution> {
+    if (lead.agent_id) {
+      const userSnapshot = await adminDb.collection(COLLECTIONS.users)
+        .where('pfAgentId', '==', lead.agent_id)
+        .get();
+      if (!userSnapshot.empty) {
+        const match = { id: userSnapshot.docs[0].id, ...userSnapshot.docs[0].data() } as UserProfile;
+        return { userId: match.id, displayName: match.displayName };
+      }
+    }
+
+    if (lead.customer?.email) {
+      const emailSnapshot = await adminDb.collection(COLLECTIONS.users)
+        .where('email', '==', lead.customer.email)
+        .get();
+      if (!emailSnapshot.empty) {
+        const match = { id: emailSnapshot.docs[0].id, ...emailSnapshot.docs[0].data() } as UserProfile;
+        return { userId: match.id, displayName: match.displayName };
+      }
+    }
+
+    return {};
+  }
+
   private static async resolveLocationId(unit: Unit): Promise<number> {
-    const lookup = unit.compound || unit.location || unit.city || 'New Cairo';
+    const lookup = unit.compound || unit.location || unit.city;
+    if (!lookup) {
+      return 1;
+    }
+
     try {
       const result = await pfClient.searchLocations(lookup);
       return result.data[0]?.id || 1;
@@ -175,22 +236,34 @@ export class PFIntegrationService {
     }
   }
 
-  private static async resolvePublicProfileId(): Promise<number> {
-    try {
-      const users = await pfClient.getUsers({ perPage: '1' });
-      return users.data[0]?.publicProfile?.id || 1;
-    } catch {
-      return 1;
+  private static mapPFStatusToPhase(status: PFStakeholderProtocol['status']) {
+    switch (status) {
+      case 'contacted':
+        return 'consultation';
+      case 'qualified':
+        return 'inspection';
+      case 'won':
+        return 'settlement';
+      case 'lost':
+        return 'structuring';
+      case 'new':
+      default:
+        return 'acquisition';
     }
   }
 
-  private static mapPropertyType(type: string): PFPropertyType {
-    const mapping: Record<string, PFPropertyType> = {
-      apartment: 'apartment', villa: 'villa', townhouse: 'townhouse',
-      penthouse: 'penthouse', duplex: 'duplex', chalet: 'chalet',
-      'twin-house': 'twin-house', palace: 'palace', land: 'land',
+  private static mapPropertyType(type: string): PFListing['type'] {
+    const mapping: Partial<Record<string, PFListing['type']>> = {
+      apartment: 'apartment',
+      villa: 'villa',
+      townhouse: 'townhouse',
+      penthouse: 'penthouse',
+      duplex: 'duplex',
+      chalet: 'villa',
+      commercial: 'commercial',
+      land: 'land',
     };
-    return mapping[type?.toLowerCase()] || 'apartment';
+
+    return mapping[type.toLowerCase()] || 'apartment';
   }
 }
-

@@ -6,7 +6,7 @@
 import { pfClient, PFListing, PFStakeholderProtocol } from '../property-finder-client';
 import { adminDb } from '../server/firebase-admin';
 import { Timestamp } from 'firebase-admin/firestore';
-import { Unit, Lead, COLLECTIONS, UserProfile } from '../models/schema';
+import { Unit, Lead, COLLECTIONS, UserProfile } from '../../../lib/models/schema';
 
 interface PFStakeholderRecord extends PFStakeholderProtocol {
   agent_id?: string;
@@ -33,7 +33,7 @@ export class PFIntegrationService {
 
     for (const lead of pfLeads.data as PFStakeholderRecord[]) {
       const assignment = await this.resolveAssignment(lead);
-      const existingSnapshot = await adminDb.collection(COLLECTIONS.stakeholders)
+      const existingSnapshot = await adminDb.collection(COLLECTIONS.investmentStakeholders)
         .where('pfLeadId', '==', lead.id)
         .get();
 
@@ -66,7 +66,7 @@ export class PFIntegrationService {
           continue;
         }
 
-        await adminDb.collection(COLLECTIONS.stakeholders).add({
+        await adminDb.collection(COLLECTIONS.investmentStakeholders).add({
           ...payload,
           createdAt: Timestamp.now(),
         });
@@ -88,13 +88,13 @@ export class PFIntegrationService {
     let imported = 0;
     let updated = 0;
 
-    const pfProperties = await pfClient.searchListings({
+    const pfProperties = await pfClient.searchPortfolioAssets({
       limit: 100, // adjust as needed or support pagination
       category: 'residential',
     });
 
     for (const listing of pfProperties.data) {
-      const existingSnapshot = await adminDb.collection(COLLECTIONS.units)
+      const existingSnapshot = await adminDb.collection(COLLECTIONS.portfolioAssets)
         .where('pfReferenceNumber', '==', listing.reference_number)
         .get();
 
@@ -118,7 +118,7 @@ export class PFIntegrationService {
       };
 
       if (existingSnapshot.empty) {
-        await adminDb.collection(COLLECTIONS.units).add({
+        await adminDb.collection(COLLECTIONS.portfolioAssets).add({
           ...payload,
           createdAt: Timestamp.now(),
         });
@@ -136,7 +136,7 @@ export class PFIntegrationService {
    * Push a Sierra Blu unit to Property Finder.
    */
   static async publishListing(unitId: string) {
-    const unitSnap = await adminDb.collection(COLLECTIONS.units).doc(unitId).get();
+    const unitSnap = await adminDb.collection(COLLECTIONS.portfolioAssets).doc(unitId).get();
     if (!unitSnap.exists) {
       throw new Error('Unit not found');
     }
@@ -177,9 +177,9 @@ export class PFIntegrationService {
       })),
     };
 
-    const result = await pfClient.createListing(pfListing);
+    const result = await pfClient.createPortfolioAsset(pfListing);
 
-    await adminDb.collection(COLLECTIONS.units).doc(unitId).update({
+    await adminDb.collection(COLLECTIONS.portfolioAssets).doc(unitId).update({
       automation: {
         ...(unit.automation || {
           isBranded: false,

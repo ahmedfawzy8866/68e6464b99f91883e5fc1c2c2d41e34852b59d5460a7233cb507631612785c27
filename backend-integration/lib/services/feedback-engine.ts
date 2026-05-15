@@ -5,7 +5,7 @@
 
 import { db } from '../firebase';
 import { doc, updateDoc, serverTimestamp, getDoc } from 'firebase/firestore';
-import { COLLECTIONS, type Lead } from '../models/schema';
+import { COLLECTIONS, type Lead } from '../../../lib/models/schema';
 import { sendTelegramMessage } from './telegram-controller';
 
 /**

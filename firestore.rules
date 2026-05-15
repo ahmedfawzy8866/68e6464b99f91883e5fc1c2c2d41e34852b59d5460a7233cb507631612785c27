@@ -1,34 +1,73 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Base rule: Deny all by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ------------------------------------------------------------------------
+    // 1️⃣ CORE PLATFORM COLLECTIONS
+    // ------------------------------------------------------------------------
     
+    match /listings/{listingId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    match /leads/{leadId} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    match /sales/{saleId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    match /activities/{activityId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    match /partners/{partnerId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /audit_logs/{logId} {
+      allow create: if true;
+      allow read: if request.auth != null;
+    }
+    
+    match /vouchers/{voucherId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    match /proposals/{proposalId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
     // ------------------------------------------------------------------------
-    // 1️⃣ DATA COLLECTION WORKFLOW (Isolated)
+    // 2️⃣ DATA PIPELINE COLLECTIONS (Scrapers/Parsers)
     // ------------------------------------------------------------------------
-    // The rawScrapeData collection is strictly for scraper bots.
-    // The frontend NEVER reads from or writes to this directly.
+    
     match /rawScrapeData/{document=**} {
       // Only backend service accounts/admin can read/write this.
-      // Deny all requests coming from client SDKs (the frontend apps).
       allow read, write: if false; 
     }
 
-    // ------------------------------------------------------------------------
-    // 2️⃣ DATA PROCESSING WORKFLOW (Sierra / Liela Frontend)
-    // ------------------------------------------------------------------------
-    // The processedData collection contains clean data ready for the app.
     match /processedData/{document=**} {
-      // Allow read for authenticated users on the site (or public, if you prefer).
-      // Example: Require the user to be logged in to view data.
       allow read: if request.auth != null;
-      
-      // Only the backend (processData function) or Admins should be writing to this.
       allow write: if false; 
-    }
-
-    // Default deny for anything else
-    match /{document=**} {
-      allow read, write: if false;
     }
   }
 }

@@ -1,13 +1,26 @@
+/**
  * SIERRA BLU — SYNC ENGINE
- * Portfolio Asset (PF) ↔ Firestore Synchronization with:
+ * Property Finder ↔ Firestore synchronization with:
  * 1. Editorial override protection (manual edits never overwritten)
- * 2. Investment Stakeholder Deduplication Queue
+ * 2. Deduplicate queue for ambiguous matches
  * 3. Conflict resolution tracking
  */
 
-import { adminDb } from '../server/firebase-admin';
-import { Timestamp } from 'firebase-admin/firestore';
-import { COLLECTIONS } from '../models/schema';
+import { db } from '../firebase';
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  serverTimestamp,
+  Timestamp,
+} from 'firebase/firestore';
+import { COLLECTIONS } from '../../../lib/models/schema';
 
 // ─── Types ───────────────────────────────────────────────────────────
 
@@ -21,9 +34,9 @@ export interface SyncRecord {
   firestoreData?: Record<string, unknown>;
   conflictFields?: string[];
   resolvedBy?: string;
-  resolvedAt?: FirebaseFirestore.Timestamp | null;
-  createdAt?: FirebaseFirestore.Timestamp;
-  updatedAt?: FirebaseFirestore.Timestamp;
+  resolvedAt?: Timestamp | null;
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }
 
 export interface SyncResult {
@@ -43,7 +56,7 @@ const MATCH_THRESHOLD_LOW = 50;    // Send to dedup queue
 // ─── Matching Logic ──────────────────────────────────────────────────
 
 /**
- * Calculate match confidence between a PF Portfolio Asset and a Firestore Portfolio Asset.
+ * Calculate match confidence between a PF listing and a Firestore listing.
  * Uses weighted scoring on multiple fields.
  */
 export function calculateMatchConfidence(
@@ -150,10 +163,10 @@ export function mergeWithProtection(
  * Add an ambiguous match to the dedup review queue.
  */
 export async function addToDedupeQueue(record: SyncRecord): Promise<string> {
-  const docRef = await adminDb.collection(COLLECTIONS.syncQueue).add({
+  const docRef = await addDoc(collection(db, COLLECTIONS.syncQueue), {
     ...record,
-    createdAt: Timestamp.now(),
-    updatedAt: Timestamp.now(),
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
   });
   return docRef.id;
 }
@@ -162,9 +175,11 @@ export async function addToDedupeQueue(record: SyncRecord): Promise<string> {
  * Get all pending items in the dedup queue.
  */
 export async function getPendingDedupeItems(): Promise<SyncRecord[]> {
-  const snapshot = await adminDb.collection(COLLECTIONS.syncQueue)
-    .where('status', 'in', ['ambiguous', 'conflict'])
-    .get();
+  const q = query(
+    collection(db, COLLECTIONS.syncQueue),
+    where('status', 'in', ['ambiguous', 'conflict'])
+  );
+  const snapshot = await getDocs(q);
   return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as SyncRecord));
 }
 
@@ -177,32 +192,32 @@ export async function resolveDedupeItem(
   resolvedBy: string,
   firestoreDocId?: string
 ): Promise<void> {
-  const queueRef = adminDb.collection(COLLECTIONS.syncQueue).doc(queueId);
-  const queueSnap = await queueRef.get();
-
-  if (!queueSnap.exists) {
+  const queueRef = doc(db, COLLECTIONS.syncQueue, queueId);
+  const queueSnap = await getDoc(queueRef);
+  
+  if (!queueSnap.exists()) {
     throw new Error('Queue item not found');
   }
-
+  
   const record = queueSnap.data() as SyncRecord;
 
   if (resolution === 'matched' && firestoreDocId) {
-    // 1. Resolve as Match — Apply PF data to existing Portfolio Asset
-    const fsRef = adminDb.collection(COLLECTIONS.portfolioAssets).doc(firestoreDocId);
-    const fsSnap = await fsRef.get();
-
-    if (fsSnap.exists) {
-      const fsData = fsSnap.data()!;
+    // 1. Resolve as Match — Apply PF data to existing listing
+    const fsRef = doc(db, COLLECTIONS.portfolioAssets, firestoreDocId);
+    const fsSnap = await getDoc(fsRef);
+    
+    if (fsSnap.exists()) {
+      const fsData = fsSnap.data();
       const protectedFields = getProtectedFields(fsData);
       const { merged } = mergeWithProtection(record.pfData as Record<string, unknown>, fsData, protectedFields);
-      await fsRef.update({
+      await updateDoc(fsRef, {
         ...merged,
         lastSyncAt: new Date().toISOString(),
       });
     }
   } else if (resolution === 'new') {
-    // 2. Resolve as New — Create new Portfolio Asset
-    await adminDb.collection(COLLECTIONS.portfolioAssets).add({
+    // 2. Resolve as New — Create new listing
+    await addDoc(collection(db, COLLECTIONS.portfolioAssets), {
       ...record.pfData,
       syncSource: 'property-finder',
       manualOverrides: [],
@@ -211,12 +226,12 @@ export async function resolveDedupeItem(
   }
 
   // 3. Mark the queue item as resolved
-  await queueRef.update({
+  await updateDoc(queueRef, {
     status: resolution === 'matched' ? 'resolved' : resolution,
     firestoreDocId: firestoreDocId || record.firestoreDocId || null,
     resolvedBy,
-    resolvedAt: Timestamp.now(),
-    updatedAt: Timestamp.now(),
+    resolvedAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
   });
 }
 
@@ -253,7 +268,7 @@ export function normalizePFData(pfRaw: Record<string, any>): Record<string, any>
 // ─── Sync Orchestrator ──────────────────────────────────────────────
 
 /**
- * Process a batch of PF Portfolio Assets against the Firestore Strategic Pipeline.
+ * Process a batch of PF listings against the Firestore inventory.
  * Returns a detailed sync result report.
  */
 export async function syncBatch(
@@ -276,9 +291,11 @@ export async function syncBatch(
       const refNum = pfData.referenceNumber;
 
       // 1. Try exact match by reference number
-      const exactSnapshot = await adminDb.collection(COLLECTIONS.portfolioAssets)
-        .where('referenceNumber', '==', refNum)
-        .get();
+      const exactQuery = query(
+        collection(db, COLLECTIONS.portfolioAssets),
+        where('referenceNumber', '==', refNum)
+      );
+      const exactSnapshot = await getDocs(exactQuery);
 
       if (!exactSnapshot.empty) {
         // Exact match found — merge with protection
@@ -301,14 +318,14 @@ export async function syncBatch(
           result.dedupeQueue++;
         } else {
           // Clean merge — update directly
-          await adminDb.collection(COLLECTIONS.portfolioAssets).doc(fsDoc.id).update(merged);
+          await updateDoc(doc(db, COLLECTIONS.portfolioAssets, fsDoc.id), merged);
           result.matched++;
         }
         continue;
       }
 
       // 2. No exact match — search for fuzzy matches
-      const allListingsSnapshot = await adminDb.collection(COLLECTIONS.portfolioAssets).get();
+      const allListingsSnapshot = await getDocs(collection(db, COLLECTIONS.portfolioAssets));
       let bestMatch: { docId: string; confidence: number; data: Record<string, unknown> } | null = null;
 
       for (const fsDoc of allListingsSnapshot.docs) {
@@ -322,7 +339,7 @@ export async function syncBatch(
         // High confidence — auto-merge with protection
         const protectedFields = getProtectedFields(bestMatch.data);
         const { merged } = mergeWithProtection(pfData, bestMatch.data, protectedFields);
-        await adminDb.collection(COLLECTIONS.portfolioAssets).doc(bestMatch.docId).update(merged);
+        await updateDoc(doc(db, COLLECTIONS.portfolioAssets, bestMatch.docId), merged);
         result.matched++;
       } else if (bestMatch && bestMatch.confidence >= MATCH_THRESHOLD_LOW) {
         // Medium confidence — send to dedup queue
@@ -336,8 +353,8 @@ export async function syncBatch(
         });
         result.dedupeQueue++;
       } else {
-        // No match at all — create new Portfolio Asset
-        await adminDb.collection(COLLECTIONS.portfolioAssets).add({
+        // No match at all — create new listing
+        await addDoc(collection(db, COLLECTIONS.portfolioAssets), {
           ...pfData,
           syncSource: 'property-finder',
           manualOverrides: [],
@@ -351,9 +368,9 @@ export async function syncBatch(
   }
 
   // Log the sync run
-  await adminDb.collection(COLLECTIONS.syncLog).add({
+  await addDoc(collection(db, COLLECTIONS.syncLog), {
     ...result,
-    timestamp: Timestamp.now(),
+    timestamp: serverTimestamp(),
   });
 
   return result;

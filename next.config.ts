@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./lib/i18n.ts');
 
 // Packages that use Node.js native binaries — must never be bundled client-side
 const SERVER_ONLY_PACKAGES = [
@@ -16,17 +19,15 @@ const SERVER_ONLY_PACKAGES = [
 
 
 const nextConfig: NextConfig = {
-  turbopack: {},
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  // Prevent Next.js from bundling Node.js-only packages (gRPC, OpenTelemetry)
   serverExternalPackages: [
     '@grpc/grpc-js',
     '@opentelemetry/exporter-trace-otlp-grpc',
     '@opentelemetry/sdk-node',
     'firebase-admin',
   ],
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**.googleusercontent.com' },
@@ -49,6 +50,20 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  turbopack: {
+    resolveAlias: {
+      '@grpc/grpc-js': './lib/stubs/empty.js',
+      '@opentelemetry/exporter-trace-otlp-grpc': './lib/stubs/empty.js',
+      '@opentelemetry/exporter-trace-otlp-http': './lib/stubs/empty.js',
+      '@opentelemetry/exporter-logs-otlp-http': './lib/stubs/empty.js',
+      '@opentelemetry/sdk-node': './lib/stubs/empty.js',
+      '@opentelemetry/sdk-logs': './lib/stubs/empty.js',
+      '@opentelemetry/sdk-trace-node': './lib/stubs/empty.js',
+      '@opentelemetry/instrumentation-http': './lib/stubs/empty.js',
+      '@opentelemetry/instrumentation-express': './lib/stubs/empty.js',
+      'firebase-admin': './lib/stubs/empty.js',
+    }
+  },
   webpack(config, { isServer }) {
     if (!isServer) {
       // Stub all server-only packages to empty modules in the browser bundle
@@ -60,4 +75,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

@@ -3,35 +3,35 @@
  * Automates the scheduling and reminding for site inspections.
  */
 
-import { adminDb } from '../server/firebase-admin';
-import { Timestamp } from 'firebase-admin/firestore';
-import { COLLECTIONS, type Viewing, type Lead } from '../models/schema';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp, Timestamp, doc, updateDoc, getDoc } from 'firebase/firestore';
+import { COLLECTIONS, type Viewing, type Lead } from '../../../lib/models/schema';
 import { sendTelegramMessage } from './telegram-controller';
 
 /**
  * Schedule a new viewing.
  */
 export async function scheduleViewing(
-  leadId: string,
-  unitId: string,
-  agentId: string,
+  leadId: string, 
+  unitId: string, 
+  agentId: string, 
   scheduledAt: Date
 ): Promise<string> {
   const viewingData: Partial<Viewing> = {
     leadId,
     unitId,
     agentId,
-    scheduledAt: Timestamp.fromDate(scheduledAt) as any,
+    scheduledAt: Timestamp.fromDate(scheduledAt),
     status: 'scheduled',
     location: "Site Office / Project Location", // Default
     reminderSent: false,
-    createdAt: Timestamp.now() as any,
+    createdAt: serverTimestamp(),
   };
 
-  const docRef = await adminDb.collection(COLLECTIONS.viewings).add(viewingData);
-
+  const docRef = await addDoc(collection(db, COLLECTIONS.viewings), viewingData);
+  
   // Update Lead Stage
-  await adminDb.collection(COLLECTIONS.stakeholders).doc(leadId).update({
+  await updateDoc(doc(db, COLLECTIONS.investmentStakeholders, leadId), {
     'orchestrationState.stage': 'S8_VIEWING_SCHEDULED',
     'status': 'negotiating'
   });
@@ -48,20 +48,20 @@ export async function scheduleViewing(
  * Marks a viewing as completed and potentially moves lead to 'negotiate' stage.
  */
 export async function completeViewing(viewingId: string, notes?: string) {
-  const viewingRef = adminDb.collection(COLLECTIONS.viewings).doc(viewingId);
-  const viewingSnap = await viewingRef.get();
-
-  if (!viewingSnap.exists) return;
+  const viewingRef = doc(db, COLLECTIONS.viewings, viewingId);
+  const viewingSnap = await getDoc(viewingRef);
+  
+  if (!viewingSnap.exists()) return;
   const viewing = viewingSnap.data() as Viewing;
 
-  await viewingRef.update({
+  await updateDoc(viewingRef, {
     status: 'completed',
     notes: notes || '',
-    updatedAt: Timestamp.now(),
+    updatedAt: serverTimestamp(),
   });
-
+  
   // Transition to Closing Ready
-  await adminDb.collection(COLLECTIONS.stakeholders).doc(viewing.leadId).update({
+  await updateDoc(doc(db, COLLECTIONS.investmentStakeholders, viewing.leadId), {
     'orchestrationState.stage': 'S9_CLOSING_READY'
   });
 

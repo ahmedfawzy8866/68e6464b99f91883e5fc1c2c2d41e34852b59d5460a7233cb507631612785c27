@@ -5,7 +5,7 @@
 
 import { db } from '../firebase';
 import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
-import { COLLECTIONS, Lead, Unit } from '../models/schema';
+import { COLLECTIONS, Lead, Unit } from '../../../lib/models/schema';
 import { GoogleAIService } from '../server/google-ai';
 
 export interface HandoffSummary {

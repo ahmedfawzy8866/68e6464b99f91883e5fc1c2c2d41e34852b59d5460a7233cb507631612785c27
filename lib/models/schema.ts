@@ -571,10 +571,12 @@ export interface Activity extends BaseDocument {
 
 export const COLLECTIONS = {
   portfolioAssets: 'listings', // Physical collection 'listings' for backward compatibility
+  units: 'listings', // Alias for portfolioAssets
   projects: 'projects',
   developers: 'developers',
   mediaAssets: 'mediaAssets',
   investmentStakeholders: 'leads', // Physical collection 'leads' for backward compatibility
+  stakeholders: 'leads', // Alias for investmentStakeholders
   strategicPipeline: 'deals', // Physical collection 'deals' for "Cinematic Luxury" branding
   sales: 'sales',
   activities: 'activities',

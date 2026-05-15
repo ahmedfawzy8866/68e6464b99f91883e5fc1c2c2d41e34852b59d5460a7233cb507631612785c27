@@ -60,7 +60,7 @@ export default function CinematicHero({ T, onPortfolioClick, onAdvisorClick }: C
   };
 
   // SVG "Build from nothing" path variants
-  const pathVariants = {
+  const pathVariants: any = {
     hidden: { pathLength: 0, opacity: 0 },
     visible: { 
       pathLength: 1, 

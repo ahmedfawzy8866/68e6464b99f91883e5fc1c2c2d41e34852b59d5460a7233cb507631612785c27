@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
         const pfResult = await pfClient.searchPortfolioAssets(filters);
         
         // Sync Portfolio Assets (formerly listings)
-        const portfolioAssets = pfResult.data || [];
+        const portfolioAssets = pfResult.results || [];
         const syncResult = await syncBatch(portfolioAssets as unknown as Record<string, unknown>[]);
         
         // Also sync Investment Stakeholders (formerly leads) automatically

@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
       case 'search-listings':
         const filters = Object.fromEntries(searchParams.entries());
         delete filters.action;
-        const result = await pfClient.searchListings(filters);
+        const result = await pfClient.searchPortfolioAssets(filters);
         return NextResponse.json(result);
 
       case 'search-locations':
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'create-listing') {
-      const result = await pfClient.createListing(body);
+      const result = await pfClient.createPortfolioAsset(body);
       return NextResponse.json(result);
     }
 
@@ -100,7 +100,7 @@ export async function PUT(request: NextRequest) {
 
     if (!id) return NextResponse.json({ error: 'Reference ID missing' }, { status: 400 });
 
-    const result = await pfClient.updateListing(id, body);
+    const result = await pfClient.updatePortfolioAsset(id, body);
     return NextResponse.json(result);
   } catch (error: any) {
     console.error('[UPDATE_ERROR] Property Finder API Proxy:', error);
@@ -118,7 +118,7 @@ export async function DELETE(request: NextRequest) {
 
     if (!id) return NextResponse.json({ error: 'Reference ID missing' }, { status: 400 });
 
-    await pfClient.deleteListing(id);
+    await pfClient.deletePortfolioAsset(id);
     return NextResponse.json({ success: true, message: 'Portfolio asset successfully de-listed' });
   } catch (error: any) {
     console.error('[DELETE_ERROR] Property Finder API Proxy:', error);

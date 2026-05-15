@@ -5,7 +5,7 @@
 
 import { adminDb } from '../server/firebase-admin';
 import { FieldValue } from 'firebase-admin/firestore';
-import { COLLECTIONS } from '../models/schema';
+import { COLLECTIONS } from '../../../lib/models/schema';
 
 export interface SkillDefinition {
   name: string;
