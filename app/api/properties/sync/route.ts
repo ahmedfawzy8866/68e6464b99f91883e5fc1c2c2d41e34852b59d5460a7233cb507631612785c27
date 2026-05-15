@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Timestamp } from 'firebase-admin/firestore';
+import * as admin from 'firebase-admin';
 import { adminDb } from '@/lib/server/firebase-admin';
 import {
   propertyFinderService,
@@ -19,15 +19,15 @@ function toNumber(value: unknown): number | null {
 
 function toDate(value: unknown) {
   if (typeof value !== 'string' && typeof value !== 'number') {
-    return Timestamp.now();
+    return admin.firestore.Timestamp.now();
   }
 
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) {
-    return Timestamp.now();
+    return admin.firestore.Timestamp.now();
   }
 
-  return Timestamp.fromDate(parsed);
+  return admin.firestore.Timestamp.fromDate(parsed);
 }
 
 function getListingId(property: PropertyFinderListing, fallbackIndex: number) {
@@ -88,8 +88,8 @@ function mapProperty(property: PropertyFinderListing) {
     longitude,
     images: getImages(property),
     featured: false,
-    createdAt: Timestamp.now(),
-    updatedAt: Timestamp.now(),
+    createdAt: admin.firestore.Timestamp.now(),
+    updatedAt: admin.firestore.Timestamp.now(),
   };
 }
 
