@@ -262,22 +262,10 @@ export default function LandingPage() {
     setMounted(true);
     setTimeout(() => setLoaded(true), 80);
 
-    fetch('/api/listings?limit=6')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.listings && Array.isArray(data.listings)) {
-          const mapped = data.listings.map((item: any) => ({
-            id: item.id,
-            title: item.title,
-            compound: item.compound,
-            location: item.compound,
-            price: item.price,
-            bedrooms: item.beds,
-            bathrooms: item.baths,
-            area: parseInt(item.area) || 200,
-            status: 'available',
-          }));
-          setFeatured(mapped);
+    InventoryService.getFeaturedListings(6)
+      .then((listings) => {
+        if (listings && Array.isArray(listings)) {
+          setFeatured(listings);
         }
       })
       .catch(() => {});

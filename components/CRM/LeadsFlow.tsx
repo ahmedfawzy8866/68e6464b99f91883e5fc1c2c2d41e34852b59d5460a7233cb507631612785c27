@@ -214,6 +214,8 @@ export default function StakeholderFlow() {
                         <button 
                           onClick={() => updateStakeholderStatus(activeStakeholder.id, step.id)}
                           className={`step-bubble ${isActive ? 'active' : isPast ? 'completed' : ''}`}
+                          title={step.label}
+                          aria-label={step.label}
                         >
                           {isPast ? <CheckCircle size={18}/> : step.icon}
                         </button>
