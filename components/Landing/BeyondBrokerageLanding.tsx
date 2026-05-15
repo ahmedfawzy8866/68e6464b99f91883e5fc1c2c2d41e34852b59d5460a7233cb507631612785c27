@@ -274,7 +274,7 @@ export default function BeyondBrokerageLanding() {
         </Link>
         <ul className="flex items-center gap-[36px] list-none m-0 p-0">
           {[
-            { label: 'Properties', href: '#properties' },
+            { label: 'Portfolio Assets', href: '#properties' },
             { label: 'Map', href: '#map' },
             { label: 'Services', href: '#services' },
             { label: 'Intelligence', href: '#about' },
@@ -317,7 +317,7 @@ export default function BeyondBrokerageLanding() {
           </p>
           <div className="flex items-center gap-[20px] animate-fade-up" style={{ animationDelay: '0.9s' }}>
             <Link href="#properties" className="bg-[#D4AF37] text-[#050B14] px-[36px] py-[16px] rounded-[3px] font-['Poppins'] text-[13px] font-semibold tracking-[0.08em] hover:-translate-y-[2px] hover:shadow-[0_8px_32px_rgba(212,175,55,0.35)] transition-all duration-200 uppercase inline-block">
-              Explore Properties
+              Explore Portfolio Assets
             </Link>
             <Link href="#contact" className="bg-transparent text-white px-[36px] py-[15px] border border-white/30 rounded-[3px] font-['Poppins'] text-[13px] font-medium tracking-[0.08em] hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-200 uppercase inline-block">
               Schedule Consultation
@@ -392,7 +392,7 @@ export default function BeyondBrokerageLanding() {
             <div>
               <div className="text-[10px] tracking-[0.3em] text-[#D4AF37] uppercase mb-[16px] flex items-center gap-[12px] reveal">
                 <span className="w-[30px] h-[1px] bg-[#D4AF37] inline-block"></span>
-                Featured Listings
+                Featured Portfolio Assets
               </div>
               <h2 className="font-['Playfair_Display'] text-[clamp(36px,4.5vw,56px)] font-normal leading-[1.1] tracking-[-0.02em] reveal reveal-delay-1">
                 Verified <em className="not-italic italic text-[#D4AF37]">Properties</em>
@@ -564,7 +564,7 @@ export default function BeyondBrokerageLanding() {
               </div>
               <div className="absolute bottom-0 right-0 w-[50%] h-[45%] bg-[#1A3D6B]/60 border border-[#D4AF37]/15 rounded-[6px] p-[24px] backdrop-blur-[8px] flex flex-col justify-between">
                 <div>
-                  <div className="text-[13px] text-white/60 mb-[8px]">Active Listings</div>
+                  <div className="text-[13px] text-white/60 mb-[8px]">Active Portfolio Assets</div>
                   <div className="font-['Playfair_Display'] text-[36px] font-bold text-white">500+</div>
                 </div>
                 <span className="inline-block self-start bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] tracking-[0.12em] uppercase px-[10px] py-[4px] rounded-[2px]">
@@ -585,7 +585,7 @@ export default function BeyondBrokerageLanding() {
                 Sierra Blu Realty is built on expertise, intelligence, and transparency. Our approach combines professional advisors with advanced AI-powered analysis to identify the most relevant opportunities for each client.
               </p>
               <p className="text-[15px] leading-[1.75] text-white/60 mb-[40px]">
-                Instead of overwhelming clients with listings, we focus on understanding priorities, analyzing options, and guiding smarter decisions. We guide decisions, not just transactions.
+                Instead of overwhelming investment stakeholders with portfolio assets, we focus on understanding priorities, analyzing options, and guiding smarter decisions. We guide decisions, not just transactions.
               </p>
               <div className="grid grid-cols-2 gap-[20px] mb-[40px]">
                 <div className="p-[20px] border border-[#D4AF37]/15 rounded-[4px]">

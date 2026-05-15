@@ -151,7 +151,7 @@ export default function CinematicHero() {
           transition={{ duration: 1, delay: 2.5 }}
         >
           <button className="px-8 py-4 bg-transparent border border-[#C9A24D] text-[#C9A24D] text-sm uppercase tracking-[0.2em] font-bold hover:bg-[#C9A24D] hover:text-black transition-all duration-500 rounded-sm">
-            Explore Listings
+            Explore Portfolio Assets
           </button>
           
           <button className="px-8 py-4 bg-white text-black text-sm uppercase tracking-[0.2em] font-bold hover:bg-transparent hover:text-white hover:border-white border border-transparent transition-all duration-500 rounded-sm relative overflow-hidden group">
