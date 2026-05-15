@@ -1,8 +1,7 @@
 /**
- * Sierra Blu Enterprise Gateway - Property Finder Service
+ * Sierra Blu Strategic Pipeline Gateway - Portfolio Asset & Stakeholder Service
  *
- * This client-side service talks to the internal Next.js Property Finder API
- * instead of using mock timeout data.
+ * This client-side service talks to the internal Strategic Pipeline API.
  */
 
 import type { PFListing } from '../property-finder-client';
@@ -33,10 +32,10 @@ export class PropertyFinderService {
   }
 
   /**
-   * Fetch the latest listings from the internal gateway.
+   * Fetch the latest portfolio assets from the internal gateway.
    */
-  public async fetchListings(filters: Record<string, string | number> = { status: 'published' }): Promise<PFListing[]> {
-    const params = new URLSearchParams({ action: 'search-listings' });
+  public async fetchPortfolioAssets(filters: Record<string, string | number> = { status: 'published' }): Promise<PFListing[]> {
+    const params = new URLSearchParams({ action: 'search-portfolio-assets' });
     Object.entries(filters).forEach(([key, value]) => params.set(key, String(value)));
 
     const response = await fetch(`${this.apiBase}?${params.toString()}`, {
@@ -53,10 +52,10 @@ export class PropertyFinderService {
   }
 
   /**
-   * Trigger a lead sync from Property Finder into the CRM.
+   * Trigger an investment stakeholder sync from the Strategic Pipeline.
    */
-  public async syncIncomingLeads(): Promise<{ created: number; updated: number; skipped: number }> {
-    const response = await fetch(`${this.apiBase}?action=sync-leads`, {
+  public async syncIncomingStakeholders(): Promise<{ created: number; updated: number; skipped: number }> {
+    const response = await fetch(`${this.apiBase}?action=sync-stakeholders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -73,15 +72,15 @@ export class PropertyFinderService {
   }
 
   /**
-   * Publish a local Sierra Blu unit to Property Finder through the server API.
+   * Publish a local Portfolio Asset to the Strategic Pipeline.
    */
-  public async publishToPF(listingId: string): Promise<{ success: boolean; externalId?: string }> {
-    const response = await fetch(`${this.apiBase}?action=publish-unit`, {
+  public async publishToPF(assetId: string): Promise<{ success: boolean; externalId?: string }> {
+    const response = await fetch(`${this.apiBase}?action=publish-asset`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ unitId: listingId }),
+      body: JSON.stringify({ id: assetId }),
     });
 
     const result = await response.json() as PublishListingResponse;

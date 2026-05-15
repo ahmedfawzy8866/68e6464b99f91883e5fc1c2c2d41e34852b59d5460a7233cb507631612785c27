@@ -135,24 +135,28 @@ class PropertyFinderClient {
   }
 
   /**
-   * Search for listings with filters
+   * Search for portfolio assets with filters
    */
-  public async searchListings(filters: Record<string, any> = {}): Promise<{ data: PFListing[], meta: any }> {
+  public async searchPortfolioAssets(filters: Record<string, any> = {}): Promise<{ data: PFListing[], meta: any }> {
     const query = new URLSearchParams(filters).toString();
-    return this.request(`/listings?${query}`);
+    const response = await this.request(`/listings?${query}`);
+    return {
+      data: response.data || response.results || [],
+      meta: response.meta || response.pagination || {}
+    };
   }
 
   /**
-   * Get a single listing by ID or reference number
+   * Get a single portfolio asset by ID or reference number
    */
-  public async getListing(id: string): Promise<PFListing> {
+  public async getPortfolioAsset(id: string): Promise<PFListing> {
     return this.request(`/listings/${id}`);
   }
 
   /**
-   * Create a new premium listing
+   * Create a new premium portfolio asset
    */
-  public async createListing(listing: PFListing): Promise<PFListing> {
+  public async createPortfolioAsset(listing: PFListing): Promise<PFListing> {
     return this.request('/listings', {
       method: 'POST',
       body: JSON.stringify(listing),
@@ -160,9 +164,9 @@ class PropertyFinderClient {
   }
 
   /**
-   * Update existing listing protocol
+   * Update existing portfolio asset protocol
    */
-  public async updateListing(id: string, updates: Partial<PFListing>): Promise<PFListing> {
+  public async updatePortfolioAsset(id: string, updates: Partial<PFListing>): Promise<PFListing> {
     return this.request(`/listings/${id}`, {
       method: 'PUT',
       body: JSON.stringify(updates),
@@ -170,20 +174,42 @@ class PropertyFinderClient {
   }
 
   /**
-   * De-list an asset
+   * De-list a portfolio asset
    */
-  public async deleteListing(id: string): Promise<void> {
+  public async deletePortfolioAsset(id: string): Promise<void> {
     return this.request(`/listings/${id}`, {
       method: 'DELETE',
     });
   }
 
   /**
-   * Retrieve incoming investment stakeholder protocols
+   * Publish a portfolio asset
+   */
+  public async publishPortfolioAsset(id: string): Promise<void> {
+    return this.request(`/listings/${id}/publish`, {
+      method: 'POST',
+    });
+  }
+
+  /**
+   * Unpublish a portfolio asset
+   */
+  public async unpublishPortfolioAsset(id: string): Promise<void> {
+    return this.request(`/listings/${id}/unpublish`, {
+      method: 'POST',
+    });
+  }
+
+  /**
+   * Retrieve incoming investment stakeholder protocols from the strategic pipeline
    */
   public async fetchInvestmentStakeholderRegistry(filters: Record<string, any> = {}): Promise<{ data: PFStakeholderProtocol[], meta: any }> {
     const query = new URLSearchParams(filters).toString();
-    return this.request(`/leads?${query}`);
+    const response = await this.request(`/leads?${query}`);
+    return {
+      data: response.data || response.results || [],
+      meta: response.meta || response.pagination || {}
+    };
   }
 
   /**

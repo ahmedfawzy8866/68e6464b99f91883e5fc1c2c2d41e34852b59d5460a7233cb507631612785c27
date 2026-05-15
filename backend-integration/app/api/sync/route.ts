@@ -7,7 +7,7 @@ import { adminDb } from '@/lib/server/firebase-admin';
 
 /**
  * SYNC MANAGEMENT API
- * Handles PF ↔ Firestore sync operations and dedup queue management.
+ * Handles Property Finder ↔ Firestore sync operations and Strategic Pipeline (dedup) management.
  */
 
 async function isAdmin(uid: string): Promise<boolean> {
@@ -67,23 +67,24 @@ export async function POST(request: NextRequest) {
     switch (action) {
       case 'run-sync': {
         const filters = body.filters || {};
-        const pfResult = await pfClient.searchListings(filters);
-        // Robust handling for both { data: [...] } and direct array responses
-        const listings = Array.isArray(pfResult) ? pfResult : (pfResult?.data || []);
-        const syncResult = await syncBatch(listings as unknown as Record<string, unknown>[]);
+        const pfResult = await pfClient.searchPortfolioAssets(filters);
         
-        // Also sync leads automatically if requested or as part of full run
-        const leadsResult = await PFIntegrationService.syncIncomingLeads();
+        // Sync Portfolio Assets (formerly listings)
+        const portfolioAssets = pfResult.data || [];
+        const syncResult = await syncBatch(portfolioAssets as unknown as Record<string, unknown>[]);
+        
+        // Also sync Investment Stakeholders (formerly leads) automatically
+        const stakeholdersResult = await PFIntegrationService.syncIncomingStakeholders();
         
         return NextResponse.json({ 
-          listings: syncResult, 
-          leads: leadsResult 
+          portfolioAssets: syncResult, 
+          investmentStakeholders: stakeholdersResult 
         });
       }
 
-      case 'sync-leads': {
-        const leadsResult = await PFIntegrationService.syncIncomingLeads();
-        return NextResponse.json(leadsResult);
+      case 'sync-stakeholders': {
+        const stakeholdersResult = await PFIntegrationService.syncIncomingStakeholders();
+        return NextResponse.json(stakeholdersResult);
       }
 
       case 'resolve': {

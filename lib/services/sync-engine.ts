@@ -1,8 +1,7 @@
-/**
  * SIERRA BLU — SYNC ENGINE
- * Property Finder ↔ Firestore synchronization with:
+ * Portfolio Asset (PF) ↔ Firestore Synchronization with:
  * 1. Editorial override protection (manual edits never overwritten)
- * 2. Deduplicate queue for ambiguous matches
+ * 2. Investment Stakeholder Deduplication Queue
  * 3. Conflict resolution tracking
  */
 
@@ -44,7 +43,7 @@ const MATCH_THRESHOLD_LOW = 50;    // Send to dedup queue
 // ─── Matching Logic ──────────────────────────────────────────────────
 
 /**
- * Calculate match confidence between a PF listing and a Firestore listing.
+ * Calculate match confidence between a PF Portfolio Asset and a Firestore Portfolio Asset.
  * Uses weighted scoring on multiple fields.
  */
 export function calculateMatchConfidence(
@@ -188,8 +187,8 @@ export async function resolveDedupeItem(
   const record = queueSnap.data() as SyncRecord;
 
   if (resolution === 'matched' && firestoreDocId) {
-    // 1. Resolve as Match — Apply PF data to existing listing
-    const fsRef = adminDb.collection(COLLECTIONS.units).doc(firestoreDocId);
+    // 1. Resolve as Match — Apply PF data to existing Portfolio Asset
+    const fsRef = adminDb.collection(COLLECTIONS.portfolioAssets).doc(firestoreDocId);
     const fsSnap = await fsRef.get();
 
     if (fsSnap.exists) {
@@ -202,8 +201,8 @@ export async function resolveDedupeItem(
       });
     }
   } else if (resolution === 'new') {
-    // 2. Resolve as New — Create new listing
-    await adminDb.collection(COLLECTIONS.units).add({
+    // 2. Resolve as New — Create new Portfolio Asset
+    await adminDb.collection(COLLECTIONS.portfolioAssets).add({
       ...record.pfData,
       syncSource: 'property-finder',
       manualOverrides: [],
@@ -254,7 +253,7 @@ export function normalizePFData(pfRaw: Record<string, any>): Record<string, any>
 // ─── Sync Orchestrator ──────────────────────────────────────────────
 
 /**
- * Process a batch of PF listings against the Firestore inventory.
+ * Process a batch of PF Portfolio Assets against the Firestore Strategic Pipeline.
  * Returns a detailed sync result report.
  */
 export async function syncBatch(
@@ -277,7 +276,7 @@ export async function syncBatch(
       const refNum = pfData.referenceNumber;
 
       // 1. Try exact match by reference number
-      const exactSnapshot = await adminDb.collection(COLLECTIONS.units)
+      const exactSnapshot = await adminDb.collection(COLLECTIONS.portfolioAssets)
         .where('referenceNumber', '==', refNum)
         .get();
 
@@ -302,14 +301,14 @@ export async function syncBatch(
           result.dedupeQueue++;
         } else {
           // Clean merge — update directly
-          await adminDb.collection(COLLECTIONS.units).doc(fsDoc.id).update(merged);
+          await adminDb.collection(COLLECTIONS.portfolioAssets).doc(fsDoc.id).update(merged);
           result.matched++;
         }
         continue;
       }
 
       // 2. No exact match — search for fuzzy matches
-      const allListingsSnapshot = await adminDb.collection(COLLECTIONS.units).get();
+      const allListingsSnapshot = await adminDb.collection(COLLECTIONS.portfolioAssets).get();
       let bestMatch: { docId: string; confidence: number; data: Record<string, unknown> } | null = null;
 
       for (const fsDoc of allListingsSnapshot.docs) {
@@ -323,7 +322,7 @@ export async function syncBatch(
         // High confidence — auto-merge with protection
         const protectedFields = getProtectedFields(bestMatch.data);
         const { merged } = mergeWithProtection(pfData, bestMatch.data, protectedFields);
-        await adminDb.collection(COLLECTIONS.units).doc(bestMatch.docId).update(merged);
+        await adminDb.collection(COLLECTIONS.portfolioAssets).doc(bestMatch.docId).update(merged);
         result.matched++;
       } else if (bestMatch && bestMatch.confidence >= MATCH_THRESHOLD_LOW) {
         // Medium confidence — send to dedup queue
@@ -337,8 +336,8 @@ export async function syncBatch(
         });
         result.dedupeQueue++;
       } else {
-        // No match at all — create new listing
-        await adminDb.collection(COLLECTIONS.units).add({
+        // No match at all — create new Portfolio Asset
+        await adminDb.collection(COLLECTIONS.portfolioAssets).add({
           ...pfData,
           syncSource: 'property-finder',
           manualOverrides: [],
