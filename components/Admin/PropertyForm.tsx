@@ -113,7 +113,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`${styles.tabButton} ${activeTab === tab.id ? styles.active : ''}`}
-                aria-selected={activeTab === tab.id ? true : false}
+                aria-selected={activeTab === tab.id ? "true" : "false"}
                 role="tab"
               >
                 <span className={styles.tabIcon}>{tab.icon}</span>

@@ -121,10 +121,10 @@ export default function AdminSyncPage() {
   ];
 
   return (
-    <div style={{ fontFamily: 'var(--font-body)' }}>
+    <div className="font-[var(--font-body)]">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[#071422] tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
+        <h1 className="text-2xl font-bold text-[#071422] tracking-tight font-[var(--font-display)]">
           Sync Center
         </h1>
         <p className="text-[#3a5570] text-sm mt-0.5">Property Finder integration management</p>
@@ -212,7 +212,7 @@ export default function AdminSyncPage() {
       {/* ══ Sync Activity Log ══ */}
       <div className="bg-white rounded-2xl shadow-[0_2px_16px_-4px_rgba(3,22,50,0.06)] overflow-hidden">
         <div className="px-8 py-6 border-b border-[#f3f4f5] flex items-center justify-between">
-          <h2 className="font-bold text-[#071422]" style={{ fontFamily: 'var(--font-display)' }}>
+          <h2 className="font-bold text-[#071422] font-[var(--font-display)]">
             Sync Activity Log
           </h2>
           <span className="text-[9px] text-[#3a5570]/50 uppercase tracking-widest font-mono">

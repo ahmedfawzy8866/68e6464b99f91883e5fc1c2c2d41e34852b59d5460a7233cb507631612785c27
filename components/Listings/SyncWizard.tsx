@@ -459,7 +459,7 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
                   Deploy Portfolio Asset exports from professional portals as structured JSON or CSV protocols.
                 </p>
                 <div className="btn btn-primary mt-6">Select Source File</div>
-                <div style={{ marginTop: '16px' }}>
+                <div className="mt-4">
                   <button className="btn-ghost text-[12px]" onClick={() => setStage('CHOOSE_SOURCE')}>Back to Origins</button>
                 </div>
               </div>
@@ -526,7 +526,7 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
                           <td className="font-medium">{syncType === 'portfolio' ? row.title_en : row.name}</td>
                           <td className="text-[var(--gold)] font-bold">{syncType === 'portfolio' ? `${row.currency} ${Number(row.price).toLocaleString()}` : row.originChannel}</td>
                           <td>{syncType === 'portfolio' ? row.compound_name : row.phone}</td>
-                          <td className="text-center"><span style={{ color: 'var(--success)' }}>Ready</span></td>
+                          <td className="text-center"><span className="text-[var(--success)]">Ready</span></td>
                         </tr>
                       ))}
                     </tbody>
