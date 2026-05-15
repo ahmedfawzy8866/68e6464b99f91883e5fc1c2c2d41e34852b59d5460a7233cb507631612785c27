@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { collection, doc, Timestamp, writeBatch } from 'firebase/firestore';
-import { db } from '@/lib/firebase-config';
+import { Timestamp } from 'firebase-admin/firestore';
+import { adminDb } from '@/lib/server/firebase-admin';
 import {
   propertyFinderService,
   type PropertyFinderListing,
@@ -128,8 +128,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const listingsCollection = collection(db, 'listings');
-    let batch = writeBatch(db);
+    let batch = adminDb.batch();
     let operationsInBatch = 0;
     let syncedCount = 0;
     let failedCount = 0;
@@ -137,13 +136,13 @@ export async function POST(request: NextRequest) {
     for (const [index, property] of properties.entries()) {
       try {
         const documentId = getListingId(property, index);
-        batch.set(doc(listingsCollection, documentId), mapProperty(property), { merge: true });
+        batch.set(adminDb.collection('listings').doc(documentId), mapProperty(property), { merge: true });
         operationsInBatch += 1;
         syncedCount += 1;
 
         if (operationsInBatch === MAX_BATCH_OPERATIONS) {
           await batch.commit();
-          batch = writeBatch(db);
+          batch = adminDb.batch();
           operationsInBatch = 0;
         }
       } catch (error) {
