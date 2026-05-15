@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminAuth, adminDb } from '@/lib/server/firebase-admin';
+import { hasValidBearerToken, unauthorizedResponse } from '@/lib/server/bearer-auth';
 import { Timestamp } from 'firebase-admin/firestore';
 
 /**
@@ -7,9 +8,9 @@ import { Timestamp } from 'firebase-admin/firestore';
  * DELETE THIS FILE after use.
  */
 export async function POST(req: NextRequest) {
-  const auth = req.headers.get('Authorization');
-  if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = req.headers.get('authorization');
+  if (!hasValidBearerToken(auth, process.env.CRON_SECRET)) {
+    return unauthorizedResponse();
   }
 
   try {

@@ -7,6 +7,7 @@ import { buildSierraCodeMetadata } from '@/lib/services/coding-algorithm';
 import { WhatsAppParserService } from '@/lib/services/WhatsAppParserService';
 import { OrchestratorService } from '@/lib/services/orchestrator';
 import { GoogleSheetsSync } from '@/lib/services/sheets-sync';
+import { hasValidBearerToken, unauthorizedResponse } from '@/lib/server/bearer-auth';
 
 /**
  * SIERRA BLU — CRON: INGEST FROM GOOGLE SHEETS BUFFER
@@ -111,8 +112,8 @@ export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
 
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!hasValidBearerToken(authHeader, cronSecret)) {
+    return unauthorizedResponse();
   }
 
   const spreadsheetId = process.env.BROKER_INBOX_SHEET_ID;

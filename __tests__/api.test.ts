@@ -44,6 +44,7 @@ describe('POST /api/orchestrate', () => {
   let POST: (req: NextRequest) => Promise<Response>;
 
   beforeAll(async () => {
+    process.env.SBR_SECRET_KEY = 'sierra_blu_route_secret';
     ({ POST } = await import('@/app/api/orchestrate/route'));
   });
 
@@ -82,6 +83,70 @@ describe('GET /api/cron/ingest-from-sheets', () => {
     process.env.CRON_SECRET = 'sierra_blu_dev_secret_2026';
     const req = makeReq('GET', '/api/cron/ingest-from-sheets', { authorization: 'Bearer wrong-secret' });
     const res = await GET(req);
+    expect(res.status).toBe(401);
+  });
+
+  test('returns 401 when CRON_SECRET is not configured', async () => {
+    delete process.env.CRON_SECRET;
+    const req = makeReq('GET', '/api/cron/ingest-from-sheets', { authorization: 'Bearer undefined' });
+    const res = await GET(req);
+    expect(res.status).toBe(401);
+  });
+});
+
+// --------------------------------------------------------------------------
+// POST /api/admin/deploy — requires Bearer SBR_SECRET_KEY
+// --------------------------------------------------------------------------
+describe('POST /api/admin/deploy', () => {
+  let POST: (req: NextRequest) => Promise<Response>;
+
+  beforeAll(async () => {
+    ({ POST } = await import('@/app/api/admin/deploy/route'));
+  });
+
+  test('returns 401 when Authorization header is missing', async () => {
+    process.env.SBR_SECRET_KEY = 'deploy-secret';
+    const req = makeReq('POST', '/api/admin/deploy', {}, { type: 'patch' });
+    const res = await POST(req);
+    expect(res.status).toBe(401);
+  });
+
+  test('returns 401 when Authorization header is wrong', async () => {
+    process.env.SBR_SECRET_KEY = 'deploy-secret';
+    const req = makeReq('POST', '/api/admin/deploy', { authorization: 'Bearer wrong-secret' }, { type: 'patch' });
+    const res = await POST(req);
+    expect(res.status).toBe(401);
+  });
+
+  test('returns 401 when SBR_SECRET_KEY is not configured', async () => {
+    delete process.env.SBR_SECRET_KEY;
+    const req = makeReq('POST', '/api/admin/deploy', { authorization: 'Bearer deploy-secret' }, { type: 'patch' });
+    const res = await POST(req);
+    expect(res.status).toBe(401);
+  });
+});
+
+// --------------------------------------------------------------------------
+// POST /api/webhooks/property-finder — requires PF webhook signature
+// --------------------------------------------------------------------------
+describe('POST /api/webhooks/property-finder', () => {
+  let POST: (req: NextRequest) => Promise<Response>;
+
+  beforeAll(async () => {
+    ({ POST } = await import('@/app/api/webhooks/property-finder/route'));
+  });
+
+  test('returns 401 when PF_WEBHOOK_SECRET is not configured', async () => {
+    delete process.env.PF_WEBHOOK_SECRET;
+    const req = makeReq('POST', '/api/webhooks/property-finder', {}, { type: 'lead.created', data: { id: 'lead-1' } });
+    const res = await POST(req);
+    expect(res.status).toBe(401);
+  });
+
+  test('returns 401 when signature is missing', async () => {
+    process.env.PF_WEBHOOK_SECRET = 'pf-secret';
+    const req = makeReq('POST', '/api/webhooks/property-finder', {}, { type: 'lead.created', data: { id: 'lead-1' } });
+    const res = await POST(req);
     expect(res.status).toBe(401);
   });
 });

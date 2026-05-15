@@ -4,19 +4,30 @@ import { COLLECTIONS } from '@/lib/models/schema';
 import { Timestamp } from 'firebase-admin/firestore';
 import crypto from 'crypto';
 
-const WEBHOOK_SECRET = process.env.PF_WEBHOOK_SECRET || '';
+function getWebhookSecret() {
+  return process.env.PF_WEBHOOK_SECRET || '';
+}
 
 function verifySignature(payload: string, signature: string): boolean {
-  if (!WEBHOOK_SECRET || !signature) return !WEBHOOK_SECRET;
-  const expected = crypto.createHmac('sha256', WEBHOOK_SECRET).update(payload).digest('hex');
-  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+  const webhookSecret = getWebhookSecret();
+
+  if (!webhookSecret || !signature) return false;
+  const expected = crypto.createHmac('sha256', webhookSecret).update(payload).digest('hex');
+  const signatureBuffer = Buffer.from(signature);
+  const expectedBuffer = Buffer.from(expected);
+
+  if (signatureBuffer.length !== expectedBuffer.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(signatureBuffer, expectedBuffer);
 }
 
 export async function POST(request: NextRequest) {
   const rawBody = await request.text();
   const signature = request.headers.get('X-Signature') || '';
 
-  if (WEBHOOK_SECRET && !verifySignature(rawBody, signature)) {
+  if (!verifySignature(rawBody, signature)) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
   }
 

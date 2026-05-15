@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminDb } from '@/lib/server/firebase-admin';
 import { COLLECTIONS } from '@/lib/models/schema';
+import { hasValidBearerToken, unauthorizedResponse } from '@/lib/server/bearer-auth';
 import { FieldValue } from 'firebase-admin/firestore';
 
 /**
@@ -10,10 +11,9 @@ import { FieldValue } from 'firebase-admin/firestore';
  */
 export async function POST(req: NextRequest) {
   try {
-    // Basic auth check - in a real app, use next-auth session
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authHeader = req.headers.get('authorization');
+    if (!hasValidBearerToken(authHeader, process.env.SBR_SECRET_KEY)) {
+      return unauthorizedResponse();
     }
 
     const { type = 'patch' } = await req.json();

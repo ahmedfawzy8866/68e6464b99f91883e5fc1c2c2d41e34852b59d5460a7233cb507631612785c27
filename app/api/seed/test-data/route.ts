@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { adminDb } from '@/lib/server/firebase-admin';
+import { hasValidBearerToken, unauthorizedResponse } from '@/lib/server/bearer-auth';
 import { Timestamp } from 'firebase-admin/firestore';
 import { COLLECTIONS } from '@/lib/models/schema';
 
@@ -177,9 +178,9 @@ const SAMPLE_LISTINGS = [
 
 export async function POST(req: Request) {
   try {
-    const auth = req.headers.get('Authorization');
-    if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const auth = req.headers.get('authorization');
+    if (!hasValidBearerToken(auth, process.env.CRON_SECRET)) {
+      return unauthorizedResponse();
     }
 
     const listingsRef = adminDb.collection(COLLECTIONS.units);

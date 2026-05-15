@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { MaintenanceMonitor } from '@/lib/services/MaintenanceMonitor';
 import { adminDb } from '@/lib/server/firebase-admin';
+import { hasValidBearerToken, unauthorizedResponse } from '@/lib/server/bearer-auth';
 import { COLLECTIONS } from '@/lib/models/schema';
 import { Timestamp } from 'firebase-admin/firestore';
 
@@ -13,8 +14,8 @@ export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
 
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!hasValidBearerToken(authHeader, cronSecret)) {
+    return unauthorizedResponse();
   }
 
   try {
