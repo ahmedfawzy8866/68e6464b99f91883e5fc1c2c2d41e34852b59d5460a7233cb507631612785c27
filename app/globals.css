@@ -123,8 +123,8 @@ section {
 /* Glassmorphism */
 .glass {
   background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   border: 1px solid var(--outline-variant) !important;
 }
 [data-theme='dark'] .glass {
@@ -290,6 +290,7 @@ html {
 
 .lux-glass {
   background: var(--bg-glass);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--border-gold);
   box-shadow: var(--shadow);

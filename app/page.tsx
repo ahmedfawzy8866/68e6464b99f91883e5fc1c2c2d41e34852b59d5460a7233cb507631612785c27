@@ -161,8 +161,6 @@ const COPY = {
       { icon: '◈', title: 'مطابقة بالذكاء الاصطناعي', stat: '٩٨٪', statLabel: 'دقة المطابقة', desc: 'ذكاؤنا الاصطناعي يقارن معاييرك ببيانات السوق الحية وتاريخ الأسعار وتوقعات العائد ليظهر لك أفضل الصفقات أولاً.' },
       { icon: '◉', title: 'مستشار مخصص', stat: '٤ث', statLabel: 'متوسط الرد', desc: 'مستشار واحد من أول اتصال لآخر توقيع. يعرف ميزانيتك وتفضيلاتك والسوق — بدون تحويلات أو تكرار.' },
     ],
-    bannerH: 'منازل استثنائية، مطابقة ذكية',
-    bannerSub: 'Exceptional Homes, Intelligent Matching',
     bannerH: 'أصول استثنائية، مطابقة ذكية',
     bannerSub: 'Exceptional Assets, Intelligent Matching',
     bannerBtn: 'عرض المحفظة',

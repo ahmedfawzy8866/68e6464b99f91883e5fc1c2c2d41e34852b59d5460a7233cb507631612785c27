@@ -9,6 +9,7 @@
 /* ═══════════════════════════════════════════════════════════
    BASE GOLD TOKENS (theme-independent)
    ═══════════════════════════════════════════════════════════ */
+:root {
   /* Gold - High Fidelity */
   --gold-prime:     #E9C176;
   --gold-deep:      #C8961A;
@@ -241,8 +242,8 @@ a   { color: inherit; text-decoration: none; }
 /* Glass panel */
 .glass {
   background: var(--bg-glass);
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--border);
 }
 
