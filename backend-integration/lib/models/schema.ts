@@ -80,9 +80,9 @@ export interface IntelligenceObject {
   };
 }
 
-// ─── Units (Listings) ───────────────────────────────────────────────
+// ─── Portfolio Assets (Inventory) ───────────────────────────────────
 
-export interface Unit extends BaseDocument {
+export interface PortfolioAsset extends BaseDocument {
   // Identity
   title: string;
   titleAr?: string;
@@ -164,7 +164,7 @@ export interface Unit extends BaseDocument {
   intelligence?: IntelligenceObject;
 }
 
-export type PortfolioAsset = Unit;
+export type Unit = PortfolioAsset;
 export type Property = PortfolioAsset;
 
 // ─── Projects (Developments) ────────────────────────────────────────
@@ -396,6 +396,7 @@ export interface InvestmentStakeholder extends BaseDocument {
 }
 
 export type Lead = InvestmentStakeholder;
+export type StrategicPipelineItem = InvestmentStakeholder;
 
 // ─── Sales / Transactions ───────────────────────────────────────────
 
@@ -449,7 +450,11 @@ export interface InboundAssetSignal extends BaseDocument {
     matchingKeywords?: string[];
     features?: SierraFeatureCode[];
     sierraCode?: string;
+    videoUrl?: string;
   };
+
+  videoUrl?: string;
+  mediaUrls?: string[];
 
   intelligence?: IntelligenceObject;
 
@@ -565,7 +570,7 @@ export interface Activity extends BaseDocument {
 // ─── Collection Names (Constants) ───────────────────────────────────
 
 export const COLLECTIONS = {
-  units: 'listings',
+  units: 'listings',        // keeping backward compat with existing 'listings' collection
   projects: 'projects',
   developers: 'developers',
   mediaAssets: 'mediaAssets',
@@ -579,8 +584,8 @@ export const COLLECTIONS = {
   proposals: 'proposals',
   brokerListings: 'broker_listings',
   viewings: 'viewings',
-  intelligence: 'intelligence',
-  conciergeSelections: 'concierge_selections',
+  intelligence: 'intelligence', // Global Neural Memory
+  conciergeSelections: 'concierge_selections', // S8 Curated Portfolios
 } as const;
 
 export type CollectionName = typeof COLLECTIONS[keyof typeof COLLECTIONS];

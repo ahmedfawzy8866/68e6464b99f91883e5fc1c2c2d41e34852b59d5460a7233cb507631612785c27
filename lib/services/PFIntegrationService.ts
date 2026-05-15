@@ -1,6 +1,6 @@
 /**
  * Property Finder Integration Service
- * Syncs leads and listings between Sierra Blu CRM and PF Enterprise API (atlas.propertyfinder.com/v1)
+ * Syncs Investment Stakeholders and Portfolio Assets between Sierra Blu Strategic Pipeline and PF Enterprise API (atlas.propertyfinder.com/v1)
  */
 
 import { pfClient, PFListingRequest, PFLead } from '../property-finder-client';
@@ -9,7 +9,7 @@ import { Timestamp } from 'firebase-admin/firestore';
 import { Unit, Lead, COLLECTIONS, UserProfile } from '../models/schema';
 import { PFListing, PFPropertyType } from '../property-finder/types';
 
-export interface PFLeadSyncSummary {
+export interface PFStakeholderSyncSummary {
   created: number;
   updated: number;
   skipped: number;
@@ -17,12 +17,12 @@ export interface PFLeadSyncSummary {
 
 export class PFIntegrationService {
 
-  static async syncIncomingLeads(): Promise<PFLeadSyncSummary> {
-    const summary: PFLeadSyncSummary = { created: 0, updated: 0, skipped: 0 };
-    const pfLeads = await pfClient.fetchLeads({ perPage: '50' });
+  static async syncIncomingStakeholders(): Promise<PFStakeholderSyncSummary> {
+    const summary: PFStakeholderSyncSummary = { created: 0, updated: 0, skipped: 0 };
+    const pfLeads = await pfClient.fetchInvestmentStakeholderRegistry({ perPage: '50' });
 
     for (const lead of pfLeads.data) {
-      const existing = await adminDb.collection(COLLECTIONS.stakeholders)
+      const existing = await adminDb.collection(COLLECTIONS.investmentStakeholders)
         .where('pfLeadId', '==', lead.id)
         .get();
 
@@ -48,7 +48,7 @@ export class PFIntegrationService {
       };
 
       if (existing.empty) {
-        await adminDb.collection(COLLECTIONS.stakeholders).add({
+        await adminDb.collection(COLLECTIONS.investmentStakeholders).add({
           ...payload,
           automation: { botInitiated: false, scoringCompleted: false, whatsappFollowupSent: false, viewingReminderSent: false },
           createdAt: Timestamp.now(),
@@ -63,18 +63,18 @@ export class PFIntegrationService {
     return summary;
   }
 
-  static async syncIncomingListings() {
+  static async syncIncomingPortfolioAssets() {
     let imported = 0;
     let updated = 0;
 
-    const pfResult = await pfClient.searchListings({ perPage: '100' });
+    const pfResult = await pfClient.searchPortfolioAssets({ perPage: '100' });
     console.log('[PF API] Found listings count:', pfResult.data?.length || 0);
 
     const listings = pfResult.data || [];
 
     for (const listing of listings) {
       const ref = listing.reference || String(listing.id);
-      const existing = await adminDb.collection(COLLECTIONS.units)
+      const existing = await adminDb.collection(COLLECTIONS.portfolioAssets)
         .where('pfReferenceNumber', '==', ref)
         .get();
 
@@ -108,7 +108,7 @@ export class PFIntegrationService {
       };
 
       if (existing.empty) {
-        await adminDb.collection(COLLECTIONS.units).add({ ...payload, createdAt: Timestamp.now() });
+        await adminDb.collection(COLLECTIONS.portfolioAssets).add({ ...payload, createdAt: Timestamp.now() });
         imported++;
       } else {
         await existing.docs[0].ref.update(payload);
@@ -120,7 +120,7 @@ export class PFIntegrationService {
   }
 
   static async publishListing(unitId: string) {
-    const unitSnap = await adminDb.collection(COLLECTIONS.units).doc(unitId).get();
+    const unitSnap = await adminDb.collection(COLLECTIONS.portfolioAssets).doc(unitId).get();
     if (!unitSnap.exists) throw new Error('Unit not found');
 
     const unit = { id: unitSnap.id, ...unitSnap.data() } as Unit;
@@ -149,9 +149,9 @@ export class PFIntegrationService {
       },
     };
 
-    const result = await pfClient.createListing(pfListing);
+    const result = await pfClient.createPortfolioAsset(pfListing);
 
-    await adminDb.collection(COLLECTIONS.units).doc(unitId).update({
+    await adminDb.collection(COLLECTIONS.portfolioAssets).doc(unitId).update({
       'automation.isPublishedToPF': true,
       pfReferenceNumber: result.reference || String(result.id),
       lastSyncAt: Timestamp.now(),
@@ -159,7 +159,7 @@ export class PFIntegrationService {
     });
 
     if (result.id) {
-      await pfClient.publishListing(result.id);
+      await pfClient.publishPortfolioAsset(result.id);
     }
 
     return result;

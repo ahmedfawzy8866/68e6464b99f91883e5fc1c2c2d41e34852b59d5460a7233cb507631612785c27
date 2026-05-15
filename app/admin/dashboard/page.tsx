@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { db } from '@/lib/firebase';
 import { collection, query, where, getDocs, orderBy, limit, getCountFromServer } from 'firebase/firestore';
 import { Building2, TrendingUp, Handshake, Activity } from 'lucide-react';
+import { COLLECTIONS } from '@/lib/models/schema';
+
 
 interface KPI {
   label: string;
@@ -41,18 +43,18 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        // 1. Total units
-        const unitsSnap = await getCountFromServer(collection(db, 'listings'));
+        // 1. Total Portfolio Assets
+        const unitsSnap = await getCountFromServer(collection(db, COLLECTIONS.portfolioAssets));
         const totalUnits = unitsSnap.data().count;
 
-        // 2. Active deals (not closed)
+        // 2. Strategic Pipeline (active deals)
         const activeDealsSnap = await getCountFromServer(
-          query(collection(db, 'deals'), where('stage', '!=', 'closed'))
+          query(collection(db, COLLECTIONS.strategicPipeline), where('stage', '!=', 'closed'))
         );
         const activeDeals = activeDealsSnap.data().count;
 
-        // 3. Recent deals for the feed
-        const recentQ = query(collection(db, 'deals'), orderBy('updatedAt', 'desc'), limit(8));
+        // 3. Recent activity for the feed
+        const recentQ = query(collection(db, COLLECTIONS.strategicPipeline), orderBy('updatedAt', 'desc'), limit(8));
         const recentSnap = await getDocs(recentQ);
         const recent = recentSnap.docs.map(d => ({ id: d.id, ...d.data() } as RecentDeal));
 
@@ -63,14 +65,14 @@ export default function AdminDashboardPage() {
 
         setKpis([
           {
-            label: 'Total Units',
+            label: 'Portfolio Assets',
             value: totalUnits.toLocaleString(),
             sub: 'in Firestore inventory',
             icon: Building2,
             color: '#031632',
           },
           {
-            label: 'Active Deals',
+            label: 'Strategic Pipeline',
             value: activeDeals.toLocaleString(),
             sub: 'in pipeline',
             icon: Handshake,
@@ -147,7 +149,7 @@ export default function AdminDashboardPage() {
       <div className="bg-white rounded-2xl shadow-[0_2px_16px_-4px_rgba(3,22,50,0.06)] overflow-hidden">
         <div className="px-8 py-6 border-b border-[#f3f4f5] flex items-center justify-between">
           <h2 className="font-bold text-[#071422]" style={{ fontFamily: 'var(--font-display)' }}>
-            Recent Deal Activity
+            Recent Pipeline Activity
           </h2>
           <span className="text-[9px] text-[#3a5570]/50 uppercase tracking-widest font-mono">
             Live Feed

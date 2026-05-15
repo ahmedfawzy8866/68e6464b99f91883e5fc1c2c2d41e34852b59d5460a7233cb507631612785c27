@@ -152,7 +152,7 @@ Luxury section identifier
 
 ## 🎬 Key Pages
 
-### Landing Page (`app/landing/page.tsx`)
+### Landing Page (`app/page.tsx`)
 
 **Sections**:
 1. Hero with parallax (Premium luxury vibes)
@@ -166,6 +166,7 @@ Luxury section identifier
 - Smooth scroll animations
 - Real-time data sync from Firestore
 - Responsive hero image with parallax
+- `/landing` reuses this same canonical page for the public marketing route
 
 ---
 

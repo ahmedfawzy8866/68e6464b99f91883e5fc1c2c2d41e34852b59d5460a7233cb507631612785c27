@@ -37,73 +37,30 @@
     "sessionExpired": "Your session has expired. Please sign in again."
   },
   "nav": {
-    "dashboard": "Dashboard",
+    "dashboard": "Intelligence Terminal",
     "listings": "Portfolio Assets",
-    "crm": "Strategic Pipeline",
-    "flow": "Stakeholder Flow",
+    "flow": "Strategic Pipeline",
+    "crm": "Market Registry",
     "clients": "Investment Stakeholders",
-    "reports": "Intelligence Analytics",
-    "team": "Executive Core",
-    "operations": "Protocols",
-    "commissions": "Yield Ledger",
-    "sync": "Relay Sync",
-    "ai": "Neural Hub",
+    "Live Map": "Live Intelligence Map",
+    "reports": "Market Insights",
+    "team": "Executive Cabinet",
+    "operations": "Core Protocols",
+    "Media Hub": "Asset Visuals",
+    "ai": "Neural Experiences",
+    "commissions": "Capital Ledger",
+    "sync": "Data Synchronization",
+    "processing": "Neural Synthesis",
+    "Intelligence": "Global Intelligence",
+    "Nexus Hub": "Operational Nexus",
+    "admin-dashboard": "System Command",
+    "team-crm": "Cabinet Management",
+    "database": "Registry Core",
+    "System Hub": "System Architecture",
     "settings": "Configurations",
-    "admin-dashboard": "Admin Dashboard",
-    "team-crm": "Executive Strategic Pipeline",
-    "database": "Database Explorer",
     "nexus": "Integration Nexus",
-    "intelligence": "Market Intelligence",
     "media": "Media Hub",
     "operations_hub": "Operations Hub"
-  },
-  "flow": {
-    "title": "Stakeholder Flow Dashboard",
-    "subtitle": "AI Discovers | We Advise | You Decide",
-    "newProspect": "New Investment Stakeholder",
-    "addLead": "Add Investment Stakeholder",
-    "callProspect": "Contact Investment Stakeholder",
-    "saveProspect": "Save Investment Stakeholder",
-    "engine": "Flow Engine",
-    "stats": "Flow Statistics",
-    "noProspects": "No investment stakeholders found in the pipeline.",
-    "listTitle": "Investment Stakeholder Pipeline",
-    "strategicPersonnel": "Active Advisors",
-    "advisingNow": "Clients Under Advisory",
-    "scripts": {
-      "intake": {
-        "title": "Icebreaker & Intake",
-        "text": "Good evening, {name}! This is Sierra Blu Realty... I'm calling about your rental inquiry in New Cairo. Our approach is a bit different; our AI monitors the market in real-time to find your perfect match quickly, without wasting your time on properties that don't exist...",
-        "tasks": ["Verify correct name", "Explain AI advantage", "Schedule follow-up"]
-      },
-      "ai-discovery": {
-        "title": "AI Discovery Phase",
-        "text": "To get the most accurate results from our system, I'd like to know: do you prefer an apartment or a villa? Fully furnished or just appliances? Any specific compound in mind, or is location the priority?",
-        "tasks": ["Unit type", "Furnishing level", "Preferred location", "Move-in date"]
-      },
-      "advisory": {
-        "title": "Professional Advisory",
-        "text": "I've personally reviewed the 3 recommendations the system selected today; they truly are the best value and location currently available. I'd recommend the first unit if you prioritize quiet, or the second if proximity to services is key. Would you like to view them tomorrow?",
-        "tasks": ["Manual review of matches", "Expert recommendation", "Set inspection time"]
-      },
-      "presentation": {
-        "title": "Presentation & Decision",
-        "text": "As you saw during the inspection, this unit is a rare find and the price is unbeatable for its features. Shall we finalize the contract today to ensure it's not taken off the market?",
-        "tasks": ["Handle objections", "Explain terms", "Closing decision"]
-      },
-      "closed": {
-        "title": "Deal Finalization",
-        "text": "Congratulations on your new home! Sierra Blu is always here if you need anything during your stay.",
-        "tasks": ["Sign contract", "Collect commission", "Request review"]
-      }
-    },
-    "stages": {
-      "intake": "Stakeholder Intake",
-      "ai-discovery": "AI Discovery",
-      "advisory": "Advisor Review",
-      "presentation": "Inspection",
-      "closed": "Contracted"
-    }
   },
   "dashboard": {
     "title": "Executive Dashboard",
@@ -115,14 +72,35 @@
     "marketInsights": "Market Insights",
     "performance": "Performance Overview",
     "quickActions": "Quick Actions",
-    "greeting": "Welcome",
-    "morning": "Good morning",
-    "afternoon": "Good afternoon",
-    "evening": "Good evening",
+    "greeting": "Welcome back",
+    "morning": "Good Morning",
+    "afternoon": "Good Afternoon",
+    "evening": "Good Evening",
     "statusOptimum": "Operational Status: Optimum",
-    "incorporateAsset": "INCORPORATE ASSET",
+    "incorporateAsset": "Incorporate Asset",
+    "institutionalIntelligence": "Institutional Intelligence",
+    "neuralLinkActive": "Neural Link Active",
+    "marketIntelligence": "Market Intelligence",
+    "operationalVelocity": "Operational Velocity",
+    "globalRegistry": "Global Registry",
+    "securityNodeStatus": "Security Node Status",
+    "neuralCore": "Neural Core",
+    "optimal": "Optimal",
+    "syncGateway": "Sync Gateway",
+    "stable": "Stable",
+    "dataPersistence": "Data Persistence",
+    "precisionMotto": "Precision is the architect of excellence.",
+    "upcomingMilestone": "Upcoming Milestone",
+    "quarterlyReview": "Quarterly Review",
+    "portfolioAssets": "Portfolio Assets",
+    "liveInventory": "Live Inventory",
+    "activeStakeholders": "Active Stakeholders",
+    "priority": "Priority",
+    "capitalTransacted": "Capital Transacted",
+    "executivePartners": "Executive Partners",
+    "secured": "Secured",
     "executiveProtocols": "EXECUTIVE PROTOCOLS",
-    "inventoryIngestion": "Asset Ingestion",
+    "inventoryIngestion": "Inventory Ingestion",
     "stakeholderProtocol": "Investment Stakeholder Protocol",
     "lifecycleVelocity": "Lifecycle Velocity",
     "strategicIntel": "Strategic Intel"
@@ -149,6 +127,169 @@
     "gridView": "Grid View",
     "tableView": "Table View",
     "syncFromPF": "Synchronize Assets"
+  },
+  "activity": {
+    "title": "Operational Velocity",
+    "liveFeed": "Live Feed",
+    "noSignals": "Zero operational signals detected in the current window.",
+    "justNow": "Just now",
+    "minutesAgo": "m ago",
+    "hoursAgo": "h ago"
+  },
+  "flow": {
+    "title": "Stakeholder Flow Dashboard",
+    "subtitle": "AI Discovers | We Advise | You Decide",
+    "newProspect": "New Investment Stakeholder",
+    "addLead": "Add Investment Stakeholder",
+    "callProspect": "Contact Investment Stakeholder",
+    "saveProspect": "Save Investment Stakeholder",
+    "engine": "Flow Engine",
+    "stats": "Flow Statistics",
+    "noProspects": "No investment stakeholders found in the pipeline.",
+    "listTitle": "Investment Stakeholder Pipeline",
+    "strategicPersonnel": "Active Advisors",
+    "advisingNow": "Clients Under Advisory",
+    "scripts": {
+      "intake": {
+        "title": "Icebreaker & Intake",
+        "text": "Good evening, {name}! This is Sierra Blu Realty... I'm calling about your rental inquiry in New Cairo. Our approach is a bit different; our AI monitors the market in real-time to find your perfect match quickly, without wasting your time on properties that don't exist...",
+        "tasks": [
+          "Verify correct name",
+          "Explain AI advantage",
+          "Schedule follow-up"
+        ]
+      },
+      "ai-discovery": {
+        "title": "AI Discovery Phase",
+        "text": "To get the most accurate results from our system, I'd like to know: do you prefer an apartment or a villa? Fully furnished or just appliances? Any specific compound in mind, or is location the priority?",
+        "tasks": [
+          "Unit type",
+          "Furnishing level",
+          "Preferred location",
+          "Move-in date"
+        ]
+      },
+      "advisory": {
+        "title": "Professional Advisory",
+        "text": "I've personally reviewed the 3 recommendations the system selected today; they truly are the best value and location currently available. I'd recommend the first unit if you prioritize quiet, or the second if proximity to services is key. Would you like to view them tomorrow?",
+        "tasks": [
+          "Manual review of matches",
+          "Expert recommendation",
+          "Set inspection time"
+        ]
+      },
+      "presentation": {
+        "title": "Presentation & Decision",
+        "text": "As you saw during the inspection, this unit is a rare find and the price is unbeatable for its features. Shall we finalize the contract today to ensure it's not taken off the market?",
+        "tasks": [
+          "Handle objections",
+          "Explain terms",
+          "Closing decision"
+        ]
+      },
+      "closed": {
+        "title": "Deal Finalization",
+        "text": "Congratulations on your new home! Sierra Blu is always here if you need anything during your stay.",
+        "tasks": [
+          "Sign contract",
+          "Collect commission",
+          "Request review"
+        ]
+      }
+    },
+    "stages": {
+      "intake": "Stakeholder Intake",
+      "ai-discovery": "Neural Discovery",
+      "advisory": "Executive Advisory",
+      "presentation": "Asset Presentation",
+      "closed": "Settlement Finalized"
+    },
+    "callsTarget": "Strategic Calls",
+    "messagesTarget": "Nexus Messages"
+  },
+  "pipeline": {
+    "title": "Command Intelligence: Strategic Pipeline",
+    "subtitle": "Analyzing {visible} of {total} active investment stakeholders within the conversion lifecycle",
+    "syncPF": "Sync Property Finder",
+    "neuralMatch": "Neural Match",
+    "onboardProspect": "Onboard Prospect",
+    "syncing": "Synchronizing...",
+    "matching": "Matching...",
+    "searchPlaceholder": "Search by name, phone, advisor, channel, or interest",
+    "filters": {
+      "priority": "Priority Engagement",
+      "allPriority": "All priority",
+      "hot": "Hot only",
+      "warm": "Warm only",
+      "cold": "Cold only",
+      "allChannels": "All channels",
+      "allAdvisors": "All advisors"
+    },
+    "metrics": {
+      "visible": "Visible Pipeline",
+      "visibleSub": "Filtered operating view",
+      "hot": "Hot Prospects",
+      "hotSub": "Immediate follow-up priority",
+      "closeReady": "Close Ready",
+      "closeReadySub": "Structuring + settlement",
+      "value": "Pipeline Value",
+      "valueSub": "Estimated deal volume (EGP)"
+    },
+    "phases": {
+      "acquisition": {
+        "title": "Strategic Acquisition",
+        "description": "High-intent market entries and incoming portfolio inquiries"
+      },
+      "consultation": {
+        "title": "Executive Consultation",
+        "description": "Initial discovery and architectural preference synthesis"
+      },
+      "inspection": {
+        "title": "Asset Inspection",
+        "description": "Private viewings and physical property experience"
+      },
+      "structuring": {
+        "title": "Deal Structuring",
+        "description": "Financial reconciliation and contractual architecture"
+      },
+      "settlement": {
+        "title": "Portfolio Settlement",
+        "description": "Successful asset transition and relationship formalization"
+      }
+    },
+    "card": {
+      "portfolioFocus": "Portfolio Focus",
+      "investmentCapacity": "Investment Capacity",
+      "neuralMatches": "Neural Matches",
+      "advisor": "Advisor",
+      "vipReward": "VIP VIEWING REWARD ACTIVE",
+      "ingestion": "Ingestion",
+      "activeIntel": "Active Operational Intel",
+      "proposePackage": "Propose Package",
+      "structuring": "Structuring...",
+      "advance": "Advance",
+      "empty": "Reserved for future asset assignments",
+      "noMatches": "No stakeholders match the active filters"
+    },
+    "modal": {
+      "title": "Prospect Specification",
+      "subtitle": "Initialize a new strategic relationship within the portfolio ecosystem",
+      "identity": "Prospect Identity",
+      "namePlaceholder": "Full Legal Name",
+      "contact": "Direct Contact (International)",
+      "contactPlaceholder": "+20 1XX XXX XXXX",
+      "interest": "Inventory Profile Interest",
+      "interestPlaceholder": "e.g. Waterfront Mansion",
+      "capital": "Capital Allocation (EGP)",
+      "capitalPlaceholder": "e.g. 25M - 40M",
+      "velocity": "Engagement Velocity",
+      "intent": {
+        "hot": "Critical Intent / Hot",
+        "warm": "Proactive / Warm",
+        "cold": "Observational / Cold"
+      }
+    },
+    "loader": "Synchronizing Opportunity Pipeline..."
   },
   "crm": {
     "title": "Strategic Pipeline",
@@ -205,7 +346,10 @@
     "brand": "SIERRA BLU",
     "sub": "REALTY",
     "tagline": "INTELLIGENCE-LED PROPERTY ADVISORY",
-    "heroH1": ["Refined", "Decisions."],
+    "heroH1": [
+      "Refined",
+      "Decisions."
+    ],
     "heroItalic": "Intelligence-Led.",
     "heroDesc": "Exceptional properties, precisely matched. We guide discerning investors toward Egypt's finest addresses — curated by expert advisors, refined by AI.",
     "heroTag": "Beyond Brokerage",
@@ -383,6 +527,31 @@
         "locked": "Too many failed attempts. Access temporarily locked.",
         "failure": "System authentication failure. Contact Infrastructure Support."
       }
+    }
+  },
+  "clients": {
+    "title": "Global Stakeholder Portfolio",
+    "subtitle": "Comprehensive record of all active prospects, historical interactions, and asset allocations",
+    "searchPlaceholder": "Search by name, phone, or portfolio preference...",
+    "exportLedger": "Export Ledger",
+    "phases": {
+      "all": "All Phases",
+      "acquisition": "Acquisition",
+      "consultation": "Consultation",
+      "inspection": "Inspection",
+      "structuring": "Structuring",
+      "settlement": "Settled"
+    },
+    "table": {
+      "identity": "Stakeholder Identity",
+      "capital": "Capital Allocation",
+      "focus": "Portfolio Focus",
+      "advisor": "Assigned Advisor",
+      "phase": "Operational Phase",
+      "date": "Ingestion Date",
+      "unassigned": "Unassigned",
+      "historical": "Historical",
+      "noResults": "No stakeholders matching your search criteria were found in the ledger."
     }
   }
 }

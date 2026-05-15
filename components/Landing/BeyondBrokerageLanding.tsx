@@ -269,7 +269,7 @@ export default function BeyondBrokerageLanding() {
           </div>
           <div className="flex flex-col">
             <span className="font-['Poppins'] text-[14px] font-semibold tracking-[0.12em] text-white">SIERRA BLU</span>
-            <span className="font-['Inter'] text-[9px] tracking-[0.2em] text-[#D4AF37] uppercase">Realty · Beyond Brokerage</span>
+            <span className="font-['Inter'] text-[9px] tracking-[0.2em] text-[#D4AF37] uppercase">Beyond Brokerage</span>
           </div>
         </Link>
         <ul className="flex items-center gap-[36px] list-none m-0 p-0">
@@ -395,7 +395,7 @@ export default function BeyondBrokerageLanding() {
                 Featured Portfolio Assets
               </div>
               <h2 className="font-['Playfair_Display'] text-[clamp(36px,4.5vw,56px)] font-normal leading-[1.1] tracking-[-0.02em] reveal reveal-delay-1">
-                Verified <em className="not-italic italic text-[#D4AF37]">Properties</em>
+                Verified <em className="not-italic italic text-[#D4AF37]">Portfolio Assets</em>
               </h2>
             </div>
             <div className="prop-filter flex gap-[8px] reveal reveal-delay-2">
@@ -437,7 +437,7 @@ export default function BeyondBrokerageLanding() {
                       <div className="font-['Playfair_Display'] text-[22px] font-bold text-[#D4AF37]">{prop.price}</div>
                       <div className="text-[11px] text-white/60 mt-[2px]">Code: {prop.code}</div>
                     </div>
-                    <div className="w-[40px] h-[40px] border border-[#D4AF37]/30 rounded-[3px] flex items-center justify-center transition-colors duration-200 hover:bg-[#D4AF37]/10">→</div>
+                    <div className="w-[40px] h-[40px] border border-[#D4AF37]/30 rounded-[3px] flex items-center justify-center transition-colors duration-200 hover:bg-[#D4AF37]/10" title="View Details" role="button" aria-label="View Details">→</div>
                   </div>
                 </div>
               </div>
@@ -454,7 +454,7 @@ export default function BeyondBrokerageLanding() {
             New Cairo Coverage
           </div>
           <h2 className="font-['Playfair_Display'] text-[clamp(36px,4.5vw,56px)] font-normal leading-[1.1] tracking-[-0.02em] mb-[40px] reveal reveal-delay-1">
-            Explore <em className="not-italic italic text-[#D4AF37]">Our Market</em>
+            Explore <em className="not-italic italic text-[#D4AF37]">The Strategic Pipeline</em>
           </h2>
           <div className="grid grid-cols-[1fr_1.6fr] gap-0 border border-[#D4AF37]/10 rounded-[6px] overflow-hidden h-[600px] reveal reveal-delay-2">
             <div className="bg-[#1A3D6B]/30 backdrop-blur-[8px] p-[40px] flex flex-col border-r border-[#D4AF37]/10 overflow-y-auto">
@@ -462,7 +462,7 @@ export default function BeyondBrokerageLanding() {
                 New Cairo &<br/><em className="not-italic italic text-[#D4AF37]">Fifth Settlement</em>
               </div>
               <p className="text-[13px] leading-[1.65] text-white/60 mb-[32px]">
-                We cover all major premium compounds. Click any compound to explore available units.
+                We cover all major premium compounds. Click any compound to explore available assets.
               </p>
               <div className="flex-1">
                 {[
@@ -474,10 +474,10 @@ export default function BeyondBrokerageLanding() {
                   { lat: 30.056, lng: 31.490, name: 'Sodic East', units: 15 },
                   { lat: 30.038, lng: 31.435, name: 'Rehab City', units: 22 },
                 ].map((c, i) => (
-                  <div key={i} className={`compound-item flex items-center gap-[14px] p-[14px_16px] rounded-[4px] cursor-pointer transition-colors duration-200 mb-[2px] hover:bg-[#D4AF37]/10 \${i === 0 ? 'active bg-[#D4AF37]/10' : ''}`} onClick={(e) => flyToCompound(c.lat, c.lng, c.name, e)}>
+                  <div key={i} className={`compound-item flex items-center gap-[14px] p-[14px_16px] rounded-[4px] cursor-pointer transition-colors duration-200 mb-[2px] hover:bg-[#D4AF37]/10 ${i === 0 ? 'active bg-[#D4AF37]/10' : ''}`} role="button" tabIndex={0} onClick={(e) => flyToCompound(c.lat, c.lng, c.name, e)} onKeyDown={(e) => e.key === 'Enter' && flyToCompound(c.lat, c.lng, c.name, e as any)}>
                     <div className="w-[10px] h-[10px] rounded-full bg-[#D4AF37] shrink-0 shadow-[0_0_0_3px_rgba(212,175,55,0.2)]"></div>
                     <span className="text-[14px] font-medium text-white">{c.name}</span>
-                    <span className="text-[11px] text-white/60 ms-auto">{c.units} units</span>
+                    <span className="text-[11px] text-white/60 ms-auto">{c.units} assets</span>
                   </div>
                 ))}
               </div>
@@ -498,7 +498,7 @@ export default function BeyondBrokerageLanding() {
                 Coming Soon
               </div>
               <h2 className="font-['Playfair_Display'] text-[clamp(36px,4.5vw,56px)] font-normal leading-[1.1] tracking-[-0.02em] mb-[24px] reveal reveal-delay-1">
-                Virtual Reality<br/><em className="not-italic italic text-[#D4AF37]">Property Tours</em>
+                Virtual Reality<br/><em className="not-italic italic text-[#D4AF37]">Portfolio Tours</em>
               </h2>
               <p className="text-[15px] leading-[1.75] text-white/85 mb-[40px] reveal reveal-delay-2">
                 Experience properties before you visit. Our immersive VR tours allow you to walk through every room, assess finishes, and understand spatial flow — all from anywhere in the world.
@@ -546,7 +546,7 @@ export default function BeyondBrokerageLanding() {
                 <div className="absolute bottom-[20px] right-[20px] font-['Playfair_Display'] text-[64px] text-[#D4AF37]/5 font-bold leading-none pointer-events-none">INTELLIGENCE</div>
                 <div className="text-[10px] tracking-[0.25em] text-[#D4AF37] uppercase mb-[16px]">Market Intelligence</div>
                 <div className="font-['Playfair_Display'] text-[52px] font-bold text-[#D4AF37] leading-none">98%</div>
-                <div className="text-[14px] text-white/60 mt-[8px]">Lead-to-match accuracy</div>
+                <div className="text-[14px] text-white/60 mt-[8px]">Stakeholder-to-match accuracy</div>
                 <div className="mt-auto flex flex-col gap-[10px]">
                   {[
                     { label: 'Budget Match', val: '96%' },
@@ -582,7 +582,7 @@ export default function BeyondBrokerageLanding() {
                 We Engineer<br/><em className="not-italic italic text-[#D4AF37]">Better Decisions</em>
               </h2>
               <p className="text-[15px] leading-[1.75] text-white/85 mb-[24px]">
-                Sierra Blu Realty is built on expertise, intelligence, and transparency. Our approach combines professional advisors with advanced AI-powered analysis to identify the most relevant opportunities for each client.
+                Sierra Blu is built on expertise, intelligence, and transparency. Our approach combines professional advisors with advanced AI-powered analysis to identify the most relevant opportunities for each Investment Stakeholder.
               </p>
               <p className="text-[15px] leading-[1.75] text-white/60 mb-[40px]">
                 Instead of overwhelming investment stakeholders with portfolio assets, we focus on understanding priorities, analyzing options, and guiding smarter decisions. We guide decisions, not just transactions.
@@ -645,7 +645,7 @@ export default function BeyondBrokerageLanding() {
           <div className="flex items-center justify-between gap-[48px]">
             <div>
               <h2 className="font-['Playfair_Display'] text-[40px] text-[#050B14] mb-[10px]">
-                Your Next Property Decision<br/>Deserves Better Intelligence
+                Your Next Portfolio Decision<br/>Deserves Better Intelligence
               </h2>
               <p className="text-[16px] text-[#0D2444]/70">Schedule a private consultation with our advisory team.</p>
             </div>
@@ -672,7 +672,7 @@ export default function BeyondBrokerageLanding() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-['Poppins'] text-[14px] font-semibold tracking-[0.12em] text-white">SIERRA BLU</span>
-                  <span className="font-['Inter'] text-[9px] tracking-[0.2em] text-[#D4AF37] uppercase">Realty · Beyond Brokerage</span>
+                  <span className="font-['Inter'] text-[9px] tracking-[0.2em] text-[#D4AF37] uppercase">Beyond Brokerage</span>
                 </div>
               </Link>
               <p className="text-[13.5px] leading-[1.7] text-white/60 my-[20px] max-w-[280px]">
@@ -688,7 +688,7 @@ export default function BeyondBrokerageLanding() {
             </div>
             
             {[
-              { title: 'Properties', links: ['For Sale', 'For Rent', 'New Developments', 'Investment Picks', 'Executive Rentals'] },
+              { title: 'Portfolio Assets', links: ['For Sale', 'For Rent', 'New Developments', 'Investment Picks', 'Executive Rentals'] },
               { title: 'Compounds', links: ['Mivida', 'Hyde Park', 'Cairo Festival City', 'Mountain View', 'Palm Hills'] },
               { title: 'Company', links: ['About Sierra Blu', 'Our Services', 'Intelligence Layer', 'Careers', 'Contact'] }
             ].map((col, i) => (
@@ -707,7 +707,7 @@ export default function BeyondBrokerageLanding() {
             ))}
           </div>
           <div className="border-t border-white/5 pt-[32px] flex items-center justify-between text-[12px] text-white/60">
-            <span>© 2026 <span className="text-[#D4AF37]">Sierra Blu Realty</span>. All Rights Reserved. New Cairo, Egypt.</span>
+            <span>© 2026 <span className="text-[#D4AF37]">Sierra Blu</span>. All Rights Reserved. New Cairo, Egypt.</span>
             <span>Built with AI Intelligence · <span className="text-[#D4AF37]">Beyond Brokerage</span></span>
           </div>
         </div>

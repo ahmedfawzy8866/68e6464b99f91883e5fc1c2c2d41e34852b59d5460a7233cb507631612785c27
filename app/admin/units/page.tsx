@@ -8,6 +8,8 @@ import {
   startAfter, QueryDocumentSnapshot
 } from 'firebase/firestore';
 import { Plus, Search, Upload, CheckCircle2, Loader2 } from 'lucide-react';
+import { COLLECTIONS } from '@/lib/models/schema';
+
 
 interface Unit {
   id: string;
@@ -64,13 +66,13 @@ export default function AdminUnitsPage() {
     setLoading(true);
     try {
       let q = filter === 'all'
-        ? query(collection(db, 'listings'), orderBy('createdAt', 'desc'), limit(50))
-        : query(collection(db, 'listings'), where('status', '==', filter), orderBy('createdAt', 'desc'), limit(50));
+        ? query(collection(db, COLLECTIONS.portfolioAssets), orderBy('createdAt', 'desc'), limit(50))
+        : query(collection(db, COLLECTIONS.portfolioAssets), where('status', '==', filter), orderBy('createdAt', 'desc'), limit(50));
 
       if (!reset && lastDoc) {
         q = filter === 'all'
-          ? query(collection(db, 'listings'), orderBy('createdAt', 'desc'), startAfter(lastDoc), limit(50))
-          : query(collection(db, 'listings'), where('status', '==', filter), orderBy('createdAt', 'desc'), startAfter(lastDoc), limit(50));
+          ? query(collection(db, COLLECTIONS.portfolioAssets), orderBy('createdAt', 'desc'), startAfter(lastDoc), limit(50))
+          : query(collection(db, COLLECTIONS.portfolioAssets), where('status', '==', filter), orderBy('createdAt', 'desc'), startAfter(lastDoc), limit(50));
       }
 
       const snap = await getDocs(q);
@@ -102,9 +104,9 @@ export default function AdminUnitsPage() {
         <div>
           <h1 className="text-2xl font-bold text-[#071422] tracking-tight"
             style={{ fontFamily: 'var(--font-display)' }}>
-            Unit Inventory
+            Portfolio Asset Inventory
           </h1>
-          <p className="text-[#3a5570] text-sm mt-0.5">{units.length} units loaded</p>
+          <p className="text-[#3a5570] text-sm mt-0.5">{units.length} assets loaded</p>
         </div>
         <Link
           href="/admin/units/new"
@@ -112,7 +114,7 @@ export default function AdminUnitsPage() {
                      text-xs font-bold tracking-widest uppercase hover:bg-[#1a2b48] transition-colors"
         >
           <Plus size={14} />
-          Add Unit
+          Add Asset
         </Link>
       </div>
 

@@ -27,10 +27,19 @@ export async function GET(request: NextRequest) {
     }
 
     const limitParam = parseInt(searchParams.get('limit') || '12', 10);
-    const snapshot = await adminDb
-      .collection(COLLECTIONS.units)
-      .limit(limitParam)
-      .get();
+    const type = searchParams.get('type');
+    const compound = searchParams.get('compound');
+    const beds = searchParams.get('beds');
+    const maxPrice = searchParams.get('maxPrice');
+
+    let query = adminDb.collection(COLLECTIONS.units).limit(limitParam);
+
+    if (type) query = query.where('propertyType', '==', type);
+    if (compound) query = query.where('compound', '==', compound);
+    if (beds) query = query.where('bedrooms', '>=', parseInt(beds, 10));
+    if (maxPrice) query = query.where('price', '<=', parseInt(maxPrice, 10));
+
+    const snapshot = await query.get();
 
     const listings = snapshot.docs.map((doc) => {
       const data = doc.data();

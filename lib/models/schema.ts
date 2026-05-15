@@ -80,9 +80,9 @@ export interface IntelligenceObject {
   };
 }
 
-// ─── Units (Listings) ───────────────────────────────────────────────
+// ─── Portfolio Assets (Inventory) ───────────────────────────────────
 
-export interface Unit extends BaseDocument {
+export interface PortfolioAsset extends BaseDocument {
   // Identity
   title: string;
   titleAr?: string;
@@ -164,7 +164,7 @@ export interface Unit extends BaseDocument {
   intelligence?: IntelligenceObject;
 }
 
-export type PortfolioAsset = Unit;
+export type Unit = PortfolioAsset;
 export type Property = PortfolioAsset;
 
 // ─── Projects (Developments) ────────────────────────────────────────
@@ -283,6 +283,7 @@ export interface InvestmentStakeholder extends BaseDocument {
   stage: PipelineStage;
   source: StakeholderAcquisitionSource;
   assignedTo?: string;      // User ID
+  market?: MarketCode;
 
   // Interest
   interestedUnitIds?: string[];
@@ -395,6 +396,7 @@ export interface InvestmentStakeholder extends BaseDocument {
 }
 
 export type Lead = InvestmentStakeholder;
+export type StrategicPipelineItem = InvestmentStakeholder;
 
 // ─── Sales / Transactions ───────────────────────────────────────────
 
@@ -448,7 +450,11 @@ export interface InboundAssetSignal extends BaseDocument {
     matchingKeywords?: string[];
     features?: SierraFeatureCode[];
     sierraCode?: string;
+    videoUrl?: string;
   };
+
+  videoUrl?: string;
+  mediaUrls?: string[];
 
   intelligence?: IntelligenceObject;
 
@@ -564,11 +570,12 @@ export interface Activity extends BaseDocument {
 // ─── Collection Names (Constants) ───────────────────────────────────
 
 export const COLLECTIONS = {
-  units: 'listings',        // keeping backward compat with existing 'listings' collection
+  portfolioAssets: 'listings', // Physical collection 'listings' for backward compatibility
   projects: 'projects',
   developers: 'developers',
   mediaAssets: 'mediaAssets',
-  stakeholders: 'leads',
+  investmentStakeholders: 'leads', // Physical collection 'leads' for backward compatibility
+  strategicPipeline: 'deals', // Physical collection 'deals' for "Cinematic Luxury" branding
   sales: 'sales',
   activities: 'activities',
   users: 'users',
@@ -580,4 +587,11 @@ export const COLLECTIONS = {
   viewings: 'viewings',
   intelligence: 'intelligence', // Global Neural Memory
   conciergeSelections: 'concierge_selections', // S8 Curated Portfolios
+} as const;
+
+export type CollectionName = typeof COLLECTIONS[keyof typeof COLLECTIONS];
+
+export const MARKETS = {
+  EGYPT: 'egypt',
+  UAE: 'uae'
 } as const;
