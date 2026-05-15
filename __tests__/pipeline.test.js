@@ -40,6 +40,8 @@ jest.mock('firebase-admin', () => ({
   initializeApp: jest.fn(),
   firestore: jest.fn(() => mockDb),
 }));
+// The function sources are CommonJS modules, so these test imports must use require().
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const admin = require('firebase-admin');
 admin.firestore.FieldValue = { serverTimestamp: mockServerTimestamp };
 
@@ -55,12 +57,14 @@ jest.mock('firebase-functions', () => ({
       onCreate: jest.fn((handler) => handler),
     })),
   },
-}));
+}), { virtual: true });
 
 // --------------------------------------------------------------------------
 // Import the functions under test
 // --------------------------------------------------------------------------
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { collectData } = require('../functions/collectData');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { processDataForApp } = require('../functions/processData');
 
 // --------------------------------------------------------------------------
