@@ -7,20 +7,13 @@ import { v4 as uuidv4 } from 'uuid';
  * Manages institutional asset storage with high-integrity pathing.
  */
 export class StorageService {
-  private static bucket: ReturnType<ReturnType<typeof getStorage>['bucket']> | null = null;
-
   private static getBucket() {
-    if (this.bucket) return this.bucket;
-
-    const storage = getStorage(adminApp);
-    const bucketName = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET;
+    const bucketName = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || adminApp.options.storageBucket;
     if (!bucketName) {
-      throw new Error(
-        'Missing Firebase Storage bucket. Set NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET or FIREBASE_STORAGE_BUCKET.'
-      );
+      throw new Error('Firebase storage bucket is not configured.');
     }
-    this.bucket = storage.bucket(bucketName);
-    return this.bucket;
+
+    return getStorage(adminApp).bucket(bucketName);
   }
 
   /**
@@ -37,6 +30,10 @@ export class StorageService {
     const extension = mimeType.split('/')[1] || 'jpg';
     const filename = `${uuidv4()}.${extension}`;
     const filePath = `properties/${docId}/${filename}`;
+<<<<<<< HEAD
+=======
+    const bucket = this.getBucket();
+>>>>>>> fix: harden firebase build-time initialization
     const file = bucket.file(filePath);
 
     const buffer = Buffer.from(base64Data, 'base64');

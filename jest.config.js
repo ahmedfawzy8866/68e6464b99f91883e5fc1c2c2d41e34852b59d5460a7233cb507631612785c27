@@ -9,6 +9,8 @@ const config = {
     '^@/(.*)$': '<rootDir>/$1',
   },
   modulePathIgnorePatterns: [
+    // Ignore build output so partial Next.js artifacts do not break Jest's haste map.
+    '<rootDir>/.next/',
     // This repository's nested config package has duplicate package metadata that causes haste collisions.
     '<rootDir>/config/',
     // Duplicate package metadata in backend integration fixtures is not part of root Jest suite.
