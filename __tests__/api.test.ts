@@ -88,7 +88,7 @@ describe('GET /api/cron/ingest-from-sheets', () => {
 
   test('returns 401 when CRON_SECRET is not configured', async () => {
     delete process.env.CRON_SECRET;
-    const req = makeReq('GET', '/api/cron/ingest-from-sheets', { authorization: 'Bearer undefined' });
+    const req = makeReq('GET', '/api/cron/ingest-from-sheets');
     const res = await GET(req);
     expect(res.status).toBe(401);
   });
@@ -106,6 +106,7 @@ describe('POST /api/admin/deploy', () => {
 
   test('returns 401 when Authorization header is missing', async () => {
     process.env.SBR_SECRET_KEY = 'deploy-secret';
+    delete process.env.CRON_SECRET;
     const req = makeReq('POST', '/api/admin/deploy', {}, { type: 'patch' });
     const res = await POST(req);
     expect(res.status).toBe(401);
@@ -113,6 +114,7 @@ describe('POST /api/admin/deploy', () => {
 
   test('returns 401 when Authorization header is wrong', async () => {
     process.env.SBR_SECRET_KEY = 'deploy-secret';
+    delete process.env.CRON_SECRET;
     const req = makeReq('POST', '/api/admin/deploy', { authorization: 'Bearer wrong-secret' }, { type: 'patch' });
     const res = await POST(req);
     expect(res.status).toBe(401);
@@ -120,7 +122,8 @@ describe('POST /api/admin/deploy', () => {
 
   test('returns 401 when SBR_SECRET_KEY is not configured', async () => {
     delete process.env.SBR_SECRET_KEY;
-    const req = makeReq('POST', '/api/admin/deploy', { authorization: 'Bearer deploy-secret' }, { type: 'patch' });
+    delete process.env.CRON_SECRET;
+    const req = makeReq('POST', '/api/admin/deploy', {}, { type: 'patch' });
     const res = await POST(req);
     expect(res.status).toBe(401);
   });

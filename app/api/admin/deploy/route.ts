@@ -12,7 +12,8 @@ import { FieldValue } from 'firebase-admin/firestore';
 export async function POST(req: NextRequest) {
   try {
     const authHeader = req.headers.get('authorization');
-    if (!hasValidBearerToken(authHeader, process.env.SBR_SECRET_KEY)) {
+    const deploySecret = process.env.SBR_SECRET_KEY || process.env.CRON_SECRET;
+    if (!hasValidBearerToken(authHeader, deploySecret)) {
       return unauthorizedResponse();
     }
 
