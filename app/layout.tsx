@@ -17,7 +17,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+    >
       <body>
         <ThemeProvider attribute="data-theme" defaultTheme="dark" disableTransitionOnChange>
           <I18nProvider>
