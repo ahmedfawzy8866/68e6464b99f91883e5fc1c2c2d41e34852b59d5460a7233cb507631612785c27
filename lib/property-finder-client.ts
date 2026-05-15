@@ -132,9 +132,13 @@ class PropertyFinderClient {
 
   // ── Listings ──
 
-  public async searchListings(params: Record<string, string> = {}): Promise<{ results: PFListing[]; pagination: any }> {
+  public async searchListings(params: Record<string, string> = {}): Promise<{ data: PFListing[]; pagination: any }> {
     const query = new URLSearchParams(params).toString();
-    return this.request(`/listings${query ? `?${query}` : ''}`);
+    const response = await this.request<any>(`/listings${query ? `?${query}` : ''}`);
+    return {
+      data: response.results || [],
+      pagination: response.pagination || {}
+    };
   }
 
   public async createListing(listing: Omit<PFListing, 'id' | 'status' | 'createdAt' | 'updatedAt'>): Promise<PFListing> {

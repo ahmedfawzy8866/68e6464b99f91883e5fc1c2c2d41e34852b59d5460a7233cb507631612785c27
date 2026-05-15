@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
         delete params.action;
         console.log('[PF API] Searching listings with params:', params);
         const result = await pfClient.searchListings(params);
-        console.log('[PF API] Found listings count:', result.results?.length || 0);
+        console.log('[PF API] Found listings count:', result.data?.length || 0);
         return NextResponse.json(result);
       }
       case 'search-locations': {

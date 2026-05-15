@@ -26,17 +26,20 @@ export const WealthService = {
           propertyType: asset.propertyType as any,
           category: asset.category,
           market: asset.market,
-          status: asset.status as any,
+          status: (asset.status as any) || 'available',
           finishingType: (asset.finishingType === 'fully-finished' || asset.finishingType === 'semi-finished' || asset.finishingType === 'core-shell') 
             ? asset.finishingType 
             : 'not-finished',
           area: asset.area,
           bedrooms: asset.bedrooms || 0,
-          bathrooms: 0,
+          bathrooms: asset.bathrooms || 0,
           amenities: [],
           images: [],
           currency: asset.market === 'uae' ? 'AED' : 'EGP',
-          ownerType: (asset as any).ownerType || 'internal'
+          ownerType: asset.ownerType || 'internal',
+          pricePerSqm: asset.pricePerSqm || 0,
+          compound: asset.compound || '',
+          city: asset.city || ''
         };
 
         try {

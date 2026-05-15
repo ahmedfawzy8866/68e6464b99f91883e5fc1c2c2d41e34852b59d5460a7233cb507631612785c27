@@ -64,9 +64,12 @@ export class PFIntegrationService {
     let imported = 0;
     let updated = 0;
 
-    const pfListings = await pfClient.searchListings({ perPage: '100' });
+    const pfResult = await pfClient.searchListings({ perPage: '100' });
+    console.log('[PF API] Found listings count:', pfResult.data?.length || 0);
 
-    for (const listing of pfListings.results) {
+    const listings = pfResult.data || [];
+
+    for (const listing of listings) {
       const ref = listing.reference || String(listing.id);
       const existing = await adminDb.collection(COLLECTIONS.units)
         .where('pfReferenceNumber', '==', ref)

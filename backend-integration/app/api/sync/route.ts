@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { syncBatch, getPendingDedupeItems, resolveDedupeItem } from '@/lib/services/sync-engine';
 import { PFIntegrationService } from '@/lib/services/PFIntegrationService';
-import { pfClient } from '@/lib/property-finder-client';
+import { pfClient } from '../../../lib/property-finder-client';
 import { verifyRequest, unauthorizedResponse } from '@/lib/server/auth-guard';
 import { adminDb } from '@/lib/server/firebase-admin';
 
@@ -68,7 +68,8 @@ export async function POST(request: NextRequest) {
       case 'run-sync': {
         const filters = body.filters || {};
         const pfResult = await pfClient.searchListings(filters);
-        const listings = pfResult.data || [];
+        // Robust handling for both { data: [...] } and direct array responses
+        const listings = Array.isArray(pfResult) ? pfResult : (pfResult?.data || []);
         const syncResult = await syncBatch(listings as unknown as Record<string, unknown>[]);
         
         // Also sync leads automatically if requested or as part of full run

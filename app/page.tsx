@@ -16,27 +16,45 @@ const LiveMap = dynamic(() => import('@/components/Maps/LiveMap'), {
 });
 
 // ══════════════════════════════════════════════════════════
-//  DESIGN TOKENS
+//  DESIGN TOKENS & CONSTANTS
 // ══════════════════════════════════════════════════════════
-const G = '#E9C176';
-const G2 = '#C8961A';
+const G = 'var(--gold-prime)';
+const G2 = 'var(--sierra-blue)';
 
 const THEMES = {
   dark: {
-    bg: '#132D47', bgAlt: '#0F2435', bg2: '#1A3352',
-    surface: 'rgba(255,255,255,0.065)', surfaceHover: 'rgba(233,193,118,0.12)',
-    card: '#1A3352', cardBorder: 'rgba(233,193,118,0.12)',
-    border: 'rgba(233,193,118,0.20)', borderHover: 'rgba(233,193,118,0.48)',
-    text: '#F5FBFA', textSub: 'rgba(245,251,250,0.80)', textMuted: 'rgba(245,251,250,0.55)',
-    navBg: 'rgba(19,45,71,0.97)', footerBg: '#0F2131', heroBg: '#0F2435',
+    bg: 'var(--night-navy)', 
+    bgAlt: 'var(--deep-navy)', 
+    bg2: 'var(--mid-navy)',
+    surface: 'var(--surface)', 
+    surfaceHover: 'var(--surface-hover)',
+    card: 'var(--bg-card)', 
+    cardBorder: 'var(--border-card)',
+    border: 'var(--border)', 
+    borderHover: 'var(--gold-prime)',
+    text: 'var(--text)', 
+    textSub: 'var(--text-sub)', 
+    textMuted: 'var(--text-muted)',
+    navBg: 'var(--bg-nav)', 
+    footerBg: 'var(--night-navy)', 
+    heroBg: 'var(--night-navy)',
   },
   light: {
-    bg: '#E0F0ED', bgAlt: '#D0E2DF', bg2: '#F0F5F4',
-    surface: 'rgba(27,108,168,0.09)', surfaceHover: 'rgba(233,193,118,0.16)',
-    card: '#F0F5F4', cardBorder: 'rgba(27,108,168,0.16)',
-    border: 'rgba(27,108,168,0.22)', borderHover: 'rgba(233,193,118,0.58)',
-    text: '#061421', textSub: 'rgba(6,20,33,0.80)', textMuted: 'rgba(6,20,33,0.58)',
-    navBg: 'rgba(224,240,237,0.98)', footerBg: '#030D16', heroBg: '#D0E2DF',
+    bg: 'var(--bg)', 
+    bgAlt: 'var(--bg-surface)', 
+    bg2: 'var(--bg-surface)',
+    surface: 'var(--surface)', 
+    surfaceHover: 'var(--surface-hover)',
+    card: 'var(--bg-card)', 
+    cardBorder: 'var(--border-card)',
+    border: 'var(--border)', 
+    borderHover: 'var(--gold-prime)',
+    text: 'var(--text)', 
+    textSub: 'var(--text-sub)', 
+    textMuted: 'var(--text-muted)',
+    navBg: 'var(--bg-nav)', 
+    footerBg: 'var(--deep-navy)', 
+    heroBg: 'var(--bg)',
   },
 };
 
@@ -48,39 +66,39 @@ const COPY = {
     dir: 'ltr' as const,
     brand: 'SIERRA BLU', sub: 'REALTY',
     tagline: 'AI‑POWERED REAL ESTATE INTELLIGENCE',
-    nav: ['Properties', 'Intelligence', 'About', 'Contact'],
-    cta: 'Browse Listings',
+    nav: ['Portfolio', 'Intelligence', 'About', 'Contact'],
+    cta: 'Explore Portfolio',
     heroTag: 'Beyond Brokerage',
     heroH1: ['Smarter', 'Real Estate.'],
     heroItalic: 'Powered by AI intelligence.',
     heroSub: 'New Cairo\'s Premier Rent & Resale Platform',
     heroDesc: 'We combine advanced AI with an exclusive network of 1,500+ elite brokers across New Cairo, Madinaty, and El Shorouk to deliver unmatched value tailored to your needs.',
-    btnDiscover: 'Browse Properties',
+    btnDiscover: 'Explore Portfolio',
     btnView: 'Talk to Sierra AI',
-    stats: [['1,200+', 'Properties'], ['98%', 'Match Rate'], ['8+', 'Compounds'], ['4s', 'Response Time']],
+    stats: [['1,200+', 'Portfolio Assets'], ['98%', 'Match Rate'], ['8+', 'Compounds'], ['4s', 'Response Time']],
     scroll: 'Scroll',
-    secListings: 'Exclusive Listings',
-    h2Listings: 'Homes worth knowing.',
-    viewAll: 'View All →',
-    searchType: 'Property Type', searchCompound: 'Compound', searchBudget: 'Budget', searchBtn: 'Search Now',
-    beds: 'bed', baths: 'bath',
-    secWhy: 'The Sierra Blu Difference',
-    h2Why: 'Why clients choose us.',
-    whyDesc: 'We don\'t just search the market — we analyze it. Powered by AI and 1,500+ trusted brokers, we scan every corner of New Cairo to bring you only the highest-value properties that meet your exact needs.',
+    secListings: 'Strategic Pipeline',
+    h2Listings: 'Portfolio Assets.',
+    viewAll: 'Explore All →',
+    searchType: 'Asset Type', searchCompound: 'Zone', searchBudget: 'Capital', searchBtn: 'Search Now',
+    beds: 'beds', baths: 'baths',
+    secWhy: 'The Sierra Blu Distinction',
+    h2Why: 'Why stakeholders choose us.',
+    whyDesc: 'We don\'t just search the market — we analyze it. Powered by AI and 1,500+ trusted brokers, we scan every corner of New Cairo to bring you only the highest-value portfolio assets that meet your exact needs.',
     why: [
-      { icon: '◆', title: 'Curated Selection', stat: '1,200+', statLabel: 'vetted listings', desc: 'Every property is hand-checked by our advisors. We reject overpriced inventory so you only see what\'s worth your time and money.' },
+      { icon: '◆', title: 'Curated Selection', stat: '1,200+', statLabel: 'vetted assets', desc: 'Every asset is hand-checked by our investment stakeholders. We reject overpriced inventory so you only see what\'s worth your time and capital.' },
       { icon: '◈', title: 'AI-Powered Matching', stat: '98%', statLabel: 'match accuracy', desc: 'Our AI cross-references your criteria against live market data, price history, and ROI projections to surface the best deals first.' },
       { icon: '◉', title: 'Dedicated Advisor', stat: '4s', statLabel: 'avg response', desc: 'One advisor from first call to final signature. They know your budget, your preferences, and the market — no handoffs, no repeating yourself.' },
     ],
-    bannerH: 'Exceptional Homes, Intelligent Matching',
-    bannerSub: 'منازل استثنائية، مطابقة ذكية',
-    bannerBtn: 'View Properties',
+    bannerH: 'Exceptional Assets, Intelligent Matching',
+    bannerSub: 'أصول استثنائية، مطابقة ذكية',
+    bannerBtn: 'View Portfolio',
     secMap: 'Market Intelligence',
-    mapH1: 'New Cairo', mapH2: 'Investment Map',
+    mapH1: 'New Cairo', mapH2: 'Strategic Pipeline',
     mapDesc: 'Real-time data across New Cairo\'s premium zones. Track growth corridors, rental yields, and exclusive off-market signals.',
     zones: [
       { area: 'Fifth Settlement', stat: 'Growth +12%', color: '#4ECDC4' },
-      { area: 'Madinaty', stat: 'High Demand', color: G },
+      { area: 'Madinaty', stat: 'High Demand', color: 'var(--gold-prime)' },
       { area: 'MV iCity', stat: 'Yield 8%', color: '#7EA8B4' },
       { area: 'Mostakbal City', stat: 'Off‑Market', color: '#C084FC' },
       { area: 'Hyde Park', stat: 'Premium', color: '#F97316' },
@@ -88,30 +106,30 @@ const COPY = {
     ],
     mapBtn: 'Explore AI Insights →',
     secAI: 'Meet Sierra',
-    aiH: 'Your AI Real Estate Consultant',
+    aiH: 'Your AI Investment Consultant',
     aiSub: 'First Official AI Real Estate Bot Consultant in Egypt',
-    aiDesc: 'Sierra is always on — analyzing market data, answering your questions, and matching you with properties that fit your exact criteria. Start a conversation and see the difference intelligence makes.',
+    aiDesc: 'Sierra is always on — analyzing market data, answering your questions, and matching you with portfolio assets that fit your exact criteria. Start a conversation and see the difference intelligence makes.',
     aiCTA: 'Start on Telegram →',
-    aiFeatures: ['Instant property matching', 'Market analytics & ROI', 'Arabic & English support', '24/7 availability'],
+    aiFeatures: ['Instant asset matching', 'Market analytics & ROI', 'Arabic & English support', '24/7 availability'],
     aiChat: [
       { from: 'user', text: 'Looking for a 4‑bed villa under 15M EGP in Fifth Settlement' },
-      { from: 'bot', text: 'Found 7 matching properties. Top pick: Villa Lumière — 5 beds, 480 m², EGP 14.2M. ROI: 8.3% annual yield. Shall I send the full report?' },
+      { from: 'bot', text: 'Found 7 matching portfolio assets. Top pick: Villa Lumière — 5 beds, 480 m², EGP 14.2M. ROI: 8.3% annual yield. Shall I send the full report?' },
     ],
-    secTesti: 'Client Stories',
-    h2Testi: 'What our clients say',
+    secTesti: 'Investment Success Stories',
+    h2Testi: 'What our stakeholders say',
     testimonials: [
-      { q: 'I used to spend weeks searching the New Cairo market. Sierra Blu changed everything. Their AI matched me with the exact villa I wanted at the best price available. One platform, zero wasted time.', name: 'Omar T.', role: 'Real Estate Investor', i: 'OT' },
-      { q: 'Finding the right home in New Cairo seemed impossible until Sierra Blu. Their system understood our exact needs and filtered out the noise to deliver the perfect property. Smartest decision we made.', name: 'Sarah & Michael V.', role: 'Relocating Family', i: 'SMV' },
-      { q: 'Sierra Blu found me a property that wasn\'t even on my radar. The AI scans the entire market and delivers the best value. Exact match, zero guesswork.', name: 'Karim H.', role: 'CEO, Apex Holdings', i: 'KH' },
+      { q: 'I used to spend weeks searching the New Cairo market. Sierra Blu changed everything. Their AI matched me with the exact villa I wanted at the best price available. One platform, zero wasted time.', name: 'Omar T.', role: 'Investment Stakeholder', i: 'OT' },
+      { q: 'Finding the right home in New Cairo seemed impossible until Sierra Blu. Their system understood our exact needs and filtered out the noise to deliver the perfect portfolio asset. Smartest decision we made.', name: 'Sarah & Michael V.', role: 'Strategic Partners', i: 'SMV' },
+      { q: 'Sierra Blu found me a portfolio asset that wasn\'t even on my radar. The AI scans the entire market and delivers the best value. Exact match, zero guesswork.', name: 'Karim H.', role: 'CEO, Apex Holdings', i: 'KH' },
     ],
-    ctaTag: 'Find Your Place',
-    ctaH: 'Find Your Place in New Cairo',
+    ctaTag: 'Secure Your Asset',
+    ctaH: 'Secure Your Position in New Cairo',
     ctaSub: 'Leave your details — a Sierra advisor reaches out within 4 seconds.',
-    formName: 'Your name', formPhone: 'Mobile number', formSubmit: 'Get My 25% Discount',
+    formName: 'Full Name', formPhone: 'Mobile number', formSubmit: 'Get Exclusive Access',
     formSuccess: 'We\'re on it. A Sierra advisor will reach out within 4 seconds.',
-    footDesc: 'Beyond Brokerage. AI-powered real estate intelligence for discerning investors in New Cairo and beyond.',
-    footNav: 'Navigation', footNavLinks: ['Properties', 'Intelligence', 'About Us', 'Careers', 'Contact'],
-    footMarkets: 'Markets', footMarketLinks: ['New Cairo', 'Fifth Settlement', 'Madinaty', 'Mostakbal City', 'Mountain View'],
+    footDesc: 'Beyond Brokerage. AI-powered real estate intelligence for discerning investment stakeholders in New Cairo and beyond.',
+    footNav: 'Strategic Navigation', footNavLinks: ['Portfolio Assets', 'Intelligence', 'About Us', 'Careers', 'Contact'],
+    footMarkets: 'Strategic Zones', footMarketLinks: ['New Cairo', 'Fifth Settlement', 'Madinaty', 'Mostakbal City', 'Mountain View'],
     footContact: 'Contact',
     copyright: '© 2026 Sierra Blu Realty. All rights reserved.',
     legal: ['Privacy Policy', 'Terms of Service', 'Cookies'],
@@ -120,8 +138,8 @@ const COPY = {
     dir: 'rtl' as const,
     brand: 'سييرا بلو', sub: 'للعقارات',
     tagline: 'ذكاء عقاري مدعوم بالذكاء الاصطناعي',
-    nav: ['العقارات', 'الذكاء', 'عنّا', 'اتصل'],
-    cta: 'تصفح العقارات',
+    nav: ['المحفظة الاستثمارية', 'الذكاء العقاري', 'عنّا', 'اتصل'],
+    cta: 'استكشف المحفظة',
     heroTag: 'أبعد من الوساطة',
     heroH1: ['عقارات', 'أذكى.'],
     heroItalic: 'مدعومة بالذكاء الاصطناعي.',
@@ -129,12 +147,12 @@ const COPY = {
     heroDesc: 'نجمع بين الذكاء الاصطناعي وشبكة حصرية من ١٥٠٠+ وسيط عقاري في القاهرة الجديدة ومدينتي والشروق لنوفر لك أفضل قيمة تلبي احتياجاتك بالضبط.',
     btnDiscover: 'تصفح العقارات',
     btnView: 'تحدّث مع سييرا',
-    stats: [['١٢٠٠+', 'عقار'], ['٩٨٪', 'نسبة المطابقة'], ['٨+', 'كمباوند'], ['٤ث', 'زمن الرد']],
+    stats: [['١٢٠٠+', 'أصول المحفظة'], ['٩٨٪', 'نسبة المطابقة'], ['٨+', 'كمباوند'], ['٤ث', 'زمن الرد']],
     scroll: 'اسحب',
-    secListings: 'قوائم حصرية',
-    h2Listings: 'منازل تستحق الاهتمام.',
-    viewAll: '← عرض الكل',
-    searchType: 'نوع العقار', searchCompound: 'الكمباوند', searchBudget: 'الميزانية', searchBtn: 'ابحث الآن',
+    secListings: 'محفظة استراتيجية',
+    h2Listings: 'أصول استثنائية.',
+    viewAll: '← استكشاف الكل',
+    searchType: 'نوع الأصل', searchCompound: 'المنطقة', searchBudget: 'رأس المال', searchBtn: 'ابحث الآن',
     beds: 'غرف', baths: 'حمامات',
     secWhy: 'تميّز سييرا بلو',
     h2Why: 'لماذا يختارنا عملاؤنا.',
@@ -145,7 +163,9 @@ const COPY = {
     ],
     bannerH: 'منازل استثنائية، مطابقة ذكية',
     bannerSub: 'Exceptional Homes, Intelligent Matching',
-    bannerBtn: 'عرض العقارات',
+    bannerH: 'أصول استثنائية، مطابقة ذكية',
+    bannerSub: 'Exceptional Assets, Intelligent Matching',
+    bannerBtn: 'عرض المحفظة',
     secMap: 'ذكاء السوق',
     mapH1: 'القاهرة الجديدة', mapH2: 'خريطة الاستثمار',
     mapDesc: 'بيانات فورية عبر مناطق الاستثمار المميزة في القاهرة الجديدة. تتبع ممرات النمو وعوائد الإيجار والإشارات الحصرية خارج السوق.',
@@ -178,10 +198,10 @@ const COPY = {
     ctaTag: 'ابحث عن مكانك',
     ctaH: 'ابحث عن مكانك في القاهرة الجديدة',
     ctaSub: 'اترك بياناتك — مستشار سييرا سيتواصل معك خلال ٤ ثوانٍ.',
-    formName: 'اسمك', formPhone: 'رقم الموبايل', formSubmit: 'احصل على خصم ٢٥٪',
+    formName: 'الاسم بالكامل', formPhone: 'رقم الجوال', formSubmit: 'احصل على وصول حصري',
     formSuccess: 'نحن على الموضوع. مستشار سييرا سيتواصل معك خلال ٤ ثوانٍ.',
     footDesc: 'أبعد من الوساطة. ذكاء عقاري مدعوم بالذكاء الاصطناعي للمستثمرين في القاهرة الجديدة.',
-    footNav: 'روابط التنقل', footNavLinks: ['العقارات', 'الذكاء', 'عنّا', 'الوظائف', 'اتصل'],
+    footNav: 'روابط التنقل', footNavLinks: ['أصول المحفظة', 'الذكاء العقاري', 'عنّا', 'الوظائف', 'اتصل'],
     footMarkets: 'الأسواق', footMarketLinks: ['القاهرة الجديدة', 'التجمع الخامس', 'مدينتي', 'مستقبل سيتي', 'ماونتن فيو'],
     footContact: 'تواصل معنا',
     copyright: '© ٢٠٢٦ سييرا بلو للعقارات. جميع الحقوق محفوظة.',
@@ -193,12 +213,12 @@ const COPY = {
 //  STATIC LISTINGS (fallback while Firebase loads)
 // ══════════════════════════════════════════════════════════
 const STATIC_LISTINGS = [
-  { id: 1, title: 'Aurora Penthouse', titleAr: 'بنتهاوس أورورا', location: 'Madinaty · New Cairo', locationAr: 'مدينتي · القاهرة الجديدة', price: 'EGP 8,500,000', beds: 4, baths: 3, sqft: '320 m²', badge: 'Hidden Gem', badgeColor: '#7C3AED', img: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=80' },
-  { id: 2, title: 'Villa Lumière', titleAr: 'فيلا لوميير', location: 'Mountain View · 5th Settlement', locationAr: 'ماونتن فيو · التجمع الخامس', price: 'EGP 14,200,000', beds: 5, baths: 4, sqft: '480 m²', badge: 'Featured', badgeColor: '#C8961A', img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=80' },
-  { id: 3, title: 'The Boulevard', titleAr: 'ذا بوليفار', location: 'Mostakbal City · Future', locationAr: 'مستقبل سيتي · المستقبل', price: 'EGP 3,800,000', beds: 3, baths: 2, sqft: '185 m²', badge: 'New', badgeColor: '#1B6CA8', img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=80' },
-  { id: 4, title: 'Emirates Crown', titleAr: 'إيمارتس كراون', location: 'Fifth Settlement · Cairo', locationAr: 'التجمع الخامس · القاهرة', price: 'EGP 22,000,000', beds: 6, baths: 5, sqft: '650 m²', badge: 'Off Market', badgeColor: '#059669', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=80' },
-  { id: 5, title: 'Palm Residences', titleAr: 'بالم ريزيدنسز', location: 'Madinaty · Block 7', locationAr: 'مدينتي · بلوك ٧', price: 'EGP 5,900,000', beds: 3, baths: 3, sqft: '240 m²', badge: 'High ROI', badgeColor: '#DC2626', img: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=700&q=80' },
-  { id: 6, title: 'Sky Tower Penthouse', titleAr: 'بنتهاوس سكاي تاور', location: 'Downtown New Cairo', locationAr: 'وسط القاهرة الجديدة', price: 'EGP 11,500,000', beds: 4, baths: 4, sqft: '380 m²', badge: 'Price Reduced', badgeColor: '#D97706', img: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=700&q=80' },
+  { id: 1, title: 'Aurora Penthouse', titleAr: 'بنتهاوس أورورا', location: 'Madinaty · New Cairo', locationAr: 'مدينتي · القاهرة الجديدة', price: 8500000, beds: 4, baths: 3, sqft: '320 m²', badge: 'Hidden Gem', badgeColor: '#7C3AED', img: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=80' },
+  { id: 2, title: 'Villa Lumière', titleAr: 'فيلا لوميير', location: 'Mountain View · 5th Settlement', locationAr: 'ماونتن فيو · التجمع الخامس', price: 14200000, beds: 5, baths: 4, sqft: '480 m²', badge: 'Featured', badgeColor: '#C8961A', img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=80' },
+  { id: 3, title: 'The Boulevard', titleAr: 'ذا بوليفار', location: 'Mostakbal City · Future', locationAr: 'مستقبل سيتي · المستقبل', price: 3800000, beds: 3, baths: 2, sqft: '185 m²', badge: 'New', badgeColor: '#1B6CA8', img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=80' },
+  { id: 4, title: 'Emirates Crown', titleAr: 'إيمارتس كراون', location: 'Fifth Settlement · Cairo', locationAr: 'التجمع الخامس · القاهرة', price: 22000000, beds: 6, baths: 5, sqft: '650 m²', badge: 'Off Market', badgeColor: '#059669', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=80' },
+  { id: 5, title: 'Palm Residences', titleAr: 'بالم ريزيدنسز', location: 'Madinaty · Block 7', locationAr: 'مدينتي · بلوك ٧', price: 5900000, beds: 3, baths: 3, sqft: '240 m²', badge: 'High ROI', badgeColor: '#DC2626', img: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=700&q=80' },
+  { id: 6, title: 'Sky Tower Penthouse', titleAr: 'بنتهاوس سكاي تاور', location: 'Downtown New Cairo', locationAr: 'وسط القاهرة الجديدة', price: 11500000, beds: 4, baths: 4, sqft: '380 m²', badge: 'Price Reduced', badgeColor: '#D97706', img: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=700&q=80' },
 ];
 
 const ZONE_COORDS: [number, number][] = [
@@ -316,41 +336,66 @@ export default function LandingPage() {
         titleAr: p.title,
         location: `${p.compound} · ${p.location}`,
         locationAr: `${p.compound} · ${p.location}`,
-        price: `EGP ${p.price.toLocaleString()}`,
+        price: `EGP ${p.price.toLocaleString(isAr ? 'ar-EG' : 'en-US')}`,
         beds: p.bedrooms || 3,
-        baths: Math.max(1, Math.floor((p.bedrooms || 3) * 0.7)),
+        baths: p.bathrooms || 2,
         sqft: `${p.area || 200} m²`,
         badge: p.status || 'Available',
         badgeColor: G2,
         img: STATIC_LISTINGS[Math.min(STATIC_LISTINGS.length - 1, featured.indexOf(p))].img,
       }))
-    : STATIC_LISTINGS;
+    : STATIC_LISTINGS.map(p => ({
+        ...p,
+        price: `EGP ${p.price.toLocaleString(isAr ? 'ar-EG' : 'en-US')}`,
+      }));
 
   return (
     <div style={{ minHeight: '100vh', background: th.bg, color: th.text, transition: 'background .5s, color .5s' }} dir={T.dir}>
 
       {/* ══ NAV ══ */}
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 48px', background: scrolled ? th.navBg : 'transparent', backdropFilter: scrolled ? 'blur(20px)' : 'none', borderBottom: scrolled ? `1px solid ${th.border}` : '1px solid transparent', transition: 'all .4s cubic-bezier(.16,1,.3,1)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
+      <nav className={`fixed top-0 left-0 right-0 z-[300] h-[68px] flex items-center justify-between px-12 transition-all duration-700 cubic-bezier(0.16,1,0.3,1) ${scrolled ? 'lux-glass border-b border-white/10' : 'bg-transparent border-b border-transparent'}`} dir={T.dir}>
+        <div className="flex items-center gap-3 cursor-pointer group">
           <ShieldLogo size={38} />
-          <div>
-            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: isAr ? 16 : 18, fontWeight: 600, letterSpacing: isAr ? '.06em' : '.2em', color: G, lineHeight: 1 }}>{T.brand}</div>
-            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: 8, letterSpacing: '.38em', color: th.textSub, marginTop: 2 }}>{T.sub}</div>
+          <div className="flex flex-col">
+            <div className="lux-gold-text text-lg leading-tight tracking-[0.2em] font-serif uppercase">
+              {T.brand}
+            </div>
+            <div className="text-[8px] tracking-[0.38em] text-white/40 uppercase font-body mt-0.5">
+              {T.sub}
+            </div>
           </div>
         </div>
-        <div className="hidden md:flex" style={{ gap: 32, alignItems: 'center' }}>
+        <div className="hidden md:flex gap-8 items-center">
           {T.nav.map((n, i) => (
-            <span key={n} onClick={() => scrollTo(['listings', 'intelligence', 'about', 'contact'][i])} className="hover:text-secondary transition-colors cursor-pointer" style={{ fontSize: 11, fontWeight: 500, letterSpacing: '.13em', textTransform: 'uppercase', color: th.textSub, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{n}</span>
+            <span 
+              key={n} 
+              onClick={() => scrollTo(['listings', 'intelligence', 'about', 'contact'][i])} 
+              className="text-[11px] font-medium tracking-[0.13em] uppercase transition-all duration-300 cursor-pointer hover:text-[var(--gold-prime)]"
+              style={{ color: th.textSub, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}
+            >
+              {n}
+            </span>
           ))}
         </div>
-        <div className="flex items-center gap-2.5">
-          <button onClick={() => setLocale(locale === 'ar' ? 'en' : 'ar')} style={{ background: th.surface, border: `1px solid ${th.border}`, color: G, padding: '6px 14px', borderRadius: 4, fontSize: 11, fontWeight: 600, letterSpacing: '.1em', cursor: 'pointer', fontFamily: "'Jost', sans-serif" }}>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setLocale(locale === 'ar' ? 'en' : 'ar')} 
+            className="lux-button-outline !px-3 !py-1.5 !text-[10px]"
+          >
             {lang === 'en' ? 'AR' : 'EN'}
           </button>
-          <button onClick={() => setTheme(mode === 'dark' ? 'light' : 'dark')} style={{ background: th.surface, border: `1px solid ${th.border}`, color: th.textSub, width: 34, height: 34, borderRadius: '50%', cursor: 'pointer', fontSize: 15, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <button 
+            onClick={() => setTheme(mode === 'dark' ? 'light' : 'dark')} 
+            className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:bg-white/5 border border-white/10 text-white/60 hover:text-white"
+          >
             {mode === 'dark' ? '☀' : '🌙'}
           </button>
-          <button onClick={() => scrollTo('listings')} className="hidden sm:inline-flex" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: th.text, border: `1px solid ${th.border}`, cursor: 'pointer', fontFamily: "'Jost', sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '.14em', textTransform: 'uppercase', padding: '8px 18px', borderRadius: 4, transition: 'all .3s ease' }} onMouseEnter={(e) => { e.currentTarget.style.borderColor = G; e.currentTarget.style.color = G; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = th.border; e.currentTarget.style.color = th.text; }}>{T.cta}</button>
+          <button 
+            onClick={() => scrollTo('listings')} 
+            className="hidden sm:lux-button-outline !px-4 !py-2 !text-[10px]"
+          >
+            {T.cta}
+          </button>
         </div>
       </nav>
 
@@ -366,34 +411,34 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-[55%_45%] gap-14 items-center" style={{ paddingTop: 0, paddingBottom: 80 }}>
             <div style={{ order: isAr ? 2 : 1 }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexDirection: isAr ? 'row-reverse' : 'row', animation: loaded ? 'fadeUp .6s ease .1s both' : 'none' }}>
-                <div style={{ width: 28, height: 1, background: G }} />
-                <span style={{ fontSize: 10, letterSpacing: isAr ? '.04em' : '.28em', color: G, fontWeight: 500, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.tagline}</span>
+                <div style={{ width: 28, height: 1, background: 'var(--gold-prime)' }} />
+                <span className="lux-section-subtitle !mb-0">{T.tagline}</span>
               </div>
 
-              <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 300, color: th.text, lineHeight: 1.1, letterSpacing: '-0.015em', margin: '20px 0 14px', textAlign: isAr ? 'right' : 'left', animation: loaded ? 'fadeUp .7s ease .2s both' : 'none' }}>
+              <h1 className="lux-section-title !text-[clamp(32px,4vw,56px)] !mb-4 mt-5" style={{ textAlign: isAr ? 'right' : 'left', animation: loaded ? 'fadeUp .7s ease .2s both' : 'none' }}>
                 {T.heroH1[0]}<br />{T.heroH1[1]}<br />
-                <em className="gold-text" style={{ fontStyle: 'italic' }}>{T.heroItalic}</em>
+                <em className="lux-gold-text" style={{ fontStyle: 'italic' }}>{T.heroItalic}</em>
               </h1>
 
-              <div style={{ fontSize: isAr ? 13 : 11, letterSpacing: isAr ? '.04em' : '.2em', textTransform: 'uppercase', color: G, fontWeight: 500, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif", marginBottom: 16, animation: loaded ? 'fadeUp .7s ease .3s both' : 'none' }}>{T.heroSub}</div>
+              <div className="text-[11px] tracking-[0.2em] uppercase text-[var(--gold-prime)] font-medium mb-4" style={{ animation: loaded ? 'fadeUp .7s ease .3s both' : 'none' }}>{T.heroSub}</div>
 
-              <p style={{ fontSize: 14, fontWeight: 300, lineHeight: 1.75, color: th.textSub, maxWidth: 480, textAlign: isAr ? 'right' : 'left', marginBottom: 28, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif", animation: loaded ? 'fadeUp .7s ease .38s both' : 'none' }}>{T.heroDesc}</p>
+              <p className="text-sm font-light leading-relaxed mb-8 max-w-lg" style={{ color: th.textSub, textAlign: isAr ? 'right' : 'left', animation: loaded ? 'fadeUp .7s ease .38s both' : 'none' }}>{T.heroDesc}</p>
 
-              <div className="flex gap-3" style={{ flexDirection: isAr ? 'row-reverse' : 'row', marginBottom: 48, animation: loaded ? 'fadeUp .7s ease .46s both' : 'none' }}>
-                <Link href="/listings">
-                  <button className="btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: `linear-gradient(135deg,${G2},${G})`, color: '#071422', border: 'none', cursor: 'pointer', fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: isAr ? '.02em' : '.14em', textTransform: 'uppercase', padding: '13px 28px', borderRadius: 4, boxShadow: '0 4px 20px rgba(233,193,118,0.26)', textDecoration: 'none', transition: 'all .3s ease' }}>{T.btnDiscover}</button>
+              <div className="flex gap-4 mb-12" style={{ flexDirection: isAr ? 'row-reverse' : 'row', animation: loaded ? 'fadeUp .7s ease .46s both' : 'none' }}>
+                <Link href="/listings" className="lux-button lux-button-primary">
+                  {T.btnDiscover}
                 </Link>
-                <Link href="/virtual-tour">
-                  <button className="btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: th.text, border: `1px solid ${th.border}`, cursor: 'pointer', fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: isAr ? '.02em' : '.14em', textTransform: 'uppercase', padding: '12px 28px', borderRadius: 4, textDecoration: 'none', transition: 'all .3s ease' }}>{T.btnView}</button>
+                <Link href="/virtual-tour" className="lux-button lux-button-outline">
+                  {T.btnView}
                 </Link>
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-4" style={{ background: mode === 'dark' ? 'rgba(255,255,255,0.045)' : 'rgba(7,20,34,0.06)', border: `1px solid ${th.border}`, borderRadius: 8, overflow: 'hidden', backdropFilter: 'blur(12px)', animation: loaded ? 'fadeUp .7s ease .56s both' : 'none' }}>
+              <div className="grid grid-cols-4 lux-glass rounded-xl overflow-hidden" style={{ animation: loaded ? 'fadeUp .7s ease .56s both' : 'none' }}>
                 {T.stats.map(([val, lbl], i) => (
-                  <div key={i} style={{ textAlign: 'center', padding: '18px 12px', borderRight: i < T.stats.length - 1 ? `1px solid ${th.border}` : 'none' }}>
-                    <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 22, fontWeight: 500, color: G, lineHeight: 1, letterSpacing: '-.02em' }}>{val}</div>
-                    <div style={{ fontSize: 9, fontWeight: 400, letterSpacing: isAr ? '.02em' : '.12em', textTransform: 'uppercase', color: th.textMuted, marginTop: 5, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{lbl}</div>
+                  <div key={i} className={`text-center py-5 px-3 ${i < T.stats.length - 1 ? 'border-r border-white/10' : ''}`}>
+                    <div className="font-mono text-2xl font-medium lux-gold-text leading-none mb-1.5">{val}</div>
+                    <div className="text-[9px] tracking-widest uppercase text-white/40 font-body">{lbl}</div>
                   </div>
                 ))}
               </div>
@@ -409,13 +454,13 @@ export default function LandingPage() {
                   {off === 0 && (
                     <>
                       <img src={STATIC_LISTINGS[1].img} alt="" style={{ width: '100%', height: '62%', objectFit: 'cover' }} />
-                      <div style={{ position: 'absolute', top: 12, left: 12, background: G2, color: '#fff', fontSize: 9, fontWeight: 700, letterSpacing: '.08em', padding: '4px 10px', borderRadius: 50, fontFamily: "'Jost', sans-serif", textTransform: 'uppercase' }}>{STATIC_LISTINGS[1].badge}</div>
-                      <div style={{ padding: '18px 22px' }}>
-                        <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: '.14em', textTransform: 'uppercase', color: G, marginBottom: 4, fontFamily: "'Jost', sans-serif" }}>{isAr ? STATIC_LISTINGS[1].locationAr : STATIC_LISTINGS[1].location}</div>
-                        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 600, color: th.text, marginBottom: 8 }}>{isAr ? STATIC_LISTINGS[1].titleAr : STATIC_LISTINGS[1].title}</div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 20, fontWeight: 500, color: G }}>{STATIC_LISTINGS[1].price}</span>
-                          <span style={{ fontSize: 11, color: th.textMuted, fontFamily: "'DM Mono', monospace", fontWeight: 300 }}>{STATIC_LISTINGS[1].beds} {T.beds} · {STATIC_LISTINGS[1].baths} {T.baths}</span>
+                      <div className="absolute top-4 left-4 lux-glass !bg-[var(--gold-prime)] !text-[#071422] text-[10px] font-bold tracking-wider px-3 py-1 rounded-full font-body uppercase">{STATIC_LISTINGS[1].badge}</div>
+                      <div className="p-6">
+                        <div className="text-[10px] font-medium tracking-[0.15em] uppercase lux-gold-text mb-1.5 font-body">{isAr ? STATIC_LISTINGS[1].locationAr : STATIC_LISTINGS[1].location}</div>
+                        <div className="font-serif text-2xl font-semibold mb-3 text-white">{isAr ? STATIC_LISTINGS[1].titleAr : STATIC_LISTINGS[1].title}</div>
+                        <div className="flex justify-between items-center">
+                          <span className="font-mono text-xl font-medium lux-gold-text">{STATIC_LISTINGS[1].price}</span>
+                          <span className="text-[11px] text-white/40 font-mono font-light uppercase tracking-tight">{STATIC_LISTINGS[1].beds} {T.beds} · {STATIC_LISTINGS[1].baths} {T.baths}</span>
                         </div>
                       </div>
                     </>
@@ -435,30 +480,34 @@ export default function LandingPage() {
       {/* ══ LISTINGS ══ */}
       <section id="listings" ref={listingsSectionRef} style={{ background: mode === 'dark' ? '#0A1520' : th.bgAlt, padding: '80px 0' }}>
         <div style={sec}>
-          <div className="reveal flex justify-between items-end mb-10 flex-wrap gap-4" style={{ flexDirection: isAr ? 'row-reverse' : 'row' }}>
+          <div className="reveal flex justify-between items-end mb-12 flex-wrap gap-6" style={{ flexDirection: isAr ? 'row-reverse' : 'row' }}>
             <div style={{ textAlign: isAr ? 'right' : 'left' }}>
-              <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: '.24em', textTransform: 'uppercase', color: G, marginBottom: 10, fontFamily: "'Jost', sans-serif" }}>{T.secListings}</div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px, 3.2vw, 42px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: th.text }}>{T.h2Listings}</h2>
+              <div className="lux-section-subtitle">{T.secListings}</div>
+              <h2 className="lux-section-title">{T.h2Listings}</h2>
             </div>
-            <Link href="/listings" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: th.text, border: `1px solid ${th.border}`, cursor: 'pointer', fontFamily: "'Jost', sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '.14em', textTransform: 'uppercase', padding: '9px 20px', borderRadius: 4, textDecoration: 'none' }}>{T.viewAll}</Link>
+            <Link href="/listings" className="lux-button lux-button-outline !px-5 !py-2.5 !text-[10px]">{T.viewAll}</Link>
           </div>
 
           {/* Smart Filters */}
-          <div className="reveal grid grid-cols-2 sm:grid-cols-3 md:grid-cols-[1fr_1fr_1fr_1fr_auto] gap-0 rounded-lg overflow-hidden mb-10" style={{ background: mode === 'dark' ? '#122A47' : th.card, border: `1px solid ${th.border}`, boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
+          <div className="reveal grid grid-cols-2 sm:grid-cols-3 md:grid-cols-[1fr_1fr_1fr_1fr_auto] gap-0 rounded-xl overflow-hidden mb-12 lux-glass !border-white/5 shadow-2xl">
             {[
               { val: filterType, set: setFilterType, label: T.searchType, opts: [{ v: '', l: T.searchType }, { v: 'villa', l: 'Villa' }, { v: 'apartment', l: 'Apartment' }, { v: 'penthouse', l: 'Penthouse' }, { v: 'townhouse', l: 'Townhouse' }] },
               { val: filterCompound, set: setFilterCompound, label: T.searchCompound, opts: [{ v: '', l: T.searchCompound }, { v: 'Fifth Settlement', l: 'Fifth Settlement' }, { v: 'New Cairo', l: 'New Cairo' }, { v: 'Madinaty', l: 'Madinaty' }, { v: 'Sheikh Zayed', l: 'Sheikh Zayed' }] },
               { val: filterBedrooms, set: setFilterBedrooms, label: isAr ? 'غرف' : 'Rooms', opts: [{ v: '', l: isAr ? 'غرف' : 'Rooms' }, { v: '1', l: `1 ${T.beds}` }, { v: '2', l: `2 ${T.beds}` }, { v: '3', l: `3 ${T.beds}` }, { v: '4', l: `4 ${T.beds}` }, { v: '5', l: `5+ ${T.beds}` }] },
               { val: filterPrice, set: setFilterPrice, label: T.searchBudget, opts: [{ v: '', l: T.searchBudget }, { v: '2000000', l: 'Under 2M' }, { v: '5000000', l: 'Under 5M' }, { v: '10000000', l: 'Under 10M' }, { v: '15000000', l: 'Under 15M' }] },
             ].map((seg, i) => (
-              <div key={i} style={{ padding: '14px 18px', borderRight: `1px solid ${th.border}` }}>
-                <div style={{ fontSize: 9, fontWeight: 500, letterSpacing: '.16em', textTransform: 'uppercase', color: th.textMuted, marginBottom: 3, fontFamily: "'Jost', sans-serif" }}>{seg.label}</div>
-                <select value={seg.val} onChange={(e) => seg.set(e.target.value)} style={{ background: 'transparent', border: 'none', outline: 'none', color: th.text, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif", fontSize: 13, fontWeight: 300, width: '100%', cursor: 'pointer' }}>
-                  {seg.opts.map((o) => <option key={o.v} value={o.v} style={{ background: mode === 'dark' ? '#122A47' : '#fff', color: mode === 'dark' ? '#F5FBFA' : '#071422' }}>{o.l}</option>)}
+              <div key={i} className="px-6 py-4 border-r border-white/5">
+                <div className="text-[9px] font-medium tracking-[0.2em] uppercase text-white/40 mb-1.5 font-body">{seg.label}</div>
+                <select 
+                  value={seg.val} 
+                  onChange={(e) => seg.set(e.target.value)} 
+                  className="bg-transparent border-none outline-none text-white font-serif text-sm font-light w-full cursor-pointer focus:lux-gold-text transition-all appearance-none"
+                >
+                  {seg.opts.map((o) => <option key={o.v} value={o.v} className="bg-[#0A1520] text-white">{o.l}</option>)}
                 </select>
               </div>
             ))}
-            <button onClick={handleSearch} className="btn-gold" style={{ borderRadius: 0, padding: '0 28px', background: `linear-gradient(135deg,${G2},${G})`, color: '#071422', border: 'none', cursor: 'pointer', fontFamily: "'Jost', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', transition: 'all .3s ease' }}>{T.searchBtn}</button>
+            <button onClick={handleSearch} className="lux-button-primary !rounded-none !px-8 border-none !text-[11px]">{T.searchBtn}</button>
           </div>
 
           {/* Listing cards */}
@@ -486,81 +535,82 @@ export default function LandingPage() {
       </section>
 
       {/* ══ WHY SIERRA BLU ══ */}
-      <section id="about" style={{ background: th.bg, padding: '96px 0', position: 'relative', overflow: 'hidden' }}>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ opacity: mode === 'dark' ? 0.025 : 0.02 }}>
+      <section id="about" className="relative py-24 overflow-hidden" style={{ background: th.bg }}>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.02] dark:opacity-[0.025]">
           <ShieldLogo size={600} />
         </div>
-        <div style={{ ...sec, position: 'relative', zIndex: 2 }}>
-          <div className="reveal text-center mb-14">
-            <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: '.24em', textTransform: 'uppercase', color: G, marginBottom: 10, fontFamily: "'Jost', sans-serif" }}>{T.secWhy}</div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px, 3.2vw, 42px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: th.text, marginBottom: 14 }}>{T.h2Why}</h2>
-            {'whyDesc' in T && <p style={{ fontSize: 14, fontWeight: 300, lineHeight: 1.85, color: th.textSub, maxWidth: 560, margin: '0 auto', fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{(T as any).whyDesc}</p>}
+        <div className="relative z-10 mx-auto px-6 md:px-12 max-w-7xl">
+          <div className="reveal text-center mb-16">
+            <div className="lux-section-subtitle mx-auto">{T.secWhy}</div>
+            <h2 className="lux-section-title">{T.h2Why}</h2>
+            {'whyDesc' in T && <p className="text-sm font-light leading-relaxed max-w-xl mx-auto opacity-70" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{(T as any).whyDesc}</p>}
           </div>
-          <div className="grid md:grid-cols-3 gap-5">
+          
+          <div className="grid md:grid-cols-3 gap-6">
             {T.why.map((w: any, i: number) => (
-              <div key={i} className="reveal rounded-[14px] p-8 transition-all hover:-translate-y-1 card-lift" style={{ background: th.surface, border: `1px solid ${th.border}`, textAlign: isAr ? 'right' : 'left' }}>
-                <div className="flex items-center justify-between mb-4" style={{ flexDirection: isAr ? 'row-reverse' : 'row' }}>
-                  <div style={{ fontSize: 24, color: G, fontFamily: "'Cormorant Garamond', serif" }}>{w.icon}</div>
+              <div key={i} className={`reveal lux-glass p-8 rounded-2xl border border-white/5 transition-all duration-500 hover:-translate-y-2 group ${isAr ? 'text-right' : 'text-left'}`}>
+                <div className={`flex items-center justify-between mb-6 ${isAr ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <div className="text-3xl lux-gold-text opacity-50 group-hover:opacity-100 transition-opacity font-serif">{w.icon}</div>
                   {w.stat && (
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 22, fontWeight: 500, color: G, lineHeight: 1 }}>{w.stat}</div>
-                      <div style={{ fontSize: 8, letterSpacing: '.1em', textTransform: 'uppercase', color: th.textMuted, fontFamily: "'Jost', sans-serif", marginTop: 2 }}>{w.statLabel}</div>
+                    <div className="text-center">
+                      <div className="font-mono text-2xl font-medium lux-gold-text leading-none">{w.stat}</div>
+                      <div className="text-[8px] tracking-widest uppercase opacity-40 font-body mt-1">{w.statLabel}</div>
                     </div>
                   )}
                 </div>
-                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 500, color: th.text, marginBottom: 8 }}>{w.title}</h3>
-                <div style={{ width: 36, height: 2, background: `linear-gradient(90deg,${G2},${G})`, borderRadius: 1, marginBottom: 12, marginLeft: isAr ? 'auto' : 0 }} />
-                <p style={{ fontSize: 13, fontWeight: 300, lineHeight: 1.8, color: th.textSub, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{w.desc}</p>
+                <h3 className="font-serif text-xl font-medium mb-3 text-white">{w.title}</h3>
+                <div className={`h-0.5 w-10 lux-gold-gradient rounded-full mb-4 ${isAr ? 'ml-auto' : ''}`} />
+                <p className="text-xs font-light leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{w.desc}</p>
               </div>
             ))}
           </div>
 
           {/* Banner */}
-          <div className="reveal mt-14 p-8 rounded-[14px] flex items-center justify-between flex-wrap gap-5" style={{ background: 'linear-gradient(130deg, rgba(233,193,118,0.10), rgba(233,193,118,0.04))', border: '1px solid rgba(233,193,118,0.22)', flexDirection: isAr ? 'row-reverse' : 'row' }}>
-            <div style={{ textAlign: isAr ? 'right' : 'left' }}>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 24, fontWeight: 400, color: th.text, marginBottom: 4 }}>{T.bannerH}</div>
-              <div style={{ fontSize: 12, color: 'rgba(233,193,118,0.7)', fontFamily: isAr ? "'Jost', sans-serif" : "'Cairo', sans-serif" }}>{T.bannerSub}</div>
+          <div className={`reveal mt-16 p-8 rounded-2xl lux-glass border border-[var(--gold-prime)]/20 flex items-center justify-between flex-wrap gap-8 ${isAr ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+            <div className="flex-1 min-w-[300px]">
+              <div className="font-serif text-2xl font-light text-white mb-2">{T.bannerH}</div>
+              <div className="text-xs lux-gold-text tracking-widest uppercase opacity-70 font-body">{T.bannerSub}</div>
             </div>
-            <Link href="/listings">
-              <button style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: `linear-gradient(135deg,${G2},${G})`, color: '#071422', border: 'none', cursor: 'pointer', fontFamily: "'Jost', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', padding: '12px 26px', borderRadius: 4, textDecoration: 'none' }}>{T.bannerBtn}</button>
+            <Link href="/listings" className="lux-button lux-button-primary !py-3 !px-8">
+              {T.bannerBtn}
             </Link>
           </div>
         </div>
       </section>
 
       {/* ══ INTELLIGENCE MAP ══ */}
-      <section id="intelligence" style={{ background: mode === 'dark' ? '#091828' : th.bgAlt, padding: '96px 0' }}>
-        <div style={sec}>
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div style={{ order: isAr ? 2 : 1 }}>
-              <div className="reveal" style={{ textAlign: isAr ? 'right' : 'left' }}>
-                <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: '.24em', textTransform: 'uppercase', color: G, marginBottom: 10, fontFamily: "'Jost', sans-serif" }}>{T.secMap}</div>
-                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: th.text, marginBottom: 10 }}>
-                  {T.mapH1}<br /><em className="gold-text" style={{ fontStyle: 'italic' }}>{T.mapH2}</em>
+      <section id="intelligence" className="py-24" style={{ background: mode === 'dark' ? '#091828' : th.bgAlt }}>
+        <div className="mx-auto px-6 md:px-12 max-w-7xl">
+          <div className="grid md:grid-cols-2 gap-20 items-center">
+            <div className={isAr ? 'order-2' : 'order-1'}>
+              <div className={`reveal mb-10 ${isAr ? 'text-right' : 'text-left'}`}>
+                <div className="lux-section-subtitle">{T.secMap}</div>
+                <h2 className="lux-section-title">
+                  {T.mapH1}<br /><em className="lux-gold-text italic">{T.mapH2}</em>
                 </h2>
-                <div style={{ width: 40, height: 2, background: `linear-gradient(90deg,${G2},${G})`, borderRadius: 1, margin: '14px 0' }} />
-                <p style={{ fontSize: 14, fontWeight: 300, lineHeight: 1.85, color: th.textSub, marginBottom: 24, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.mapDesc}</p>
+                <div className={`h-0.5 w-12 lux-gold-gradient rounded-full my-6 ${isAr ? 'ml-auto' : ''}`} />
+                <p className="text-sm font-light leading-relaxed opacity-70" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.mapDesc}</p>
               </div>
-              <div className="flex flex-col gap-2.5">
+              
+              <div className="flex flex-col gap-3">
                 {T.zones.map((z, i) => (
                   <div
                     key={i}
-                    className="reveal flex items-center gap-3.5 p-3 px-4 rounded-[10px] cursor-pointer transition-all"
-                    style={{ background: activeZone === i ? th.surfaceHover : th.surface, border: `1px solid ${activeZone === i ? z.color + '55' : th.border}`, flexDirection: isAr ? 'row-reverse' : 'row' }}
+                    className={`reveal flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all duration-300 lux-glass border border-white/5 hover:border-[var(--gold-prime)]/30 ${activeZone === i ? 'border-[var(--gold-prime)]/50 bg-white/5' : ''} ${isAr ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}
                     onClick={() => setActiveZone(activeZone === i ? null : i)}
                   >
-                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: z.color, flexShrink: 0, boxShadow: `0 0 8px ${z.color}88` }} />
-                    <div style={{ flex: 1, fontSize: 13, fontWeight: 500, color: th.text, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif", textAlign: isAr ? 'right' : 'left' }}>{z.area}</div>
-                    <span style={{ fontSize: 11, fontWeight: 600, color: z.color, background: `${z.color}18`, padding: '3px 10px', borderRadius: 50, fontFamily: "'DM Mono', monospace", whiteSpace: 'nowrap' }}>{z.stat}</span>
+                    <div className="w-2 h-2 rounded-full flex-shrink-0 animate-pulse" style={{ background: z.color, boxShadow: `0 0 10px ${z.color}` }} />
+                    <div className="flex-1 text-sm font-medium text-white opacity-80" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{z.area}</div>
+                    <span className="font-mono text-[10px] font-bold py-1 px-3 rounded-full" style={{ color: z.color, background: `${z.color}15`, border: `1px solid ${z.color}30` }}>{z.stat}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="reveal h-[480px]" style={{ order: isAr ? 1 : 2 }}>
-              <div className="relative h-full rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(233,193,118,0.22)', boxShadow: '0 32px 80px rgba(0,0,0,.4)' }}>
+            <div className={`reveal h-[520px] relative ${isAr ? 'order-1' : 'order-2'}`}>
+              <div className="h-full rounded-2xl overflow-hidden lux-glass border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.5)]">
                 <LiveMap mode={mode} />
-                <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-[1000] pointer-events-none" style={{ fontSize: 8, letterSpacing: '4px', color: 'rgba(233,193,118,0.35)', fontFamily: "'Jost', sans-serif", whiteSpace: 'nowrap' }}>SIERRA BLU INTELLIGENCE</div>
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] text-[8px] tracking-[0.4em] lux-gold-text opacity-40 font-body pointer-events-none">SIERRA BLU INTELLIGENCE</div>
               </div>
             </div>
           </div>
@@ -568,46 +618,56 @@ export default function LandingPage() {
       </section>
 
       {/* ══ SIERRA AI ══ */}
-      <section style={{ padding: '96px 0', background: mode === 'dark' ? 'linear-gradient(135deg, #0A1520 0%, #0D2035 50%, #122A47 100%)' : `linear-gradient(135deg, ${th.bgAlt} 0%, ${th.bg} 50%, ${th.bg2} 100%)`, borderTop: `1px solid ${th.border}`, borderBottom: `1px solid ${th.border}` }}>
-        <div style={sec}>
-          <div className="grid md:grid-cols-2 gap-20 items-center">
-            <div className="reveal" style={{ textAlign: isAr ? 'right' : 'left', order: isAr ? 2 : 1 }}>
-              <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: '.24em', textTransform: 'uppercase', color: G, marginBottom: 10, fontFamily: "'Jost', sans-serif" }}>{T.secAI}</div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: th.text, marginBottom: 10 }}>{T.aiH}</h2>
-              <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '.1em', color: '#1B6CA8', textTransform: 'uppercase', marginBottom: 16, fontFamily: "'Jost', sans-serif" }}>{T.aiSub}</div>
-              <div style={{ width: 40, height: 2, background: `linear-gradient(90deg,${G2},${G})`, borderRadius: 1, margin: '14px 0' }} />
-              <p style={{ fontSize: 14, fontWeight: 300, lineHeight: 1.85, color: th.textSub, margin: '16px 0 24px', fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.aiDesc}</p>
-              <div className="flex flex-col gap-2.5 mb-7">
+      <section className="py-24 border-y border-white/5" style={{ background: mode === 'dark' ? 'linear-gradient(135deg, #0A1520 0%, #0D2035 50%, #122A47 100%)' : `linear-gradient(135deg, ${th.bgAlt} 0%, ${th.bg} 50%, ${th.bg2} 100%)` }}>
+        <div className="mx-auto px-6 md:px-12 max-w-7xl">
+          <div className="grid md:grid-cols-2 gap-24 items-center">
+            <div className={`reveal ${isAr ? 'order-2 text-right' : 'order-1 text-left'}`}>
+              <div className="lux-section-subtitle">{T.secAI}</div>
+              <h2 className="lux-section-title">{T.aiH}</h2>
+              <div className="text-[10px] font-bold tracking-widest text-[#1B6CA8] uppercase mb-6 font-body">{T.aiSub}</div>
+              <div className={`h-0.5 w-12 lux-gold-gradient rounded-full mb-8 ${isAr ? 'ml-auto' : ''}`} />
+              <p className="text-sm font-light leading-relaxed opacity-70 mb-10" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.aiDesc}</p>
+              
+              <div className="flex flex-col gap-4 mb-10">
                 {T.aiFeatures.map((f, i) => (
-                  <div key={i} className="flex items-center gap-2.5" style={{ fontSize: 13, color: th.textSub, flexDirection: isAr ? 'row-reverse' : 'row', fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: G, flexShrink: 0 }} />
+                  <div key={i} className={`flex items-center gap-3 text-sm opacity-80 ${isAr ? 'flex-row-reverse' : 'flex-row'}`} style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>
+                    <div className="w-1.5 h-1.5 rounded-full lux-gold-gradient" />
                     {f}
                   </div>
                 ))}
               </div>
-              <a href="https://t.me/SierraBluBot" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: `linear-gradient(135deg,${G2},${G})`, color: '#071422', border: 'none', cursor: 'pointer', fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: isAr ? '.02em' : '.14em', textTransform: 'uppercase', padding: '12px 26px', borderRadius: 4, textDecoration: 'none' }}>{T.aiCTA}</a>
+              
+              <a href="https://t.me/SierraBluBot" target="_blank" rel="noopener noreferrer" className="lux-button lux-button-primary inline-flex">
+                {T.aiCTA}
+              </a>
             </div>
 
             {/* Chat mockup */}
-            <div className="reveal" style={{ order: isAr ? 1 : 2 }}>
-              <div style={{ background: mode === 'dark' ? 'rgba(255,255,255,0.045)' : 'rgba(27,108,168,0.06)', border: '1px solid rgba(233,193,118,0.25)', borderRadius: 16, padding: 28, backdropFilter: 'blur(12px)', boxShadow: '0 0 40px rgba(233,193,118,0.10)' }}>
-                <div className="flex items-center gap-3.5 mb-5">
-                  <div className="relative flex-shrink-0" style={{ width: 50, height: 50, borderRadius: '50%', background: `linear-gradient(135deg,${G2},${G})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>
+            <div className={`reveal ${isAr ? 'order-1' : 'order-2'}`}>
+              <div className="lux-glass border border-white/10 rounded-2xl p-8 shadow-2xl">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="relative w-12 h-12 rounded-full lux-gold-gradient flex items-center justify-center text-xl text-[#071422]">
                     ◈
-                    <div className="absolute -inset-1 rounded-full animate-ping opacity-20" style={{ border: `1px solid ${G}` }} />
+                    <div className="absolute inset-0 rounded-full animate-ping opacity-30 border border-[var(--gold-prime)]" />
                   </div>
                   <div>
-                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 500, color: th.text }}>Sierra</div>
-                    <div style={{ fontSize: 11, color: '#4ADE80', marginTop: 2, fontFamily: "'DM Mono', monospace", fontWeight: 300 }}>● Online · 4s avg</div>
+                    <div className="font-serif text-lg text-white">Sierra Intelligence</div>
+                    <div className="font-mono text-[9px] text-[#4ADE80] uppercase tracking-wider">● Online · 4s response</div>
                   </div>
                 </div>
-                {T.aiChat.map((msg, i) => (
-                  <div key={i} className="flex mb-2.5" style={{ justifyContent: msg.from === 'user' ? 'flex-end' : 'flex-start' }}>
-                    <div style={{ maxWidth: '80%', padding: '10px 14px', borderRadius: 12, fontSize: 13, fontWeight: 300, lineHeight: 1.6, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif", background: msg.from === 'user' ? `linear-gradient(135deg,${G2},${G})` : 'rgba(255,255,255,0.06)', color: msg.from === 'user' ? '#071422' : th.text, border: msg.from === 'user' ? 'none' : `1px solid ${th.border}` }}>{msg.text}</div>
-                  </div>
-                ))}
-                <div className="text-center mt-4" style={{ fontSize: 11, color: th.textMuted, fontFamily: "'Jost', sans-serif" }}>
-                  AI-powered · 24/7 · Arabic & English
+                
+                <div className="space-y-4 mb-8">
+                  {T.aiChat.map((msg, i) => (
+                    <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-[85%] px-5 py-3 rounded-2xl text-xs font-light leading-relaxed ${msg.from === 'user' ? 'lux-gold-gradient text-[#071422] rounded-tr-none' : 'bg-white/5 border border-white/5 text-white/80 rounded-tl-none'}`} style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>
+                        {msg.text}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="text-center text-[9px] tracking-widest uppercase opacity-30 font-body">
+                  AI-Powered Pipeline · 24/7 Availability
                 </div>
               </div>
             </div>
@@ -616,22 +676,23 @@ export default function LandingPage() {
       </section>
 
       {/* ══ TESTIMONIALS ══ */}
-      <section style={{ background: mode === 'dark' ? '#0A1628' : th.bg2, padding: '96px 0' }}>
-        <div style={sec}>
-          <div className="reveal text-center mb-12">
-            <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: '.24em', textTransform: 'uppercase', color: G, marginBottom: 10, fontFamily: "'Jost', sans-serif" }}>{T.secTesti}</div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: th.text }}>{T.h2Testi}</h2>
+      <section className="py-24" style={{ background: mode === 'dark' ? '#0A1628' : th.bg2 }}>
+        <div className="mx-auto px-6 md:px-12 max-w-7xl">
+          <div className="reveal text-center mb-16">
+            <div className="lux-section-subtitle mx-auto">{T.secTesti}</div>
+            <h2 className="lux-section-title">{T.h2Testi}</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-5">
+          
+          <div className="grid md:grid-cols-3 gap-6">
             {T.testimonials.map((t, i) => (
-              <div key={i} className="reveal rounded-[14px] card-lift" style={{ padding: 28, background: th.surface, border: `1px solid ${th.border}`, boxShadow: '0 4px 24px rgba(0,0,0,0.15)' }}>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 48, color: G, lineHeight: 0.7, marginBottom: 16 }}>&ldquo;</div>
-                <p style={{ fontSize: 14, fontWeight: 300, lineHeight: 1.85, color: th.textSub, marginBottom: 20, fontStyle: 'italic', fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{t.q}</p>
-                <div className="flex items-center gap-3" style={{ flexDirection: isAr ? 'row-reverse' : 'row' }}>
-                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: `linear-gradient(135deg,${G2},${G})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#071422', flexShrink: 0, fontFamily: "'DM Mono', monospace" }}>{t.i}</div>
-                  <div style={{ textAlign: isAr ? 'right' : 'left' }}>
-                    <div style={{ fontSize: 14, fontWeight: 500, color: th.text, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{t.name}</div>
-                    <div style={{ fontSize: 11, color: th.textMuted, fontFamily: "'Jost', sans-serif" }}>{t.role}</div>
+              <div key={i} className="reveal lux-glass p-8 rounded-2xl border border-white/5 transition-all duration-500 hover:-translate-y-2 group shadow-xl">
+                <div className="font-serif text-5xl lux-gold-text opacity-30 leading-none mb-4">&ldquo;</div>
+                <p className="text-sm font-light leading-relaxed opacity-70 italic mb-8" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{t.q}</p>
+                <div className={`flex items-center gap-4 ${isAr ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                  <div className="w-10 h-10 rounded-full lux-gold-gradient flex items-center justify-center font-mono text-[10px] font-bold text-[#071422]">{t.i}</div>
+                  <div>
+                    <div className="text-sm font-medium text-white" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{t.name}</div>
+                    <div className="text-[10px] tracking-widest uppercase opacity-40 font-body">{t.role}</div>
                   </div>
                 </div>
               </div>
@@ -641,22 +702,23 @@ export default function LandingPage() {
       </section>
 
       {/* ══ CTA FORM ══ */}
-      <section id="contact" style={{ padding: '96px 0', background: mode === 'dark' ? 'linear-gradient(135deg, #0A1520, #0D2035)' : `linear-gradient(135deg, ${th.bg}, ${th.bgAlt})`, borderTop: `1px solid ${th.border}` }}>
-        <div style={{ ...sec, maxWidth: 600 }}>
-          <div className="reveal text-center mb-10">
-            <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: '.24em', textTransform: 'uppercase', color: G, marginBottom: 10, fontFamily: "'Jost', sans-serif" }}>{T.ctaTag}</div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: th.text, marginBottom: 12 }}>{T.ctaH}</h2>
-            <p style={{ fontSize: 14, fontWeight: 300, color: th.textSub, lineHeight: 1.8, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.ctaSub}</p>
+      <section id="contact" className="py-24 border-t border-white/5" style={{ background: mode === 'dark' ? 'linear-gradient(135deg, #0A1520, #0D2035)' : `linear-gradient(135deg, ${th.bg}, ${th.bgAlt})` }}>
+        <div className="mx-auto px-6 max-w-xl">
+          <div className="reveal text-center mb-12">
+            <div className="lux-section-subtitle mx-auto">{T.ctaTag}</div>
+            <h2 className="lux-section-title">{T.ctaH}</h2>
+            <p className="text-sm font-light opacity-70" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.ctaSub}</p>
           </div>
+          
           <div className="reveal">
             {submitted ? (
-              <div className="text-center p-10 rounded-xl" style={{ background: mode === 'dark' ? 'rgba(233,193,118,0.08)' : 'rgba(233,193,118,0.14)', border: '1px solid rgba(233,193,118,0.3)' }}>
-                <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, color: G, marginBottom: 8 }}>{lang === 'en' ? 'Thank you.' : 'شكراً.'}</div>
-                <p style={{ fontSize: 14, color: th.textSub, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.formSuccess}</p>
+              <div className="lux-glass p-12 rounded-2xl border border-[var(--gold-prime)]/30 text-center">
+                <div className="text-4xl mb-6">✓</div>
+                <div className="font-serif text-2xl lux-gold-text mb-2">{lang === 'en' ? 'Request Received.' : 'تم استلام طلبك.'}</div>
+                <p className="text-sm font-light opacity-70" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.formSuccess}</p>
               </div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="flex flex-col gap-3.5">
+              <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-4">
                 {[
                   { key: 'name' as const, label: T.formName, type: 'text' },
                   { key: 'phone' as const, label: T.formPhone, type: 'tel' },
@@ -668,11 +730,13 @@ export default function LandingPage() {
                     placeholder={f.label}
                     value={formData[f.key]}
                     onChange={(e) => setFormData({ ...formData, [f.key]: e.target.value })}
-                    className="focus:border-secondary transition-colors"
-                    style={{ background: th.card, border: `1px solid ${th.border}`, borderRadius: 6, padding: '13px 16px', color: th.text, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif", fontSize: 14, fontWeight: 300, outline: 'none', textAlign: isAr ? 'right' : 'left' }}
+                    className={`w-full bg-white/5 border border-white/10 rounded-lg px-6 py-4 text-sm font-light text-white outline-none focus:border-[var(--gold-prime)]/50 transition-all ${isAr ? 'text-right' : 'text-left'}`}
+                    style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}
                   />
                 ))}
-                <button type="submit" className="btn-gold" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, background: `linear-gradient(135deg,${G2},${G})`, color: '#071422', border: 'none', cursor: 'pointer', fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', padding: '14px 26px', borderRadius: 4, transition: 'all .3s ease' }}>{T.formSubmit}</button>
+                <button type="submit" className="lux-button lux-button-primary w-full !py-4">
+                  {T.formSubmit}
+                </button>
               </form>
             )}
           </div>
@@ -680,36 +744,47 @@ export default function LandingPage() {
       </section>
 
       {/* ══ FOOTER ══ */}
-      <footer style={{ background: '#040E1C', color: '#EFF8F7', padding: '72px 0 36px', borderTop: '1px solid rgba(233,193,118,0.12)' }}>
-        <div style={sec}>
-          <div className="grid md:grid-cols-[2fr_1fr_1fr] gap-14 mb-12">
-            <div>
-              <div className="flex items-center gap-3 mb-4" style={{ flexDirection: isAr ? 'row-reverse' : 'row' }}>
+      <footer className="bg-[#040E1C] text-[#EFF8F7] py-20 border-t border-white/5">
+        <div className="mx-auto px-6 md:px-12 max-w-7xl">
+          <div className="grid md:grid-cols-[2fr_1fr_1fr] gap-16 mb-20">
+            <div className={isAr ? 'text-right' : 'text-left'}>
+              <div className={`flex items-center gap-4 mb-6 ${isAr ? 'flex-row-reverse' : 'flex-row'}`}>
                 <ShieldLogo size={42} />
                 <div>
-                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: isAr ? 16 : 19, fontWeight: 600, letterSpacing: isAr ? '.06em' : '.2em', color: G }}>{T.brand}</div>
-                  <div style={{ fontSize: 8, letterSpacing: '.38em', color: 'rgba(239,248,247,0.45)', fontFamily: "'Jost', sans-serif" }}>{T.sub}</div>
+                  <div className="font-serif text-xl lux-gold-text tracking-widest uppercase">{T.brand}</div>
+                  <div className="text-[9px] tracking-[0.4em] opacity-40 font-body">{T.sub}</div>
                 </div>
               </div>
-              <p style={{ fontSize: 13, fontWeight: 300, lineHeight: 1.85, color: 'rgba(239,248,247,0.45)', maxWidth: 280, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif", textAlign: isAr ? 'right' : 'left' }}>{T.footDesc}</p>
+              <p className={`text-xs font-light leading-relaxed opacity-40 max-w-xs ${isAr ? 'ml-auto' : ''}`} style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.footDesc}</p>
             </div>
+            
             {[
               { title: T.footNav, links: T.footNavLinks, ids: ['listings', 'intelligence', 'about', '', 'contact'] },
               { title: T.footMarkets, links: T.footMarketLinks, ids: ['intelligence', 'intelligence', 'intelligence', 'intelligence', 'intelligence'] },
             ].map((col) => (
-              <div key={col.title} style={{ textAlign: isAr ? 'right' : 'left' }}>
-                <div style={{ fontSize: 9, fontWeight: 500, letterSpacing: '.22em', color: G, marginBottom: 16, fontFamily: "'Jost', sans-serif" }}>{col.title}</div>
-                {col.links.map((l, i) => (
-                  <div key={l} onClick={() => col.ids[i] && scrollTo(col.ids[i])} className="hover:text-secondary transition-colors cursor-pointer" style={{ fontSize: 12, fontWeight: 300, color: 'rgba(239,248,247,0.45)', marginBottom: 10, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{l}</div>
-                ))}
+              <div key={col.title} className={isAr ? 'text-right' : 'text-left'}>
+                <div className="text-[10px] font-bold tracking-widest lux-gold-text uppercase mb-8 font-body">{col.title}</div>
+                <div className="space-y-4">
+                  {col.links.map((l, i) => (
+                    <div 
+                      key={l} 
+                      onClick={() => col.ids[i] && scrollTo(col.ids[i])} 
+                      className="text-xs font-light opacity-40 hover:opacity-100 hover:lux-gold-text cursor-pointer transition-all"
+                      style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}
+                    >
+                      {l}
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
-          <div className="flex justify-between items-center flex-wrap gap-3 pt-6" style={{ borderTop: '1px solid rgba(239,248,247,0.07)', flexDirection: isAr ? 'row-reverse' : 'row' }}>
-            <div style={{ fontSize: 11, fontWeight: 300, color: 'rgba(239,248,247,0.28)', fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.copyright}</div>
-            <div className="flex gap-5">
+          
+          <div className={`pt-10 border-t border-white/5 flex justify-between items-center flex-wrap gap-6 ${isAr ? 'flex-row-reverse' : 'flex-row'}`}>
+            <div className="text-[10px] font-light opacity-30 font-body">{T.copyright}</div>
+            <div className="flex gap-8">
               {T.legal.map((l) => (
-                <span key={l} className="hover:text-secondary transition-colors cursor-pointer" style={{ fontSize: 11, fontWeight: 300, color: 'rgba(239,248,247,0.28)', fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{l}</span>
+                <span key={l} className="text-[10px] font-light opacity-30 hover:opacity-100 cursor-pointer transition-all font-body">{l}</span>
               ))}
             </div>
           </div>
