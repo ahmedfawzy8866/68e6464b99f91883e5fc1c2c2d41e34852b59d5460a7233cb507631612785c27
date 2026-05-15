@@ -14,6 +14,11 @@ const hasFirebaseConfig = Boolean(
   process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID &&
   process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 );
+const canUsePlaceholderConfig = !hasFirebaseConfig && typeof window === 'undefined';
+
+if (!hasFirebaseConfig && !canUsePlaceholderConfig) {
+  throw new Error('Missing public Firebase configuration.');
+}
 
 const firebaseConfig = hasFirebaseConfig
   ? {
@@ -33,7 +38,7 @@ const firebaseConfig = hasFirebaseConfig
       appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || '1:000000000000:web:demo',
     };
 
-if (!hasFirebaseConfig && typeof window === 'undefined') {
+if (canUsePlaceholderConfig) {
   console.warn('[firebase] Missing public Firebase config; using safe placeholder values during build/server rendering.');
 }
 
