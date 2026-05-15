@@ -4,13 +4,20 @@ import { adminApp } from '../../lib/server/firebase-admin';
 import { getStorage } from 'firebase-admin/storage';
 
 export class ProposalGenerator {
+  private bucket: ReturnType<ReturnType<typeof getStorage>['bucket']> | null = null;
+
   private getBucket() {
+    if (this.bucket) {
+      return this.bucket;
+    }
+
     const bucketName = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || adminApp.options.storageBucket;
     if (!bucketName) {
       throw new Error('Firebase storage bucket is not configured.');
     }
 
-    return getStorage(adminApp).bucket(bucketName);
+    this.bucket = getStorage(adminApp).bucket(bucketName);
+    return this.bucket;
   }
 
   /**
