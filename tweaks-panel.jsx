@@ -284,7 +284,7 @@ function TweakToggle({ label, value, onChange }) {
     <div className="twk-row twk-row-h">
       <div className="twk-lbl"><span>{label}</span></div>
       <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
-              role="switch" aria-checked={!!value}
+              role="switch" aria-checked={value ? "true" : "false"}
               onClick={() => onChange(!value)} aria-label={label} title={label}><i /></button>
     </div>
   );
@@ -337,7 +337,7 @@ function TweakRadio({ label, value, options, onChange }) {
             key={o.value} 
             type="button" 
             role="radio" 
-            aria-checked={o.value === value}
+            aria-checked={o.value === value ? "true" : "false"}
             aria-label={o.label}
             title={o.label}
           >

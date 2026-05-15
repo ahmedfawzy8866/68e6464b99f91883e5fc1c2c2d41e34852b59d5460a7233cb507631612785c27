@@ -79,4 +79,3 @@ git add .
 git commit -m "chore: hardens Property Finder integration and Egypt compliance logic"
 git push origin main
 ```
-
