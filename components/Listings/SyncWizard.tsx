@@ -484,10 +484,9 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
                       </div>
                       <div className="source-select flex-[1.5]">
                         <select 
-                          className="form-select w-full" 
+                          className={`form-select w-full border ${mappings[field.key] ? 'border-[var(--gold)]' : 'border-[var(--border)]'}`}
                           value={mappings[field.key] || ''} 
                           onChange={e => setMappings({ ...mappings, [field.key]: e.target.value })}
-                          style={{ borderColor: mappings[field.key] ? 'var(--gold)' : 'var(--border)' }}
                           title={`Map ${field.label} to source field`}
                           aria-label={`Select source field for ${field.label}`}
                         >

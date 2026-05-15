@@ -98,7 +98,8 @@ export default function AdminSyncPage() {
       loading: syncingListings,
       result: listingsResult,
       action: () => runSync('sync-listings', setSyncingListings, setListingsResult),
-      color: '#3B82F6',
+      colorClass: 'text-[#3B82F6]',
+      bgClass: 'bg-[#3B82F6]/10',
     },
     {
       title: 'Sync Leads',
@@ -107,7 +108,8 @@ export default function AdminSyncPage() {
       loading: syncingLeads,
       result: leadsResult,
       action: () => runSync('sync-leads', setSyncingLeads, setLeadsResult),
-      color: '#10B981',
+      colorClass: 'text-[#10B981]',
+      bgClass: 'bg-[#10B981]/10',
     },
     {
       title: 'Full Sync',
@@ -116,7 +118,8 @@ export default function AdminSyncPage() {
       loading: syncingFull,
       result: fullResult,
       action: () => runSync('run-sync', setSyncingFull, setFullResult),
-      color: '#C9A84C',
+      colorClass: 'text-[#C9A84C]',
+      bgClass: 'bg-[#C9A84C]/10',
     },
   ];
 
@@ -132,12 +135,12 @@ export default function AdminSyncPage() {
 
       {/* ══ Quick Actions ══ */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        {actions.map(({ title, desc, icon: Icon, loading, result, action, color }) => (
+        {actions.map(({ title, desc, icon: Icon, loading, result, action, colorClass, bgClass }) => (
           <div key={title}
             className="bg-white rounded-2xl p-6 shadow-[0_2px_16px_-4px_rgba(3,22,50,0.06)] hover:shadow-[0_8px_32px_-4px_rgba(3,22,50,0.1)] transition-shadow">
             <div className="flex items-start gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${color}14` }}>
-                <Icon size={18} style={{ color }} />
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${bgClass}`}>
+                <Icon size={18} className={colorClass} />
               </div>
               <div className="flex-1">
                 <h3 className="font-bold text-sm text-[#071422]">{title}</h3>

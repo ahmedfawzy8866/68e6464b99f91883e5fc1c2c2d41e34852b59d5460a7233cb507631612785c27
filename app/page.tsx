@@ -356,8 +356,7 @@ export default function LandingPage() {
             <span 
               key={n} 
               onClick={() => scrollTo(['listings', 'intelligence', 'about', 'contact'][i])} 
-              className="text-[11px] font-medium tracking-[0.13em] uppercase transition-all duration-300 cursor-pointer hover:text-[var(--gold-prime)]"
-              style={{ color: th.textSub, fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}
+              className={`text-[11px] font-medium tracking-[0.13em] uppercase transition-all duration-300 cursor-pointer text-[var(--text-sub)] hover:text-[var(--gold-prime)] ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}
             >
               {n}
             </span>
@@ -390,20 +389,10 @@ export default function LandingPage() {
       {/* ══ HERO ══ */}
       <section className="lux-hero-section bg-[var(--hero-bg)]">
         <div 
-          className="lux-hero-bg"
-          style={{ 
-            backgroundImage: "url('https://images.unsplash.com/photo-1602941525421-8f8b81d3edbb?w=1800&q=80')",
-            transform: loaded ? 'scale(1)' : 'scale(1.06)',
-            opacity: mode === 'dark' ? 0.55 : 0.15 
-          }} 
+          className={`lux-hero-bg bg-[url('https://images.unsplash.com/photo-1602941525421-8f8b81d3edbb?w=1800&q=80')] ${loaded ? 'scale-100' : 'scale-[1.06]'} transition-transform duration-1000 ${mode === 'dark' ? 'opacity-[0.55]' : 'opacity-[0.15]'}`}
         />
         <div 
-          className="lux-hero-overlay"
-          style={{ 
-            background: mode === 'dark' 
-              ? 'linear-gradient(105deg,rgba(10,21,32,.97) 0%,rgba(13,32,53,.85) 45%,rgba(10,21,32,.4) 100%)' 
-              : 'linear-gradient(105deg,rgba(192,214,212,.98) 0%,rgba(213,232,230,.95) 50%,rgba(192,214,212,.7) 100%)' 
-          }} 
+          className={`lux-hero-overlay ${mode === 'dark' ? 'bg-[linear-gradient(105deg,rgba(10,21,32,.97)_0%,rgba(13,32,53,.85)_45%,rgba(10,21,32,.4)_100%)]' : 'bg-[linear-gradient(105deg,rgba(192,214,212,.98)_0%,rgba(213,232,230,.95)_50%,rgba(192,214,212,.7)_100%)]'}`}
         />
         <ParticleCanvas />
 
@@ -456,7 +445,7 @@ export default function LandingPage() {
             <div 
               className={`hidden md:block relative h-[520px] ${isAr ? 'order-1' : 'order-2'} ${loaded ? 'animate-[fadeUp_.9s_ease_.45s_both]' : 'opacity-0'}`}
             >
-              <div className="absolute inset-0 flex items-center justify-center" style={{ opacity: mode === 'dark' ? 0.03 : 0.025 }}>
+              <div className={`absolute inset-0 flex items-center justify-center ${mode === 'dark' ? 'opacity-[0.03]' : 'opacity-[0.025]'}`}>
                 <ShieldLogo size={340} />
               </div>
               {[{ off: 2, op: 0.4 }, { off: 1, op: 0.65 }, { off: 0, op: 1 }].map(({ off, op }, idx) => (
@@ -561,7 +550,7 @@ export default function LandingPage() {
       </section>
 
       {/* ══ WHY SIERRA BLU ══ */}
-      <section id="about" className="relative py-24 overflow-hidden" style={{ background: th.bg }}>
+      <section id="about" className="relative py-24 overflow-hidden bg-[var(--bg)]">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.02] dark:opacity-[0.025]">
           <ShieldLogo size={600} />
         </div>
@@ -569,7 +558,7 @@ export default function LandingPage() {
           <div className="reveal text-center mb-16">
             <div className="lux-section-subtitle mx-auto">{T.secWhy}</div>
             <h2 className="lux-section-title">{T.h2Why}</h2>
-            {'whyDesc' in T && <p className="text-sm font-light leading-relaxed max-w-xl mx-auto opacity-70" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{(T as any).whyDesc}</p>}
+            {'whyDesc' in T && <p className={`text-sm font-light leading-relaxed max-w-xl mx-auto opacity-70 ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>{(T as any).whyDesc}</p>}
           </div>
           
           <div className="grid md:grid-cols-3 gap-6">
@@ -586,7 +575,7 @@ export default function LandingPage() {
                 </div>
                 <h3 className="font-serif text-xl font-medium mb-3 text-white">{w.title}</h3>
                 <div className={`h-0.5 w-10 lux-gold-gradient rounded-full mb-4 ${isAr ? 'ml-auto' : ''}`} />
-                <p className="text-xs font-light leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{w.desc}</p>
+                <p className={`text-xs font-light leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>{w.desc}</p>
               </div>
             ))}
           </div>
@@ -615,7 +604,7 @@ export default function LandingPage() {
                   {T.mapH1}<br /><em className="lux-gold-text italic">{T.mapH2}</em>
                 </h2>
                 <div className={`h-0.5 w-12 lux-gold-gradient rounded-full my-6 ${isAr ? 'ml-auto' : ''}`} />
-                <p className="text-sm font-light leading-relaxed opacity-70" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.mapDesc}</p>
+                <p className={`text-sm font-light leading-relaxed opacity-70 ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>{T.mapDesc}</p>
               </div>
               
               <div className="flex flex-col gap-3">
@@ -626,7 +615,7 @@ export default function LandingPage() {
                     onClick={() => setActiveZone(activeZone === i ? null : i)}
                   >
                     <div className="w-2 h-2 rounded-full flex-shrink-0 animate-pulse" style={{ background: z.color, boxShadow: `0 0 10px ${z.color}` }} />
-                    <div className="flex-1 text-sm font-medium text-white opacity-80" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{z.area}</div>
+                    <div className={`flex-1 text-sm font-medium text-white opacity-80 ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>{z.area}</div>
                     <span className="font-mono text-[10px] font-bold py-1 px-3 rounded-full" style={{ color: z.color, background: `${z.color}15`, border: `1px solid ${z.color}30` }}>{z.stat}</span>
                   </div>
                 ))}
@@ -652,11 +641,11 @@ export default function LandingPage() {
               <h2 className="lux-section-title">{T.aiH}</h2>
               <div className="text-[10px] font-bold tracking-widest text-[#1B6CA8] uppercase mb-6 font-body">{T.aiSub}</div>
               <div className={`h-0.5 w-12 lux-gold-gradient rounded-full mb-8 ${isAr ? 'ml-auto' : ''}`} />
-              <p className="text-sm font-light leading-relaxed opacity-70 mb-10" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.aiDesc}</p>
+              <p className={`text-sm font-light leading-relaxed opacity-70 mb-10 ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>{T.aiDesc}</p>
               
               <div className="flex flex-col gap-4 mb-10">
                 {T.aiFeatures.map((f, i) => (
-                  <div key={i} className={`flex items-center gap-3 text-sm opacity-80 ${isAr ? 'flex-row-reverse' : 'flex-row'}`} style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>
+                  <div key={i} className={`flex items-center gap-3 text-sm opacity-80 ${isAr ? "flex-row-reverse font-['Cairo',sans-serif]" : "flex-row font-['Jost',sans-serif]"}`}>
                     <div className="w-1.5 h-1.5 rounded-full lux-gold-gradient" />
                     {f}
                   </div>
@@ -685,7 +674,7 @@ export default function LandingPage() {
                 <div className="space-y-4 mb-8">
                   {T.aiChat.map((msg, i) => (
                     <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[85%] px-5 py-3 rounded-2xl text-xs font-light leading-relaxed ${msg.from === 'user' ? 'lux-gold-gradient text-[#071422] rounded-tr-none' : 'bg-white/5 border border-white/5 text-white/80 rounded-tl-none'}`} style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>
+                      <div className={`max-w-[85%] px-5 py-3 rounded-2xl text-xs font-light leading-relaxed ${msg.from === 'user' ? 'lux-gold-gradient text-[#071422] rounded-tr-none' : 'bg-white/5 border border-white/5 text-white/80 rounded-tl-none'} ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>
                         {msg.text}
                       </div>
                     </div>
@@ -713,11 +702,11 @@ export default function LandingPage() {
             {T.testimonials.map((t, i) => (
               <div key={i} className="reveal lux-glass p-8 rounded-2xl border border-white/5 transition-all duration-500 hover:-translate-y-2 group shadow-xl">
                 <div className="font-serif text-5xl lux-gold-text opacity-30 leading-none mb-4">&ldquo;</div>
-                <p className="text-sm font-light leading-relaxed opacity-70 italic mb-8" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{t.q}</p>
+                <p className={`text-sm font-light leading-relaxed opacity-70 italic mb-8 ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>{t.q}</p>
                 <div className={`flex items-center gap-4 ${isAr ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
                   <div className="w-10 h-10 rounded-full lux-gold-gradient flex items-center justify-center font-mono text-[10px] font-bold text-[#071422]">{t.i}</div>
                   <div>
-                    <div className="text-sm font-medium text-white" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{t.name}</div>
+                    <div className={`text-sm font-medium text-white ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>{t.name}</div>
                     <div className="text-[10px] tracking-widest uppercase opacity-40 font-body">{t.role}</div>
                   </div>
                 </div>
@@ -733,7 +722,7 @@ export default function LandingPage() {
           <div className="reveal text-center mb-12">
             <div className="lux-section-subtitle mx-auto">{T.ctaTag}</div>
             <h2 className="lux-section-title">{T.ctaH}</h2>
-            <p className="text-sm font-light opacity-70" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.ctaSub}</p>
+            <p className={`text-sm font-light opacity-70 ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>{T.ctaSub}</p>
           </div>
           
           <div className="reveal">
@@ -741,7 +730,7 @@ export default function LandingPage() {
               <div className="lux-glass p-12 rounded-2xl border border-[var(--gold-prime)]/30 text-center">
                 <div className="text-4xl mb-6">✓</div>
                 <div className="font-serif text-2xl lux-gold-text mb-2">{lang === 'en' ? 'Request Received.' : 'تم استلام طلبك.'}</div>
-                <p className="text-sm font-light opacity-70" style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.formSuccess}</p>
+                <p className={`text-sm font-light opacity-70 ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>{T.formSuccess}</p>
               </div>
             ) : (
               <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-4">
@@ -756,8 +745,7 @@ export default function LandingPage() {
                     placeholder={f.label}
                     value={formData[f.key]}
                     onChange={(e) => setFormData({ ...formData, [f.key]: e.target.value })}
-                    className={`w-full bg-white/5 border border-white/10 rounded-lg px-6 py-4 text-sm font-light text-white outline-none focus:border-[var(--gold-prime)]/50 transition-all ${isAr ? 'text-right' : 'text-left'}`}
-                    style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}
+                    className={`w-full bg-white/5 border border-white/10 rounded-lg px-6 py-4 text-sm font-light text-white outline-none focus:border-[var(--gold-prime)]/50 transition-all ${isAr ? 'text-right font-[\'Cairo\',sans-serif]' : 'text-left font-[\'Jost\',sans-serif]'}`}
                   />
                 ))}
                 <button type="submit" className="lux-button lux-button-primary w-full !py-4">
@@ -781,7 +769,7 @@ export default function LandingPage() {
                   <div className="text-[9px] tracking-[0.4em] opacity-40 font-body">{T.sub}</div>
                 </div>
               </div>
-              <p className={`text-xs font-light leading-relaxed opacity-40 max-w-xs ${isAr ? 'ml-auto' : ''}`} style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}>{T.footDesc}</p>
+              <p className={`text-xs font-light leading-relaxed opacity-40 max-w-xs ${isAr ? 'ml-auto font-["Cairo",sans-serif]' : 'font-["Jost",sans-serif]'}`}>{T.footDesc}</p>
             </div>
             
             {[
@@ -795,8 +783,7 @@ export default function LandingPage() {
                     <div 
                       key={l} 
                       onClick={() => col.ids[i] && scrollTo(col.ids[i])} 
-                      className="text-xs font-light opacity-40 hover:opacity-100 hover:lux-gold-text cursor-pointer transition-all"
-                      style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Jost', sans-serif" }}
+                      className={`text-xs font-light opacity-40 hover:opacity-100 hover:lux-gold-text cursor-pointer transition-all ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}
                     >
                       {l}
                     </div>

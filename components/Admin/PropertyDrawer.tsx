@@ -15,12 +15,12 @@ export default function PropertyDrawer({ property, onClose, onEdit, onDelete }: 
   if (!property) return null;
 
   const statusColors = {
-    available: '#22C55E',
-    reserved: '#F59E0B',
-    sold: '#EF4444',
-    draft: '#64748B',
-    archived: '#94A3B8'
-  };
+    available: 'bg-[#22C55E]',
+    reserved: 'bg-[#F59E0B]',
+    sold: 'bg-[#EF4444]',
+    draft: 'bg-[#64748B]',
+    archived: 'bg-[#94A3B8]'
+  } as Record<string, string>;
 
   return (
     <AnimatePresence>
@@ -66,8 +66,7 @@ export default function PropertyDrawer({ property, onClose, onEdit, onDelete }: 
           <div className="flex-1 overflow-y-auto p-8">
             <div className="flex justify-between items-start mb-4">
               <div 
-                className="text-white px-3 py-1 rounded-md text-[11px] font-bold uppercase tracking-[0.5px]"
-                style={{ background: statusColors[property.status] }}
+                className={`text-white px-3 py-1 rounded-md text-[11px] font-bold uppercase tracking-[0.5px] ${statusColors[property.status] || statusColors.draft}`}
               >
                 {property.status}
               </div>

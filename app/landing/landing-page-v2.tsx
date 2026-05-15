@@ -385,6 +385,13 @@ body { background: var(--bg); color: var(--text); font-family: var(--ff-body); -
 /* ── NO SCROLLBAR ── */
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ── Utility extensions ── */
+.sb-section-no-top { padding-top: 0 !important; }
+.sb-section-sub-mt { margin-top: 16px; }
+.sb-footer-logo-row { display: flex; align-items: center; gap: 10px; }
+.sb-footer-bottom-row { display: flex; align-items: center; gap: 16px; }
+.sb-map-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 `;
 
 // ─── Component ────────────────────────────────────────────────────
@@ -444,7 +451,7 @@ function LandingContent() {
     ar ? `${(p / 1000000).toFixed(1)} مليون جنيه` : `EGP ${p.toLocaleString()}`;
 
   return (
-    <div data-dark={dark} dir={ar ? "rtl" : "ltr"} style={{ background: dark ? B.navy1 : B.bg, color: dark ? B.dkText : B.text, minHeight: "100dvh" }}>
+    <div data-dark={dark} dir={ar ? "rtl" : "ltr"} className="min-h-dvh" style={{ background: dark ? B.navy1 : B.bg, color: dark ? B.dkText : B.text }}>
       <style>{GLOBAL_CSS}</style>
 
       {/* ── NAV ── */}
@@ -592,7 +599,7 @@ function LandingContent() {
       </section>
 
       {/* ── INTELLIGENCE MAP ── */}
-      <section id="intel" className="sb-section" style={{ paddingTop: 0 }}>
+      <section id="intel" className="sb-section sb-section-no-top">
         <div className="sb-section-header">
           <div>
             <div className="sb-section-label reveal">{ar ? "بيانات حية" : "Live Intelligence"}</div>
@@ -602,7 +609,7 @@ function LandingContent() {
 
         <div className="sb-map-wrap reveal">
           {/* Stylised abstract map */}
-          <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} viewBox="0 0 100 100" preserveAspectRatio="none">
+          <svg className="sb-map-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
             {/* Grid */}
             {[...Array(10)].map((_, i) => (
               <line key={`h${i}`} x1="0" y1={i * 11 + 5} x2="100" y2={i * 11 + 5 + Math.sin(i) * 1.5} stroke={B.gold} strokeOpacity="0.07" strokeWidth="0.2"/>
@@ -675,7 +682,7 @@ function LandingContent() {
           <div>
             <div className="sb-section-label reveal">{ar ? "ابدأ رحلتك" : "Begin Your Journey"}</div>
             <h2 className="sb-h2 reveal">{ar ? (<>جد مكانك<br />في <em>القاهرة الجديدة</em></>) : (<>Find Your Place<br />in <em>New Cairo.</em></>)}</h2>
-            <p className="sb-section-sub reveal" style={{ marginTop: 16 }}>
+            <p className="sb-section-sub reveal sb-section-sub-mt">
               {ar ? "دع الذكاء الاصطناعي يطابقك مع منزلك المثالي. تواصل مع مستشارينا الآن." : "Let our AI match you with your perfect home. Our advisors respond within 2 hours."}
             </p>
           </div>
@@ -707,7 +714,7 @@ function LandingContent() {
       <footer className="sb-footer">
         <div className="sb-footer-grid">
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div className="sb-footer-logo-row">
               <ShieldLogo size={32} dark={dark} />
               <div>
                 <div className="sb-footer-brand-name">Sierra Blu</div>
@@ -735,7 +742,7 @@ function LandingContent() {
 
         <div className="sb-footer-bottom">
           <span className="sb-footer-copy">© 2026 Sierra Blu Realty. All Rights Reserved.</span>
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <div className="sb-footer-bottom-row">
             <div className="sb-pf-badge"><span className="sb-pf-dot" />PF Synced</div>
             <a href="#" className="sb-footer-link">Privacy</a>
             <a href="#" className="sb-footer-link">Terms</a>

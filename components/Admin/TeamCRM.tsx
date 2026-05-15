@@ -233,7 +233,7 @@ export default function TeamCRM() {
                   {t('admin.connect')}
                 </button>
                 <button className="flex-1 bg-gold/10 hover:bg-gold/20 text-gold py-3 rounded-xl transition-all font-bold text-[10px] uppercase tracking-widest">
-                  {t('admin.intelligence')}
+                  {t('admin.intelligenceTab')}
                 </button>
               </div>
 

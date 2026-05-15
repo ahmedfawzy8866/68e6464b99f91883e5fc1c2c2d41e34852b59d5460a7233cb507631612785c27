@@ -103,12 +103,12 @@ export default function PortfolioAssets() {
     }
   };
 
-  const getStatusColor = (status: PropertyStatus) => {
+  const getStatusColorClass = (status: PropertyStatus) => {
     switch (status) {
-      case 'available': return '#22C55E';
-      case 'reserved': return '#F59E0B';
-      case 'sold': return '#EF4444';
-      default: return '#64748B';
+      case 'available': return 'bg-[#22C55E] shadow-[0_0_10px_rgba(34,197,94,0.5)]';
+      case 'reserved': return 'bg-[#F59E0B] shadow-[0_0_10px_rgba(245,158,11,0.5)]';
+      case 'sold': return 'bg-[#EF4444] shadow-[0_0_10px_rgba(239,68,68,0.5)]';
+      default: return 'bg-[#64748B] shadow-[0_0_10px_rgba(100,116,139,0.5)]';
     }
   };
 
@@ -267,7 +267,7 @@ export default function PortfolioAssets() {
                 </td>
                 <td className="p-6">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full" style={{ background: getStatusColor(prop.status), boxShadow: `0 0 10px ${getStatusColor(prop.status)}80` }} />
+                    <div className={`w-2 h-2 rounded-full ${getStatusColorClass(prop.status)}`} />
                     <span className="text-[10px] font-black text-white/70 uppercase tracking-widest">{prop.status}</span>
                   </div>
                 </td>

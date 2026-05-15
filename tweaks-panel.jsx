@@ -331,9 +331,7 @@ function TweakRadio({ label, value, options, onChange }) {
     <TweakRow label={label}>
       <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
            className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
-        <div className="twk-seg-thumb transition-all duration-200"
-             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
-                      width: `calc((100% - 4px) / ${n})` }} />
+        <div className={`twk-seg-thumb transition-all duration-200 left-[calc(2px+${idx}*(100%-4px)/${n})] w-[calc((100%-4px)/${n})]`} />
         {opts.map((o) => (
           <button 
             key={o.value} 
