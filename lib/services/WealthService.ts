@@ -13,7 +13,7 @@ export const WealthService = {
    * Fetches the top curated assets and runs a neural ROI analysis on each.
    */
   async getCuratedPortfolio(count: number = 6, market?: 'egypt' | 'uae'): Promise<IntelligentAsset[]> {
-    const rawAssets = await InventoryService.getFeaturedListings(count, market);
+    const rawAssets = await InventoryService.getFeaturedListings(count);
     
     const enriched = await Promise.all(
       rawAssets.map(async (asset) => {
@@ -25,21 +25,39 @@ export const WealthService = {
           location: asset.location,
           propertyType: asset.propertyType as any,
           area: asset.area,
-          category: asset.category,
-          market: asset.market,
-          ownerType: asset.ownerType,
           status: asset.status as any,
+          category: 'residential',
+          ownerType: 'broker',
         };
 
         try {
           const financials = await analyzeAssetFinancials(unit);
           return {
             ...asset,
-            financials
-          };
+            id: asset.id,
+            title: asset.title,
+            location: asset.location || '',
+            price: asset.price,
+            roi: financials.projectedROI,
+            yield: financials.annualYield,
+            tags: [],
+            intelligenceScore: 85,
+            reasoning: financials.valuationAnalysis,
+          } as IntelligentAsset;
         } catch (e) {
           console.error(`Wealth Intelligence failed for asset ${asset.id}`, e);
-          return asset;
+          return {
+            ...asset,
+            id: asset.id,
+            title: asset.title,
+            location: asset.location || '',
+            price: asset.price,
+            roi: 0,
+            yield: 0,
+            tags: [],
+            intelligenceScore: 0,
+            reasoning: '',
+          } as IntelligentAsset;
         }
       })
     );

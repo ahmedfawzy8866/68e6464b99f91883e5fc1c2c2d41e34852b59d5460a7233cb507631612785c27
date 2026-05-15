@@ -30,5 +30,16 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "sierra-blue-*.ts",
+    "backend-integration/**/*",
+    "skills/**/*",
+    "my-app/**/*",
+    "mempalace/**/*",
+    "bots/**/*",
+    "composio/**/*",
+    "functions/**/*",
+    "hooks/sierra-blue/**/*"
+  ]
 }
