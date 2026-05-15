@@ -35,8 +35,8 @@
 
 .headerTitle h2 {
   margin: 0;
-  fontSize: 20px;
-  fontWeight: 600;
+  font-size: 20px;
+  font-weight: 600;
   letter-spacing: -0.025em;
 }
 

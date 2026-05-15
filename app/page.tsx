@@ -444,7 +444,6 @@ export default function LandingPage() {
                 {T.heroDesc}
               </p>
 
-              <div 
               <div className={`flex gap-4 mb-12 ${isAr ? 'flex-row-reverse' : 'flex-row'} ${loaded ? 'animate-[fadeUp_.7s_ease_.46s_both]' : 'opacity-0'}`}>
                 <Link href="/listings" className="lux-button lux-button-primary shadow-gold">
                   {T.btnDiscover}

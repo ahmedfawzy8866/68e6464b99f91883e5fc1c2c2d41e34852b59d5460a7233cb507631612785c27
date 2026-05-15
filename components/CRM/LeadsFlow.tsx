@@ -120,10 +120,10 @@ export default function StakeholderFlow() {
   return (
     <div className="leads-flow-container animate-fade-in-up" dir={dir}>
       {/* Header Area */}
-      <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px' }}>
+      <div className="page-header flex justify-between items-end mb-[32px]">
         <div>
-          <h1 className="serif gold-underline" style={{ fontSize: '32px' }}>{t('flow.title')}</h1>
-          <div className="page-sub" style={{ opacity: 0.7 }}>{t('flow.subtitle')}</div>
+          <h1 className="serif gold-underline text-[32px]">{t('flow.title')}</h1>
+          <div className="page-sub opacity-70">{t('flow.subtitle')}</div>
         </div>
         <button className="btn btn-gold shadow-gold" onClick={() => setIsAddingStakeholder(true)}>
           <Plus size={18} className="me-2"/> {t('flow.addLead')}
@@ -133,7 +133,7 @@ export default function StakeholderFlow() {
       <div className="flow-layout">
         {/* Pipeline Column */}
         <div className="pipeline-sidebar">
-          <div className="kpi-section" style={{ marginBottom: '24px' }}>
+          <div className="kpi-section mb-[24px]">
             <KPIProgressBar 
               label={t('flow.callsTarget') || 'Strategic Calls'} 
               current={8} 
@@ -170,7 +170,7 @@ export default function StakeholderFlow() {
                       <div className="lead-name">{stakeholder.name || 'Unknown'}</div>
                       <div className="lead-phone"><Phone size={12}/> {stakeholder.phone}</div>
                     </div>
-                    <div className={`badge ${getStatusStyle(stakeholder.status)}`} style={{ fontSize: '9px', marginLeft: 'auto' }}>
+                    <div className={`badge ${getStatusStyle(stakeholder.status)} text-[9px] ml-auto`}>
                       {t(`flow.stages.${stakeholder.status}`)}
                     </div>
                   </div>
@@ -201,7 +201,7 @@ export default function StakeholderFlow() {
                       <p className="text-secondary text-sm uppercase tracking-widest">{activeStakeholder.name}</p>
                     </div>
                   </div>
-                  <button onClick={() => setActiveStakeholder(null)} className="btn-ghost p-2 rounded-full"><X size={20}/></button>
+                  <button onClick={() => setActiveStakeholder(null)} className="btn-ghost p-2 rounded-full" title="Close" aria-label="Close"><X size={20}/></button>
                 </div>
 
                 {/* Stepper */}
@@ -252,7 +252,7 @@ export default function StakeholderFlow() {
                     </div>
                   </div>
 
-                  <a href={`tel:${activeStakeholder.phone}`} className="btn btn-primary w-full py-4 justify-center text-lg mt-4" style={{ borderRadius: '16px' }}>
+                  <a href={`tel:${activeStakeholder.phone}`} className="btn btn-primary w-full py-4 justify-center text-lg mt-4 rounded-[16px]">
                     <Phone size={20} className="me-3"/> {t('flow.callProspect')}
                   </a>
                 </div>
@@ -273,7 +273,7 @@ export default function StakeholderFlow() {
       {/* Add Stakeholder Modal */}
       {isAddingStakeholder && (
         <div className="modal-overlay reveal">
-          <div className="modal-content glass-panel" style={{ maxWidth: '480px', padding: '40px' }}>
+          <div className="modal-content glass-panel max-w-[480px] p-[40px]">
             <h2 className="serif text-3xl text-gold mb-8">{t('flow.newProspect')}</h2>
             <form onSubmit={handleAddStakeholder} className="space-y-6">
               <div className="form-group">
