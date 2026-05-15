@@ -175,6 +175,8 @@ export default function ImageLinkHub() {
                   <button 
                     onClick={() => removeFile(index)}
                     className="absolute top-2 right-2 p-1.5 bg-black/50 backdrop-blur-md rounded-lg text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Remove media"
+                    title="Remove"
                   >
                     <X size={12} />
                   </button>

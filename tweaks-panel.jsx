@@ -273,7 +273,8 @@ function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', on
   return (
     <TweakRow label={label} value={`${value}${unit}`}>
       <input type="range" className="twk-slider" min={min} max={max} step={step}
-             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+             value={value} onChange={(e) => onChange(Number(e.target.value))}
+             aria-label={label} title={label} />
     </TweakRow>
   );
 }
@@ -283,8 +284,8 @@ function TweakToggle({ label, value, onChange }) {
     <div className="twk-row twk-row-h">
       <div className="twk-lbl"><span>{label}</span></div>
       <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
-              role="switch" aria-checked={!!value}
-              onClick={() => onChange(!value)}><i /></button>
+              role="switch" aria-checked={value ? "true" : "false"}
+              onClick={() => onChange(!value)} aria-label={label} title={label}><i /></button>
     </div>
   );
 }
@@ -334,7 +335,14 @@ function TweakRadio({ label, value, options, onChange }) {
              style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
                       width: `calc((100% - 4px) / ${n})` }} />
         {opts.map((o) => (
-          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+          <button 
+            key={o.value} 
+            type="button" 
+            role="radio" 
+            aria-checked={o.value === value ? "true" : "false"}
+            aria-label={o.label}
+            title={o.label}
+          >
             {o.label}
           </button>
         ))}
@@ -346,7 +354,7 @@ function TweakRadio({ label, value, options, onChange }) {
 function TweakSelect({ label, value, options, onChange }) {
   return (
     <TweakRow label={label}>
-      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)} aria-label={label} title={label}>
         {options.map((o) => {
           const v = typeof o === 'object' ? o.value : o;
           const l = typeof o === 'object' ? o.label : o;
@@ -394,7 +402,8 @@ function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) 
     <div className="twk-num">
       <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
       <input type="number" value={value} min={min} max={max} step={step}
-             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+             onChange={(e) => onChange(clamp(Number(e.target.value)))}
+             aria-label={label} title={label} />
       {unit && <span className="twk-num-unit">{unit}</span>}
     </div>
   );
@@ -405,7 +414,8 @@ function TweakColor({ label, value, onChange }) {
     <div className="twk-row twk-row-h">
       <div className="twk-lbl"><span>{label}</span></div>
       <input type="color" className="twk-swatch" value={value}
-             onChange={(e) => onChange(e.target.value)} />
+             onChange={(e) => onChange(e.target.value)}
+             aria-label={label} title={label} />
     </div>
   );
 }

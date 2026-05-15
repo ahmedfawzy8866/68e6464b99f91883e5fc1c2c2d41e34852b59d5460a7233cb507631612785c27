@@ -451,11 +451,18 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
 
             {stage === 'UPLOAD' && (
               <div className="upload-zone ripple" style={{ border: '2px dashed var(--gold)', borderRadius: '12px', padding: '60px 40px', textAlign: 'center', cursor: 'pointer', position: 'relative', background: 'rgba(200, 169, 110, 0.02)' }}>
-                <input type="file" accept=".json,.csv" onChange={handleFileUpload} style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }} />
+                <input 
+                  type="file" 
+                  accept=".json,.csv" 
+                  onChange={handleFileUpload} 
+                  style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }} 
+                  title="Upload structured protocol file"
+                  aria-label="Upload source file"
+                />
                 <div style={{ fontSize: '48px', marginBottom: '20px', filter: 'sepia(0.5)' }}>⚜️</div>
                 <h3 className="serif" style={{ color: 'var(--navy)', marginBottom: '12px' }}>Ingest Dataset</h3>
                 <p style={{ fontSize: '13px', opacity: 0.7, maxWidth: '400px', margin: '0 auto' }}>
-                  Deploy inventory exports from professional portals as structured JSON or CSV protocols.
+                  Deploy Portfolio Asset exports from professional portals as structured JSON or CSV protocols.
                 </p>
                 <div className="btn btn-primary" style={{ marginTop: '24px' }}>Select Source File</div>
                 <div style={{ marginTop: '16px' }}>
@@ -487,6 +494,8 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
                           value={mappings[field.key] || ''} 
                           onChange={e => setMappings({ ...mappings, [field.key]: e.target.value })}
                           style={{ width: '100%', borderColor: mappings[field.key] ? 'var(--gold)' : 'var(--border)' }}
+                          title={`Map ${field.label} to source field`}
+                          aria-label={`Select source field for ${field.label}`}
                         >
                           <option value="">-- Connect Source Parameter --</option>
                           {Object.keys(rawData[0] || {}).map(sk => <option key={sk} value={sk}>{sk}</option>)}

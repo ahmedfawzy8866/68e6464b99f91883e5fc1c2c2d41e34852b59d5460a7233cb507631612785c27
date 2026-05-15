@@ -107,13 +107,13 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
         {/* Tab Sidebar & Content */}
         <div className={styles.mainArea}>
           {/* Tabs Navigation */}
-          <div className={styles.sidebar}>
+          <div className={styles.sidebar} role="tablist">
             {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`${styles.tabButton} ${activeTab === tab.id ? styles.active : ''}`}
-                aria-selected={activeTab === tab.id}
+                aria-selected={activeTab === tab.id ? "true" : "false"}
                 role="tab"
               >
                 <span className={styles.tabIcon}>{tab.icon}</span>
