@@ -9,6 +9,8 @@ import { InventoryService, Property } from '@/lib/services/InventoryService.clie
 import ShieldLogo from '@/components/Landing/ShieldLogo';
 import PropCard from '@/components/Landing/PropCard';
 
+import styles from './page.module.css';
+
 const ParticleCanvas = dynamic(() => import('@/components/Landing/ParticleCanvas'), { ssr: false });
 const LiveMap = dynamic(() => import('@/components/Maps/LiveMap'), {
   ssr: false,
@@ -18,213 +20,8 @@ const LiveMap = dynamic(() => import('@/components/Maps/LiveMap'), {
 // ══════════════════════════════════════════════════════════
 //  DESIGN TOKENS & CONSTANTS
 // ══════════════════════════════════════════════════════════
-const G = 'var(--gold-prime)';
-const G2 = 'var(--sierra-blue)';
+import { THEMES, COPY, STATIC_PORTFOLIO_ASSETS, ZONE_COORDS, G, G2 } from '@/app/data/landing-page';
 
-const THEMES = {
-  dark: {
-    bg: 'var(--night-navy)', 
-    bgAlt: 'var(--deep-navy)', 
-    bg2: 'var(--mid-navy)',
-    surface: 'var(--surface)', 
-    surfaceHover: 'var(--surface-hover)',
-    card: 'var(--bg-card)', 
-    cardBorder: 'var(--border-card)',
-    border: 'var(--border)', 
-    borderHover: 'var(--gold-prime)',
-    text: 'var(--text)', 
-    textSub: 'var(--text-sub)', 
-    textMuted: 'var(--text-muted)',
-    navBg: 'var(--bg-nav)', 
-    footerBg: 'var(--night-navy)', 
-    heroBg: 'var(--night-navy)',
-  },
-  light: {
-    bg: 'var(--bg)', 
-    bgAlt: 'var(--bg-surface)', 
-    bg2: 'var(--bg-surface)',
-    surface: 'var(--surface)', 
-    surfaceHover: 'var(--surface-hover)',
-    card: 'var(--bg-card)', 
-    cardBorder: 'var(--border-card)',
-    border: 'var(--border)', 
-    borderHover: 'var(--gold-prime)',
-    text: 'var(--text)', 
-    textSub: 'var(--text-sub)', 
-    textMuted: 'var(--text-muted)',
-    navBg: 'var(--bg-nav)', 
-    footerBg: 'var(--deep-navy)', 
-    heroBg: 'var(--bg)',
-  },
-};
-
-// ══════════════════════════════════════════════════════════
-//  COPY (BILINGUAL)
-// ══════════════════════════════════════════════════════════
-const COPY = {
-  en: {
-    dir: 'ltr' as const,
-    brand: 'SIERRA BLU', sub: 'REALTY',
-    tagline: 'AI‑POWERED REAL ESTATE INTELLIGENCE',
-    nav: ['Portfolio', 'Intelligence', 'About', 'Contact'],
-    cta: 'Explore Portfolio',
-    heroTag: 'Beyond Brokerage',
-    heroH1: ['Smarter', 'Real Estate.'],
-    heroItalic: 'Powered by AI intelligence.',
-    heroSub: 'New Cairo\'s Premier Rent & Resale Platform',
-    heroDesc: 'We combine advanced AI with an exclusive network of 1,500+ elite brokers across New Cairo, Madinaty, and El Shorouk to deliver unmatched value tailored to your needs.',
-    btnDiscover: 'Explore Portfolio',
-    btnView: 'Talk to Sierra AI',
-    stats: [['1,200+', 'Portfolio Assets'], ['98%', 'Match Rate'], ['8+', 'Compounds'], ['4s', 'Response Time']],
-    scroll: 'Scroll',
-    secListings: 'Strategic Pipeline',
-    h2Listings: 'Portfolio Assets.',
-    viewAll: 'Explore All →',
-    searchType: 'Asset Type', searchCompound: 'Zone', searchBudget: 'Capital', searchBtn: 'Search Now',
-    beds: 'beds', baths: 'baths',
-    secWhy: 'The Sierra Blu Distinction',
-    h2Why: 'Why stakeholders choose us.',
-    whyDesc: 'We don\'t just search the market — we analyze it. Powered by AI and 1,500+ trusted brokers, we scan every corner of New Cairo to bring you only the highest-value portfolio assets that meet your exact needs.',
-    why: [
-      { icon: '◆', title: 'Curated Selection', stat: '1,200+', statLabel: 'vetted assets', desc: 'Every asset is hand-checked by our investment stakeholders. We reject overpriced inventory so you only see what\'s worth your time and capital.' },
-      { icon: '◈', title: 'AI-Powered Matching', stat: '98%', statLabel: 'match accuracy', desc: 'Our AI cross-references your criteria against live market data, price history, and ROI projections to surface the best deals first.' },
-      { icon: '◉', title: 'Dedicated Advisor', stat: '4s', statLabel: 'avg response', desc: 'One advisor from first call to final signature. They know your budget, your preferences, and the market — no handoffs, no repeating yourself.' },
-    ],
-    bannerH: 'Exceptional Assets, Intelligent Matching',
-    bannerSub: 'أصول استثنائية، مطابقة ذكية',
-    bannerBtn: 'View Portfolio',
-    secMap: 'Market Intelligence',
-    mapH1: 'New Cairo', mapH2: 'Strategic Pipeline',
-    mapDesc: 'Real-time data across New Cairo\'s premium zones. Track growth corridors, rental yields, and exclusive off-market signals.',
-    zones: [
-      { area: 'Fifth Settlement', stat: 'Growth +12%', color: '#4ECDC4' },
-      { area: 'Madinaty', stat: 'High Demand', color: 'var(--gold-prime)' },
-      { area: 'MV iCity', stat: 'Yield 8%', color: '#7EA8B4' },
-      { area: 'Mostakbal City', stat: 'Off‑Market', color: '#C084FC' },
-      { area: 'Hyde Park', stat: 'Premium', color: '#F97316' },
-      { area: 'Mivida', stat: 'Yield 7.5%', color: '#22D3EE' },
-    ],
-    mapBtn: 'Explore AI Insights →',
-    secAI: 'Meet Sierra',
-    aiH: 'Your AI Investment Consultant',
-    aiSub: 'First Official AI Real Estate Bot Consultant in Egypt',
-    aiDesc: 'Sierra is always on — analyzing market data, answering your questions, and matching you with portfolio assets that fit your exact criteria. Start a conversation and see the difference intelligence makes.',
-    aiCTA: 'Start on Telegram →',
-    aiFeatures: ['Instant asset matching', 'Market analytics & ROI', 'Arabic & English support', '24/7 availability'],
-    aiChat: [
-      { from: 'user', text: 'Looking for a 4‑bed villa under 15M EGP in Fifth Settlement' },
-      { from: 'bot', text: 'Found 7 matching portfolio assets. Top pick: Villa Lumière — 5 beds, 480 m², EGP 14.2M. ROI: 8.3% annual yield. Shall I send the full report?' },
-    ],
-    secTesti: 'Investment Success Stories',
-    h2Testi: 'What our stakeholders say',
-    testimonials: [
-      { q: 'I used to spend weeks searching the New Cairo market. Sierra Blu changed everything. Their AI matched me with the exact villa I wanted at the best price available. One platform, zero wasted time.', name: 'Omar T.', role: 'Investment Stakeholder', i: 'OT' },
-      { q: 'Finding the right home in New Cairo seemed impossible until Sierra Blu. Their system understood our exact needs and filtered out the noise to deliver the perfect portfolio asset. Smartest decision we made.', name: 'Sarah & Michael V.', role: 'Strategic Partners', i: 'SMV' },
-      { q: 'Sierra Blu found me a portfolio asset that wasn\'t even on my radar. The AI scans the entire market and delivers the best value. Exact match, zero guesswork.', name: 'Karim H.', role: 'CEO, Apex Holdings', i: 'KH' },
-    ],
-    ctaTag: 'Secure Your Asset',
-    ctaH: 'Secure Your Position in New Cairo',
-    ctaSub: 'Leave your details — a Sierra advisor reaches out within 4 seconds.',
-    formName: 'Full Name', formPhone: 'Mobile number', formSubmit: 'Get Exclusive Access',
-    formSuccess: 'We\'re on it. A Sierra advisor will reach out within 4 seconds.',
-    footDesc: 'Beyond Brokerage. AI-powered real estate intelligence for discerning investment stakeholders in New Cairo and beyond.',
-    footNav: 'Strategic Navigation', footNavLinks: ['Portfolio Assets', 'Intelligence', 'About Us', 'Careers', 'Contact'],
-    footMarkets: 'Strategic Zones', footMarketLinks: ['New Cairo', 'Fifth Settlement', 'Madinaty', 'Mostakbal City', 'Mountain View'],
-    footContact: 'Contact',
-    copyright: '© 2026 Sierra Blu Realty. All rights reserved.',
-    legal: ['Privacy Policy', 'Terms of Service', 'Cookies'],
-  },
-  ar: {
-    dir: 'rtl' as const,
-    brand: 'سييرا بلو', sub: 'للعقارات',
-    tagline: 'ذكاء عقاري مدعوم بالذكاء الاصطناعي',
-    nav: ['المحفظة الاستثمارية', 'الذكاء العقاري', 'عنّا', 'اتصل'],
-    cta: 'استكشف المحفظة',
-    heroTag: 'أبعد من الوساطة',
-    heroH1: ['عقارات', 'أذكى.'],
-    heroItalic: 'مدعومة بالذكاء الاصطناعي.',
-    heroSub: 'منصة القاهرة الجديدة للبيع والإيجار',
-    heroDesc: 'نجمع بين الذكاء الاصطناعي وشبكة حصرية من ١٥٠٠+ وسيط عقاري في القاهرة الجديدة ومدينتي والشروق لنوفر لك أفضل قيمة تلبي احتياجاتك بالضبط.',
-    btnDiscover: 'تصفح العقارات',
-    btnView: 'تحدّث مع سييرا',
-    stats: [['١٢٠٠+', 'أصول المحفظة'], ['٩٨٪', 'نسبة المطابقة'], ['٨+', 'كمباوند'], ['٤ث', 'زمن الرد']],
-    scroll: 'اسحب',
-    secListings: 'محفظة استراتيجية',
-    h2Listings: 'أصول استثنائية.',
-    viewAll: '← استكشاف الكل',
-    searchType: 'نوع الأصل', searchCompound: 'المنطقة', searchBudget: 'رأس المال', searchBtn: 'ابحث الآن',
-    beds: 'غرف', baths: 'حمامات',
-    secWhy: 'تميّز سييرا بلو',
-    h2Why: 'لماذا يختارنا عملاؤنا.',
-    why: [
-      { icon: '◆', title: 'اختيار منتقى', stat: '١٢٠٠+', statLabel: 'عقار موثق', desc: 'كل عقار يتم فحصه يدوياً. نرفض المبالغ في سعره لتشاهد فقط ما يستحق وقتك ومالك.' },
-      { icon: '◈', title: 'مطابقة بالذكاء الاصطناعي', stat: '٩٨٪', statLabel: 'دقة المطابقة', desc: 'ذكاؤنا الاصطناعي يقارن معاييرك ببيانات السوق الحية وتاريخ الأسعار وتوقعات العائد ليظهر لك أفضل الصفقات أولاً.' },
-      { icon: '◉', title: 'مستشار مخصص', stat: '٤ث', statLabel: 'متوسط الرد', desc: 'مستشار واحد من أول اتصال لآخر توقيع. يعرف ميزانيتك وتفضيلاتك والسوق — بدون تحويلات أو تكرار.' },
-    ],
-    bannerH: 'أصول استثنائية، مطابقة ذكية',
-    bannerSub: 'Exceptional Assets, Intelligent Matching',
-    bannerBtn: 'عرض المحفظة',
-    secMap: 'ذكاء السوق',
-    mapH1: 'القاهرة الجديدة', mapH2: 'خريطة الاستثمار',
-    mapDesc: 'بيانات فورية عبر مناطق الاستثمار المميزة في القاهرة الجديدة. تتبع ممرات النمو وعوائد الإيجار والإشارات الحصرية خارج السوق.',
-    zones: [
-      { area: 'التجمع الخامس', stat: 'نمو +١٢٪', color: '#4ECDC4' },
-      { area: 'مدينتي', stat: 'طلب مرتفع', color: G },
-      { area: 'ماونتن فيو', stat: 'عائد ٨٪', color: '#7EA8B4' },
-      { area: 'مستقبل سيتي', stat: 'خارج السوق', color: '#C084FC' },
-      { area: 'هايد بارك', stat: 'بريميوم', color: '#F97316' },
-      { area: 'ميفيدا', stat: 'عائد ٧.٥٪', color: '#22D3EE' },
-    ],
-    mapBtn: '← استكشف رؤى الذكاء الاصطناعي',
-    secAI: 'تعرّف على سييرا',
-    aiH: 'مستشارتك العقارية الذكية',
-    aiSub: 'أول بوت استشاري عقاري رسمي بالذكاء الاصطناعي في مصر',
-    aiDesc: 'سييرا تعمل على مدار الساعة — تحلل بيانات السوق، تجيب أسئلتك، وتطابقك مع عقارات تناسب معاييرك بالضبط. ابدأ محادثة واشعر بالفرق.',
-    aiCTA: 'ابدأ على تيليجرام ←',
-    aiFeatures: ['مطابقة فورية للعقارات', 'تحليلات السوق وعائد الاستثمار', 'دعم عربي وإنجليزي', 'متاح ٢٤/٧'],
-    aiChat: [
-      { from: 'user', text: 'بدور على فيلا ٤ غرف أقل من ١٥م في التجمع الخامس' },
-      { from: 'bot', text: 'وجدت ٧ عقارات تطابق معاييرك. أفضل خيار: فيلا لوميير — ٥ غرف، ٤٨٠م²، ١٤.٢م ج.م. عائد: ٨.٣٪ سنوياً. أرسل لك التقرير الكامل؟' },
-    ],
-    secTesti: 'قصص عملائنا',
-    h2Testi: 'ماذا يقول عملاؤنا',
-    testimonials: [
-      { q: 'كنت أقضي أسابيع في البحث. سييرا بلو غيّرت كل شيء. ذكاؤهم الاصطناعي طابقني مع الفيلا المثالية بأفضل سعر متاح. منصة واحدة، صفر وقت ضائع.', name: 'عمر ت.', role: 'مستثمر عقاري', i: 'OT' },
-      { q: 'إيجاد منزل مناسب في القاهرة الجديدة بدا مستحيل حتى سييرا بلو. نظامهم فهم احتياجاتنا بالضبط وأزال الضوضاء ليوصلنا للعقار المثالي. أذكى قرار اتخذناه.', name: 'سارة وميشيل ف.', role: 'عائلة ناقلة', i: 'SMV' },
-      { q: 'سييرا بلو وجدت لي عقار لم يكن حتى على بالي. الذكاء الاصطناعي يفحص السوق بالكامل ويقدم أفضل قيمة. مطابقة مثالية، صفر تخمين.', name: 'كريم ح.', role: 'الرئيس التنفيذي، أبكس هولدينغز', i: 'KH' },
-    ],
-    ctaTag: 'ابحث عن مكانك',
-    ctaH: 'ابحث عن مكانك في القاهرة الجديدة',
-    ctaSub: 'اترك بياناتك — مستشار سييرا سيتواصل معك خلال ٤ ثوانٍ.',
-    formName: 'الاسم بالكامل', formPhone: 'رقم الجوال', formSubmit: 'احصل على وصول حصري',
-    formSuccess: 'نحن على الموضوع. مستشار سييرا سيتواصل معك خلال ٤ ثوانٍ.',
-    footDesc: 'أبعد من الوساطة. ذكاء عقاري مدعوم بالذكاء الاصطناعي للمستثمرين في القاهرة الجديدة.',
-    footNav: 'روابط التنقل', footNavLinks: ['أصول المحفظة', 'الذكاء العقاري', 'عنّا', 'الوظائف', 'اتصل'],
-    footMarkets: 'الأسواق', footMarketLinks: ['القاهرة الجديدة', 'التجمع الخامس', 'مدينتي', 'مستقبل سيتي', 'ماونتن فيو'],
-    footContact: 'تواصل معنا',
-    copyright: '© ٢٠٢٦ سييرا بلو للعقارات. جميع الحقوق محفوظة.',
-    legal: ['سياسة الخصوصية', 'شروط الخدمة', 'ملفات الارتباط'],
-  },
-};
-
-// ══════════════════════════════════════════════════════════
-//  STATIC LISTINGS (fallback while Firebase loads)
-// ══════════════════════════════════════════════════════════
-const STATIC_LISTINGS = [
-  { id: 1, title: 'Aurora Penthouse', titleAr: 'بنتهاوس أورورا', location: 'Madinaty · New Cairo', locationAr: 'مدينتي · القاهرة الجديدة', price: 8500000, beds: 4, baths: 3, sqft: '320 m²', badge: 'Hidden Gem', badgeColor: '#7C3AED', img: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=80' },
-  { id: 2, title: 'Villa Lumière', titleAr: 'فيلا لوميير', location: 'Mountain View · 5th Settlement', locationAr: 'ماونتن فيو · التجمع الخامس', price: 14200000, beds: 5, baths: 4, sqft: '480 m²', badge: 'Featured', badgeColor: '#C8961A', img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=80' },
-  { id: 3, title: 'The Boulevard', titleAr: 'ذا بوليفار', location: 'Mostakbal City · Future', locationAr: 'مستقبل سيتي · المستقبل', price: 3800000, beds: 3, baths: 2, sqft: '185 m²', badge: 'New', badgeColor: '#1B6CA8', img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=80' },
-  { id: 4, title: 'Emirates Crown', titleAr: 'إيمارتس كراون', location: 'Fifth Settlement · Cairo', locationAr: 'التجمع الخامس · القاهرة', price: 22000000, beds: 6, baths: 5, sqft: '650 m²', badge: 'Off Market', badgeColor: '#059669', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=80' },
-  { id: 5, title: 'Palm Residences', titleAr: 'بالم ريزيدنسز', location: 'Madinaty · Block 7', locationAr: 'مدينتي · بلوك ٧', price: 5900000, beds: 3, baths: 3, sqft: '240 m²', badge: 'High ROI', badgeColor: '#DC2626', img: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=700&q=80' },
-  { id: 6, title: 'Sky Tower Penthouse', titleAr: 'بنتهاوس سكاي تاور', location: 'Downtown New Cairo', locationAr: 'وسط القاهرة الجديدة', price: 11500000, beds: 4, baths: 4, sqft: '380 m²', badge: 'Price Reduced', badgeColor: '#D97706', img: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=700&q=80' },
-];
-
-const ZONE_COORDS: [number, number][] = [
-  [30.0071, 31.4345],
-  [30.0972, 31.6314],
-  [30.0320, 31.4720],
-  [30.1400, 31.7400],
-];
 
 // ══════════════════════════════════════════════════════════
 //  MAIN LANDING PAGE
@@ -238,7 +35,8 @@ export default function LandingPage() {
   const [formData, setFormData] = useState({ name: '', phone: '' });
   const [submitted, setSubmitted] = useState(false);
   const [activeZone, setActiveZone] = useState<number | null>(null);
-  const [listingsDealt, setListingsDealt] = useState(false);
+  const [portfolioAssetsDealt, setPortfolioAssetsDealt] = useState(false);
+  const [portfolioAssets, setPortfolioAssets] = useState<Property[]>(STATIC_PORTFOLIO_ASSETS as any);
   const [featured, setFeatured] = useState<Property[]>([]);
   const [filterType, setFilterType] = useState('');
   const [filterCompound, setFilterCompound] = useState('');
@@ -286,29 +84,31 @@ export default function LandingPage() {
   }, [mounted, lang, mode]);
 
   useEffect(() => {
-    if (!listingsSectionRef.current || listingsDealt) return;
+    if (!listingsSectionRef.current || portfolioAssetsDealt) return;
     const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) { setListingsDealt(true); obs.disconnect(); } }),
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { setPortfolioAssetsDealt(true); obs.disconnect(); } }),
       { threshold: 0.12 }
     );
     obs.observe(listingsSectionRef.current);
     return () => obs.disconnect();
-  }, [listingsDealt]);
+  }, [portfolioAssetsDealt]);
 
-  useEffect(() => { setListingsDealt(false); setTimeout(() => setListingsDealt(true), 100); }, [lang, mode]);
+  useEffect(() => { setPortfolioAssetsDealt(false); setTimeout(() => setPortfolioAssetsDealt(true), 100); }, [lang, mode]);
 
   if (!mounted) return null;
 
   // Removed sec variable in favor of .lux-container class
 
   const handleSearch = () => {
-    const filtered = featured.filter((p) => {
+    const source = featured.length > 0 ? featured : (STATIC_PORTFOLIO_ASSETS as any);
+    const filtered = source.filter((p: any) => {
       if (filterType && p.propertyType !== filterType) return false;
       if (filterCompound && p.compound !== filterCompound) return false;
       if (filterBedrooms && p.bedrooms !== parseInt(filterBedrooms)) return false;
       if (filterPrice && p.price > parseInt(filterPrice)) return false;
       return true;
     });
+    
     if (filtered.length > 0) {
       setFeatured(filtered);
       setTimeout(() => listingsSectionRef.current?.scrollIntoView({ behavior: 'smooth' }), 300);
@@ -316,7 +116,7 @@ export default function LandingPage() {
   };
 
   const listings = featured.length > 0
-    ? featured.map((p) => ({
+    ? featured.map((p, idx) => ({
         id: p.id,
         title: p.title,
         titleAr: p.title,
@@ -328,9 +128,9 @@ export default function LandingPage() {
         sqft: `${p.area || 200} m²`,
         badge: p.status || 'Available',
         badgeColor: G2,
-        img: STATIC_LISTINGS[Math.min(STATIC_LISTINGS.length - 1, featured.indexOf(p))].img,
+        img: STATIC_PORTFOLIO_ASSETS[Math.min(STATIC_PORTFOLIO_ASSETS.length - 1, idx)].img,
       }))
-    : STATIC_LISTINGS.map(p => ({
+    : STATIC_PORTFOLIO_ASSETS.map(p => ({
         ...p,
         price: `EGP ${p.price.toLocaleString(isAr ? 'ar-EG' : 'en-US')}`,
       }));
@@ -434,8 +234,8 @@ export default function LandingPage() {
               <div className={`grid grid-cols-4 lux-glass rounded-xl overflow-hidden ${loaded ? 'animate-[fadeUp_.7s_ease_.56s_both]' : 'opacity-0'}`}>
                 {T.stats.map(([val, lbl], i) => (
                   <div key={i} className={`text-center py-5 px-3 ${i < T.stats.length - 1 ? 'border-r border-white/10' : ''}`}>
-                    <div className="font-mono text-2xl font-medium lux-gold-text leading-none mb-1.5">{val}</div>
-                    <div className="text-[9px] tracking-widest uppercase text-white/40 font-body">{lbl}</div>
+                    <div className={styles.heroStatValue}>{val}</div>
+                    <div className={styles.heroStatLabel}>{lbl}</div>
                   </div>
                 ))}
               </div>
@@ -448,33 +248,30 @@ export default function LandingPage() {
               <div className={`absolute inset-0 flex items-center justify-center ${mode === 'dark' ? 'opacity-[0.03]' : 'opacity-[0.025]'}`}>
                 <ShieldLogo size={340} />
               </div>
-              {[{ off: 2, op: 0.4 }, { off: 1, op: 0.65 }, { off: 0, op: 1 }].map(({ off, op }, idx) => (
+              {[{ off: 2, class: styles.heroCardStackItemTertiary, op: 0.4 }, 
+                { off: 1, class: styles.heroCardStackItemSecondary, op: 0.65 }, 
+                { off: 0, class: styles.heroCardStackItemBase, op: 1 }].map(({ off, class: itemClass, op }, idx) => (
                 <div 
                   key={idx} 
-                  className="absolute rounded-[18px]"
+                  className={`${styles.heroCardStackItem} ${itemClass}`}
                   style={{ 
                     top: off * 20, 
                     left: off * 20, 
                     right: -(off * 20), 
                     bottom: -(off * 20), 
-                    background: off === 0 ? 'var(--bg-card)' : 'var(--surface)', 
-                    overflow: off === 0 ? 'hidden' : undefined, 
-                    border: off > 0 ? '1px solid var(--border)' : undefined, 
                     opacity: op, 
-                    boxShadow: off === 0 ? '0 40px 80px rgba(0,0,0,.4)' : undefined, 
-                    zIndex: 3 - off 
                   }}
                 >
                   {off === 0 && (
                     <>
-                      <img src={STATIC_LISTINGS[1].img} alt="" className="w-full h-[62%] object-cover" />
-                      <div className="absolute top-4 left-4 lux-glass !bg-[var(--gold-prime)] !text-[#071422] text-[10px] font-bold tracking-wider px-3 py-1 rounded-full font-body uppercase">{STATIC_LISTINGS[1].badge}</div>
+                      <img src={STATIC_PORTFOLIO_ASSETS[1].img} alt="" className="w-full h-[62%] object-cover" />
+                      <div className={`absolute top-4 left-4 ${styles.badgeLux}`}>{STATIC_PORTFOLIO_ASSETS[1].badge}</div>
                       <div className="p-6">
-                        <div className="text-[10px] font-medium tracking-[0.15em] uppercase lux-gold-text mb-1.5 font-body">{isAr ? STATIC_LISTINGS[1].locationAr : STATIC_LISTINGS[1].location}</div>
-                        <div className="font-serif text-2xl font-semibold mb-3 text-white">{isAr ? STATIC_LISTINGS[1].titleAr : STATIC_LISTINGS[1].title}</div>
+                        <div className="text-[10px] font-medium tracking-[0.15em] uppercase lux-gold-text mb-1.5 font-body">{isAr ? STATIC_PORTFOLIO_ASSETS[1].locationAr : STATIC_PORTFOLIO_ASSETS[1].location}</div>
+                        <div className="font-serif text-2xl font-semibold mb-3 text-white">{isAr ? STATIC_PORTFOLIO_ASSETS[1].titleAr : STATIC_PORTFOLIO_ASSETS[1].title}</div>
                         <div className="flex justify-between items-center">
-                          <span className="font-mono text-xl font-medium lux-gold-text">{STATIC_LISTINGS[1].price}</span>
-                          <span className="text-[11px] text-white/40 font-mono font-light uppercase tracking-tight">{STATIC_LISTINGS[1].beds} {T.beds} · {STATIC_LISTINGS[1].baths} {T.baths}</span>
+                          <span className="font-mono text-xl font-medium lux-gold-text">EGP {STATIC_PORTFOLIO_ASSETS[1].price.toLocaleString(isAr ? 'ar-EG' : 'en-US')}</span>
+                          <span className="text-[11px] text-white/40 font-mono font-light uppercase tracking-tight">{STATIC_PORTFOLIO_ASSETS[1].beds} {T.beds} · {STATIC_PORTFOLIO_ASSETS[1].baths} {T.baths}</span>
                         </div>
                       </div>
                     </>
@@ -516,9 +313,9 @@ export default function LandingPage() {
                   value={seg.val} 
                   onChange={(e) => seg.set(e.target.value)} 
                   title={seg.label}
-                  className="bg-transparent border-none outline-none text-white font-serif text-sm font-light w-full cursor-pointer focus:lux-gold-text transition-all appearance-none"
+                  className={styles.filterSelect}
                 >
-                  {seg.opts.map((o) => <option key={o.v} value={o.v} className="bg-[#0A1520] text-white">{o.l}</option>)}
+                  {seg.opts.map((o) => <option key={o.v} value={o.v} className={styles.filterOption}>{o.l}</option>)}
                 </select>
               </div>
             ))}
@@ -541,7 +338,7 @@ export default function LandingPage() {
                 badgeColor={p.badgeColor}
                 img={p.img}
                 dealDelay={i * 0.09}
-                dealt={listingsDealt}
+                dealt={portfolioAssetsDealt}
                 isAr={isAr}
               />
             ))}
@@ -624,7 +421,7 @@ export default function LandingPage() {
 
             <div className={`reveal h-[520px] relative ${isAr ? 'order-1' : 'order-2'}`}>
               <div className="h-full rounded-2xl overflow-hidden lux-glass border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.5)]">
-                <LiveMap mode={mode} />
+                <LiveMap mode={mode} activeZoneIndex={activeZone} zones={T.zones} />
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] text-[8px] tracking-[0.4em] lux-gold-text opacity-40 font-body pointer-events-none">SIERRA BLU INTELLIGENCE</div>
               </div>
             </div>
@@ -661,9 +458,9 @@ export default function LandingPage() {
             <div className={`reveal ${isAr ? 'order-1' : 'order-2'}`}>
               <div className="lux-glass border border-white/10 rounded-2xl p-8 shadow-2xl">
                 <div className="flex items-center gap-4 mb-8">
-                  <div className="relative w-12 h-12 rounded-full lux-gold-gradient flex items-center justify-center text-xl text-[#071422]">
+                  <div className={styles.chatAvatar}>
                     ◈
-                    <div className="absolute inset-0 rounded-full animate-ping opacity-30 border border-[var(--gold-prime)]" />
+                    <div className={styles.chatAvatarPing} />
                   </div>
                   <div>
                     <div className="font-serif text-lg text-white">Sierra Intelligence</div>
@@ -674,7 +471,7 @@ export default function LandingPage() {
                 <div className="space-y-4 mb-8">
                   {T.aiChat.map((msg, i) => (
                     <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[85%] px-5 py-3 rounded-2xl text-xs font-light leading-relaxed ${msg.from === 'user' ? 'lux-gold-gradient text-[#071422] rounded-tr-none' : 'bg-white/5 border border-white/5 text-white/80 rounded-tl-none'} ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>
+                      <div className={`${styles.chatMessage} ${msg.from === 'user' ? styles.chatMessageUser : styles.chatMessageBot} ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>
                         {msg.text}
                       </div>
                     </div>
