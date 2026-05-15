@@ -16,9 +16,10 @@ const firebaseConfig = {
 };
 
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const hasClientApiKey = Boolean(firebaseConfig.apiKey);
 const db = getFirestore(app);
-const auth = getAuth(app);
-const storage = getStorage(app);
+const auth = hasClientApiKey ? getAuth(app) : null;
+const storage = hasClientApiKey ? getStorage(app) : null;
 
 // Initialize App Check
 if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {

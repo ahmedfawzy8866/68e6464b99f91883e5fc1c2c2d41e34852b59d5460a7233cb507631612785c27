@@ -21,9 +21,11 @@ const app: FirebaseApp = getApps().length
   ? getApps()[0]
   : initializeApp(firebaseConfig);
 
-export const auth: Auth = getAuth(app);
+const hasClientApiKey = Boolean(firebaseConfig.apiKey);
+
+export const auth: Auth = hasClientApiKey ? getAuth(app) : ({} as Auth);
 export const db: Firestore = getFirestore(app);
-export const storage: FirebaseStorage = getStorage(app);
+export const storage: FirebaseStorage = hasClientApiKey ? getStorage(app) : ({} as FirebaseStorage);
 
 export async function getAnalyticsInstance() {
   if (typeof window === 'undefined') return null;

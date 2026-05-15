@@ -7,8 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
  * Manages institutional asset storage with high-integrity pathing.
  */
 export class StorageService {
-  private static storage = getStorage(adminApp);
-  private static bucket = this.storage.bucket(process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET);
+  private static getBucket() {
+    const storage = getStorage(adminApp);
+    const bucketName = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET;
+    return bucketName ? storage.bucket(bucketName) : storage.bucket();
+  }
 
   /**
    * Uploads base64 media to Firebase Storage.
@@ -20,10 +23,11 @@ export class StorageService {
     mimeType: string, 
     originalName: string = 'upload.jpg'
   ): Promise<string> {
+    const bucket = this.getBucket();
     const extension = mimeType.split('/')[1] || 'jpg';
     const filename = `${uuidv4()}.${extension}`;
     const filePath = `properties/${docId}/${filename}`;
-    const file = this.bucket.file(filePath);
+    const file = bucket.file(filePath);
 
     const buffer = Buffer.from(base64Data, 'base64');
 
@@ -41,6 +45,6 @@ export class StorageService {
 
     // Return the public URL
     // Note: In production, you might want to use signed URLs or Firebase's download tokens
-    return `https://storage.googleapis.com/${this.bucket.name}/${filePath}`;
+    return `https://storage.googleapis.com/${bucket.name}/${filePath}`;
   }
 }
