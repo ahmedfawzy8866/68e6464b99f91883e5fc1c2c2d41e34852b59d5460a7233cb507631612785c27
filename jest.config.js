@@ -9,8 +9,11 @@ const config = {
     '^@/(.*)$': '<rootDir>/$1',
   },
   modulePathIgnorePatterns: [
+    // This repository's nested config package has duplicate package metadata that causes haste collisions.
     '<rootDir>/config/',
+    // Duplicate package metadata in backend integration fixtures is not part of root Jest suite.
     '<rootDir>/backend-integration/config/',
+    // Independent bot packages are tested separately and should not be scanned by root Jest.
     '<rootDir>/apps/whatsapp-scraper-bot/',
     '<rootDir>/bots/whatsapp-scraper/',
   ],
