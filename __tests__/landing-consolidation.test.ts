@@ -5,7 +5,7 @@ describe('landing consolidation', () => {
   it('reuses the canonical root landing page for /landing', () => {
     const source = fs.readFileSync(path.join(process.cwd(), 'app/landing/page.tsx'), 'utf8');
 
-    expect(source).toContain("import LandingPage from '../page';");
+    expect(source).toContain("import LandingPage from '@/app/page';");
   });
 
   it('links landing property cards to the listing detail route', () => {

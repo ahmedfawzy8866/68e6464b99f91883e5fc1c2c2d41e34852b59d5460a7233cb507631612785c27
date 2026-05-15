@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { User, onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
+import { User, onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth, isFirebaseClientConfigured } from './firebase';
 
 interface AuthContextType {
@@ -49,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     try {
-      await firebaseSignOut(auth);
+      await signOut(auth);
       setUser(null);
       setRole(null);
       setIsGuest(false);
