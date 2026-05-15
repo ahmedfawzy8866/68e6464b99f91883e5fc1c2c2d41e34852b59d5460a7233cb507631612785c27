@@ -41,8 +41,8 @@ export const GoogleAIService = {
       throw new Error("GOOGLE_AI_API_KEY is not configured. Direct AI Studio integration disabled.");
     }
 
-    // Default to 'gemini-flash-latest' to avoid 404s on older version strings
-    const modelName = options.model || "gemini-flash-latest";
+    // Default to 'gemini-1.5-flash' - the most cost-effective performance model
+    const modelName = options.model || "gemini-1.5-flash";
     
     try {
       const model = genAI.getGenerativeModel({
@@ -100,7 +100,7 @@ export const GoogleAIService = {
     }>;
   }> {
     return instrumentAgent(agentId, unitName, JSON.stringify(messages), async () => {
-      const modelName = options.model || 'gemini-flash-latest';
+      const modelName = options.model || 'gemini-1.5-flash';
       
       try {
         const model = genAI.getGenerativeModel({ 
@@ -147,7 +147,7 @@ export const GoogleAIService = {
       } catch (err: any) {
         console.error(`❌ [GoogleAI] Chat Error with ${modelName}:`, err.message);
         if (err.message.includes('404') && modelName !== 'gemini-flash-latest') {
-          return this.chatCompletions(agentId, unitName, messages, { ...options, model: 'gemini-flash-latest' });
+          return this.chatCompletions(agentId, unitName, messages, { ...options, model: 'gemini-1.5-flash' });
         }
         throw err;
       }

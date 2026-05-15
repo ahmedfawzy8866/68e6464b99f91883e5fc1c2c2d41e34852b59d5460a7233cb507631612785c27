@@ -202,7 +202,7 @@ Answer every query with authority, blending professional warmth with the precisi
         },
         { role: 'user', content: text }
       ],
-      { model: 'gemini-1.5-pro' }
+      { model: 'gemini-1.5-flash' }
     );
 
     return { message: data.choices[0].message.content, success: true };
