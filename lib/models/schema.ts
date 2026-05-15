@@ -448,7 +448,11 @@ export interface InboundAssetSignal extends BaseDocument {
     matchingKeywords?: string[];
     features?: SierraFeatureCode[];
     sierraCode?: string;
+    videoUrl?: string;
   };
+
+  videoUrl?: string;
+  mediaUrls?: string[];
 
   intelligence?: IntelligenceObject;
 

@@ -9,6 +9,7 @@ import { InventoryService, Property } from '@/lib/services/InventoryService.clie
 import ShieldLogo from '@/components/Landing/ShieldLogo';
 import PropCard from '@/components/Landing/PropCard';
 import CinematicHero from '@/components/UI/CinematicHero';
+import RefinedSearchBar from '@/components/Landing/RefinedSearchBar';
 
 import styles from './page.module.css';
 
@@ -21,8 +22,7 @@ const LiveMap = dynamic(() => import('@/components/Maps/LiveMap'), {
 // ══════════════════════════════════════════════════════════
 //  DESIGN TOKENS & CONSTANTS
 // ══════════════════════════════════════════════════════════
-import { THEMES, COPY, STATIC_PORTFOLIO_ASSETS, ZONE_COORDS, G, G2 } from '@/app/data/landing-page';
-
+import { THEMES, COPY, STATIC_PORTFOLIO_ASSETS, G, G2 } from '@/app/data/landing-page';
 
 // ══════════════════════════════════════════════════════════
 //  MAIN LANDING PAGE
@@ -45,6 +45,7 @@ export default function LandingPage() {
   const [filterPrice, setFilterPrice] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const portfolioSectionRef = useRef<HTMLDivElement>(null);
+  const listingsSectionRef = useRef<HTMLDivElement>(null);
 
   const scrollTo = useCallback((id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -101,37 +102,46 @@ export default function LandingPage() {
 
   if (!mounted) return null;
 
-  const handleSearch = () => {
-    const source = featured.length > 0 ? featured : (STATIC_PORTFOLIO_ASSETS as any);
-    const filtered = source.filter((p: any) => {
-      if (filterType && p.propertyType !== filterType) return false;
-      if (filterCompound && p.compound !== filterCompound) return false;
-      if (filterBedrooms && p.bedrooms !== parseInt(filterBedrooms)) return false;
-      if (filterPrice && p.price > parseInt(filterPrice)) return false;
-      return true;
-    });
-    
-    if (filtered.length > 0) {
-      setFeatured(filtered);
-      setTimeout(() => portfolioSectionRef.current?.scrollIntoView({ behavior: 'smooth' }), 300);
+  const handleSearch = async () => {
+    try {
+      const results = await InventoryService.filterAssets({
+        type: filterType,
+        compound: filterCompound,
+        beds: filterBedrooms ? parseInt(filterBedrooms, 10) : undefined,
+        maxPrice: filterPrice ? parseInt(filterPrice, 10) : undefined,
+      });
+      
+      if (results && results.length > 0) {
+        setFeatured(results);
+        portfolioSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        console.log("No matching portfolio assets found.");
+      }
+    } catch (err) {
+      console.error("Search protocol failed:", err);
     }
   };
 
   const displayAssets = featured.length > 0 ? featured : portfolioAssets;
-  const displayPortfolioAssets = displayAssets.map((p, idx) => ({
-        id: p.id,
-        title: p.title,
-        titleAr: p.title,
-        location: `${p.compound} · ${p.location}`,
-        locationAr: `${p.compound} · ${p.location}`,
-        price: `EGP ${p.price.toLocaleString(isAr ? 'ar-EG' : 'en-US')}`,
-        beds: p.bedrooms || 3,
-        baths: p.bathrooms || 2,
-        sqft: `${p.area || 200} m²`,
-        badge: p.status || 'Available',
-        badgeColor: G2,
-        img: STATIC_PORTFOLIO_ASSETS[Math.min(STATIC_PORTFOLIO_ASSETS.length - 1, idx)].img,
-      }));
+  const displayPortfolioAssets = displayAssets.map((p, idx) => {
+    // Determine the image: fetched featuredImage or fallback to static asset image
+    const fallbackImg = STATIC_PORTFOLIO_ASSETS[Math.min(STATIC_PORTFOLIO_ASSETS.length - 1, idx)].img;
+    const img = p.featuredImage || fallbackImg;
+    
+    return {
+      id: p.id,
+      title: isAr && p.titleAr ? p.titleAr : p.title,
+      location: isAr && p.locationAr ? p.locationAr : `${p.compound} · ${p.location || p.city}`,
+      price: `${isAr ? 'جنيه' : 'EGP'} ${p.price.toLocaleString(isAr ? 'ar-EG' : 'en-US')}`,
+      beds: p.bedrooms || 3,
+      baths: p.bathrooms || 2,
+      sqft: `${p.area || 200} m²`,
+      badge: p.badge || (isAr ? 'متاح' : 'Available'),
+      badgeColor: p.badgeColor || G2,
+      img: img,
+      videoUrl: p.videoUrl,
+    };
+  });
 
   return (
     <div className="min-h-screen bg-[var(--surface)] text-[var(--on-surface)] transition-colors duration-500" dir={T.dir}>
@@ -190,6 +200,20 @@ export default function LandingPage() {
       />
 
 
+      {/* ══ STATS ══ */}
+      <section className={`py-16 ${mode === 'dark' ? 'bg-[#040E1C]' : 'bg-[var(--bg-alt)]'} border-y border-white/5`}>
+        <div className="lux-container">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {T.stats.map(([val, lbl], i) => (
+              <div key={i} className="text-center">
+                <div className="font-serif text-3xl font-medium lux-gold-text mb-2">{val}</div>
+                <div className="text-[10px] tracking-widest uppercase opacity-40 font-body">{lbl}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ══ PORTFOLIO ASSETS ══ */}
       <section id="portfolio" ref={portfolioSectionRef} className={`lux-section-padding ${mode === 'dark' ? 'bg-[#0A1520]' : 'bg-[var(--bg-alt)]'}`}>
         <div className="lux-container">
@@ -201,28 +225,18 @@ export default function LandingPage() {
             <Link href="/portfolio" className="lux-button lux-button-outline !px-5 !py-2.5 !text-[10px]">{T.viewAll}</Link>
           </div>
 
-          {/* Smart Filters */}
-          <div className="reveal grid grid-cols-2 sm:grid-cols-3 md:grid-cols-[1fr_1fr_1fr_1fr_auto] gap-0 rounded-xl overflow-hidden mb-12 lux-glass !border-white/5 shadow-2xl">
-            {[
+          {/* Smart Filters (Strategic Pipeline) */}
+          <RefinedSearchBar 
+            isAr={isAr}
+            searchBtnText={T.searchBtn}
+            onSearch={handleSearch}
+            segments={[
               { val: filterType, set: setFilterType, label: T.searchType, opts: [{ v: '', l: T.searchType }, { v: 'villa', l: 'Villa' }, { v: 'apartment', l: 'Apartment' }, { v: 'penthouse', l: 'Penthouse' }, { v: 'townhouse', l: 'Townhouse' }] },
               { val: filterCompound, set: setFilterCompound, label: T.searchCompound, opts: [{ v: '', l: T.searchCompound }, { v: 'Fifth Settlement', l: 'Fifth Settlement' }, { v: 'New Cairo', l: 'New Cairo' }, { v: 'Madinaty', l: 'Madinaty' }, { v: 'Sheikh Zayed', l: 'Sheikh Zayed' }] },
               { val: filterBedrooms, set: setFilterBedrooms, label: isAr ? 'غرف' : 'Rooms', opts: [{ v: '', l: isAr ? 'غرف' : 'Rooms' }, { v: '1', l: `1 ${T.beds}` }, { v: '2', l: `2 ${T.beds}` }, { v: '3', l: `3 ${T.beds}` }, { v: '4', l: `4 ${T.beds}` }, { v: '5', l: `5+ ${T.beds}` }] },
               { val: filterPrice, set: setFilterPrice, label: T.searchBudget, opts: [{ v: '', l: T.searchBudget }, { v: '2000000', l: 'Under 2M' }, { v: '5000000', l: 'Under 5M' }, { v: '10000000', l: 'Under 10M' }, { v: '15000000', l: 'Under 15M' }] },
-            ].map((seg, i) => (
-              <div key={i} className="px-6 py-4 border-r border-white/5">
-                <div className="text-[9px] font-medium tracking-[0.2em] uppercase text-white/40 mb-1.5 font-body">{seg.label}</div>
-                <select 
-                  value={seg.val} 
-                  onChange={(e) => seg.set(e.target.value)} 
-                  title={seg.label}
-                  className={styles.filterSelect}
-                >
-                  {seg.opts.map((o) => <option key={o.v} value={o.v} className={styles.filterOption}>{o.l}</option>)}
-                </select>
-              </div>
-            ))}
-            <button onClick={handleSearch} className="lux-button-primary !rounded-none !px-8 border-none !text-[11px]">{T.searchBtn}</button>
-          </div>
+            ]}
+          />
 
           {/* Listing cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -239,6 +253,7 @@ export default function LandingPage() {
                 badge={p.badge}
                 badgeColor={p.badgeColor}
                 img={p.img}
+                videoUrl={p.videoUrl}
                 dealDelay={i * 0.09}
                 dealt={portfolioAssetsDealt}
                 isAr={isAr}

@@ -14,6 +14,7 @@ interface PropCardProps {
   badge: string;
   badgeColor: string;
   img: string;
+  videoUrl?: string;
   dealDelay?: number;
   dealt?: boolean;
   isAr?: boolean;
@@ -39,7 +40,7 @@ function Spec({ icon, children, isAr }: { icon: React.ReactNode; children: React
   );
 }
 
-export default function PropCard({ id, title, location, price, beds, baths, sqft, badge, badgeColor, img, dealDelay = 0, dealt = false, isAr = false }: PropCardProps) {
+export default function PropCard({ id, title, location, price, beds, baths, sqft, badge, badgeColor, img, videoUrl, dealDelay = 0, dealt = false, isAr = false }: PropCardProps) {
   const [hov, setHov] = useState(false);
 
   return (
@@ -64,6 +65,25 @@ export default function PropCard({ id, title, location, price, beds, baths, sqft
           >
             {badge}
           </div>
+
+          {/* Video Indicator */}
+          {videoUrl && (
+            <div className={`absolute bottom-4 ${isAr ? 'left-4' : 'right-4'} flex items-center gap-2 lux-glass !bg-black/40 px-3 py-1.5 rounded-full text-[9px] font-bold tracking-widest text-white uppercase backdrop-blur-sm border border-white/10`}>
+              <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+              {isAr ? 'عرض سينمائي' : 'Cinematic View'}
+            </div>
+          )}
+
+          {/* Play Icon Overlay */}
+          {videoUrl && (
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-primary/10">
+              <div className="w-12 h-12 rounded-full lux-glass flex items-center justify-center text-white shadow-2xl scale-75 group-hover:scale-100 transition-transform duration-500">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Content */}

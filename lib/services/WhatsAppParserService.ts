@@ -56,7 +56,8 @@ export class WhatsAppParserService {
       "valuationScore": number (0-100),
       "sentiment": "positive" | "neutral" | "aggressive" | "desperate",
       "matchingKeywords": ["garden", "pool", "roof", "villa", "lake", "prime", "corner"],
-      "phoneNumber": string
+      "phoneNumber": string,
+      "videoUrl": string (if media is a video)
     }
 
     Respond ONLY with the JSON object.`;
@@ -127,11 +128,21 @@ export class WhatsAppParserService {
                   media.data, 
                   media.mimeType
               );
-              await docRef.update({
-                  mediaUrls: [mediaUrl],
-                  'intelligence.hasVisualReference': true
-              });
-              console.log(`✅ Media linked: ${mediaUrl}`);
+              const isVideo = media.mimeType.startsWith('video/');
+              const updateData: any = {
+                'intelligence.hasVisualReference': true
+              };
+
+              if (isVideo) {
+                  updateData.videoUrl = mediaUrl;
+                  updateData['extractedData.videoUrl'] = mediaUrl;
+                  console.log(`🎥 Video linked: ${mediaUrl}`);
+              } else {
+                  updateData.mediaUrls = [mediaUrl];
+                  console.log(`✅ Image linked: ${mediaUrl}`);
+              }
+
+              await docRef.update(updateData);
           } catch (storageError) {
               console.error("❌ Storage Persistence Failure:", storageError);
           }
