@@ -27,13 +27,16 @@ export const WealthService = {
           category: asset.category,
           market: asset.market,
           status: asset.status as any,
-          finishingType: (asset.finishingType as any) || "not-finished",
+          finishingType: (asset.finishingType === 'fully-finished' || asset.finishingType === 'semi-finished' || asset.finishingType === 'core-shell') 
+            ? asset.finishingType 
+            : 'not-finished',
           area: asset.area,
           bedrooms: asset.bedrooms || 0,
           bathrooms: 0,
           amenities: [],
           images: [],
-          currency: asset.market === 'uae' ? 'AED' : 'EGP'
+          currency: asset.market === 'uae' ? 'AED' : 'EGP',
+          ownerType: (asset as any).ownerType || 'internal'
         };
 
         try {
@@ -45,9 +48,9 @@ export const WealthService = {
             price: asset.price,
             roi: financials.projectedROI,
             yield: financials.annualYield,
-            tags: asset.category === 'commercial' ? ['High Yield', 'Strategic'] : ['Premium', 'Luxury'],
             intelligenceScore: Math.min(Math.round((financials.projectedROI + financials.annualYield * 2)), 100),
-            reasoning: financials.valuationAnalysis
+            reasoning: financials.valuationAnalysis,
+            tags: asset.category === 'commercial' ? ['High Yield', 'Strategic'] : ['Premium', 'Luxury']
           };
         } catch (e) {
           console.error(`Wealth Intelligence failed for asset ${asset.id}`, e);
@@ -58,9 +61,9 @@ export const WealthService = {
             price: asset.price,
             roi: 0,
             yield: 0,
-            tags: [],
             intelligenceScore: 0,
-            reasoning: "Intelligence analysis temporarily unavailable."
+            reasoning: "Intelligence analysis temporarily unavailable.",
+            tags: []
           };
         }
       })

@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
       case 'run-sync': {
         const filters = body.filters || {};
         const pfResult = await pfClient.searchListings(filters);
-        const listings = pfResult.data || [];
+        const listings = pfResult.results || [];
         const syncResult = await syncBatch(listings as unknown as Record<string, unknown>[]);
         
         // Also sync leads automatically if requested or as part of full run

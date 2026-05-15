@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { WhatsAppClient } from './whatsapp-client';
 import { TemplateManager } from './template-manager';
@@ -40,7 +40,7 @@ app.use(express.json({ verify: rawBodyMiddleware }));
 app.get('/webhook', handleWebhookVerification(config.verifyToken));
 
 // POST - Receive messages and status updates
-app.post('/webhook', validateHMAC(config.appSecret), async (req, res) => {
+app.post('/webhook', validateHMAC(config.appSecret), async (req: Request, res: Response) => {
   // Respond 200 immediately (WhatsApp requires response within 5 seconds)
   res.sendStatus(200);
 
@@ -110,7 +110,7 @@ function handleStatusUpdate(status: StatusUpdate): void {
 
 // === Health Check ===
 
-app.get('/health', (_req, res) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 

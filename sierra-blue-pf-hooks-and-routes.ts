@@ -15,6 +15,7 @@ import {
   doc,
   serverTimestamp,
   DocumentData,
+  QueryConstraint,
 } from "firebase/firestore";
 
 export type LeadStage =
@@ -93,7 +94,7 @@ export function usePFLeads(
 
   useEffect(() => {
     const db = getFirestore();
-    const constraints = [orderBy("createdAt", "desc")];
+    const constraints: QueryConstraint[] = [orderBy("createdAt", "desc")];
 
     if (sourceFilter === "property_finder") {
       constraints.unshift(where("source", "==", "property_finder"));
@@ -210,8 +211,8 @@ import {
   serverTimestamp as _serverTimestamp,
   DocumentData as _DocumentData,
 } from "firebase/firestore";
-import type { SBRListing, PFSyncResult } from "./property-finder";
-import { pushListingToPF, getPFListingAnalytics } from "./property-finder";
+import type { SBRListing, PFSyncResult } from "./sierra-blue-property-finder";
+import { pushListingToPF, getPFListingAnalytics } from "./sierra-blue-property-finder";
 
 export interface ListingWithAnalytics extends SBRListing {
   pfViews?: number;
@@ -219,6 +220,8 @@ export interface ListingWithAnalytics extends SBRListing {
   pfPhoneReveals?: number;
   pfImpressions?: number;
   pfCTR?: number;
+  syncedToPF?: boolean;
+  dealStatus?: string;
 }
 
 export function usePFListings(options: {
