@@ -36,7 +36,7 @@ export const InventoryService = {
     }
   },
 
-  async getFeaturedListings(count: number = 3): Promise<Property[]> {
+  async getFeaturedAssets(count: number = 3): Promise<Property[]> {
     try {
       const res = await fetch(`/api/listings?limit=${count}`);
       const data = await res.json();
