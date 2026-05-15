@@ -4,12 +4,12 @@ import { COLLECTIONS } from '@/lib/models/schema';
 import { Timestamp } from 'firebase-admin/firestore';
 import crypto from 'crypto';
 
-function getWebhookSecret() {
+function getWebhookSecretValue() {
   return process.env.PF_WEBHOOK_SECRET || '';
 }
 
 function verifySignature(payload: string, signature: string): boolean {
-  const webhookSecret = getWebhookSecret();
+  const webhookSecret = getWebhookSecretValue();
 
   if (!webhookSecret || !signature) return false;
   const expected = crypto.createHmac('sha256', webhookSecret).update(payload).digest('hex');
