@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { collection, doc, Timestamp, writeBatch } from 'firebase/firestore';
-import { db } from '@/lib/firebase-config';
+import * as admin from 'firebase-admin';
+import { adminDb } from '@/lib/server/firebase-admin';
 import {
   propertyFinderService,
   type PropertyFinderListing,
@@ -19,15 +19,15 @@ function toNumber(value: unknown): number | null {
 
 function toDate(value: unknown) {
   if (typeof value !== 'string' && typeof value !== 'number') {
-    return Timestamp.now();
+    return admin.firestore.Timestamp.now();
   }
 
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) {
-    return Timestamp.now();
+    return admin.firestore.Timestamp.now();
   }
 
-  return Timestamp.fromDate(parsed);
+  return admin.firestore.Timestamp.fromDate(parsed);
 }
 
 function getListingId(property: PropertyFinderListing, fallbackIndex: number) {
@@ -88,8 +88,8 @@ function mapProperty(property: PropertyFinderListing) {
     longitude,
     images: getImages(property),
     featured: false,
-    createdAt: Timestamp.now(),
-    updatedAt: Timestamp.now(),
+    createdAt: admin.firestore.Timestamp.now(),
+    updatedAt: admin.firestore.Timestamp.now(),
   };
 }
 
@@ -128,8 +128,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const listingsCollection = collection(db, 'listings');
-    let batch = writeBatch(db);
+    let batch = adminDb.batch();
     let operationsInBatch = 0;
     let syncedCount = 0;
     let failedCount = 0;
@@ -137,13 +136,13 @@ export async function POST(request: NextRequest) {
     for (const [index, property] of properties.entries()) {
       try {
         const documentId = getListingId(property, index);
-        batch.set(doc(listingsCollection, documentId), mapProperty(property), { merge: true });
+        batch.set(adminDb.collection('listings').doc(documentId), mapProperty(property), { merge: true });
         operationsInBatch += 1;
         syncedCount += 1;
 
         if (operationsInBatch === MAX_BATCH_OPERATIONS) {
           await batch.commit();
-          batch = writeBatch(db);
+          batch = adminDb.batch();
           operationsInBatch = 0;
         }
       } catch (error) {
