@@ -7,10 +7,20 @@ import { v4 as uuidv4 } from 'uuid';
  * Manages institutional asset storage with high-integrity pathing.
  */
 export class StorageService {
+  private static bucket: ReturnType<ReturnType<typeof getStorage>['bucket']> | null = null;
+
   private static getBucket() {
+    if (this.bucket) return this.bucket;
+
     const storage = getStorage(adminApp);
     const bucketName = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET;
-    return bucketName ? storage.bucket(bucketName) : storage.bucket();
+    if (!bucketName) {
+      throw new Error(
+        'Missing Firebase Storage bucket. Set NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET or FIREBASE_STORAGE_BUCKET.'
+      );
+    }
+    this.bucket = storage.bucket(bucketName);
+    return this.bucket;
   }
 
   /**

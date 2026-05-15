@@ -22,10 +22,23 @@ const app: FirebaseApp = getApps().length
   : initializeApp(firebaseConfig);
 
 const hasClientApiKey = Boolean(firebaseConfig.apiKey);
+const unavailableClientService = <T>(serviceName: string): T =>
+  new Proxy(
+    {},
+    {
+      get() {
+        throw new Error(
+          `Firebase client ${serviceName} is unavailable because NEXT_PUBLIC_FIREBASE_API_KEY is not configured.`
+        );
+      },
+    }
+  ) as T;
 
-export const auth: Auth = hasClientApiKey ? getAuth(app) : ({} as Auth);
+export const auth: Auth = hasClientApiKey ? getAuth(app) : unavailableClientService<Auth>('auth');
 export const db: Firestore = getFirestore(app);
-export const storage: FirebaseStorage = hasClientApiKey ? getStorage(app) : ({} as FirebaseStorage);
+export const storage: FirebaseStorage = hasClientApiKey
+  ? getStorage(app)
+  : unavailableClientService<FirebaseStorage>('storage');
 
 export async function getAnalyticsInstance() {
   if (typeof window === 'undefined') return null;
