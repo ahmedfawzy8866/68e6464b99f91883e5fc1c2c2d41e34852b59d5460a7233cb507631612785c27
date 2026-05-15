@@ -311,7 +311,7 @@ export default function LandingPage() {
 
   if (!mounted) return null;
 
-  const sec: React.CSSProperties = { maxWidth: 1280, margin: '0 auto', padding: '0 48px' };
+  // Removed sec variable in favor of .lux-container class
 
   const handleSearch = () => {
     const filtered = featured.filter((p) => {
@@ -348,7 +348,7 @@ export default function LandingPage() {
       }));
 
   return (
-    <div style={{ minHeight: '100vh', background: th.bg, color: th.text, transition: 'background .5s, color .5s' }} dir={T.dir}>
+    <div className="min-h-screen bg-[var(--surface)] text-[var(--on-surface)] transition-colors duration-500" dir={T.dir}>
 
       {/* ══ NAV ══ */}
       <nav className={`fixed top-0 left-0 right-0 z-[300] h-[68px] flex items-center justify-between px-12 transition-all duration-700 cubic-bezier(0.16,1,0.3,1) ${scrolled ? 'lux-glass border-b border-white/10' : 'bg-transparent border-b border-transparent'}`} dir={T.dir}>
@@ -400,39 +400,63 @@ export default function LandingPage() {
       {/* Smart filter moved into listings section below */}
 
       {/* ══ HERO ══ */}
-      <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', overflow: 'hidden', background: th.heroBg, paddingTop: 100 }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: "url('https://images.unsplash.com/photo-1602941525421-8f8b81d3edbb?w=1800&q=80')", backgroundSize: 'cover', backgroundPosition: 'center 40%', transform: loaded ? 'scale(1)' : 'scale(1.06)', transition: 'transform 2s cubic-bezier(.16,1,.3,1)', opacity: mode === 'dark' ? 0.55 : 0.15 }} />
-        <div style={{ position: 'absolute', inset: 0, background: mode === 'dark' ? 'linear-gradient(105deg,rgba(10,21,32,.97) 0%,rgba(13,32,53,.85) 45%,rgba(10,21,32,.4) 100%)' : 'linear-gradient(105deg,rgba(192,214,212,.98) 0%,rgba(213,232,230,.95) 50%,rgba(192,214,212,.7) 100%)' }} />
+      <section className="lux-hero-section bg-[var(--hero-bg)]">
+        <div 
+          className="lux-hero-bg"
+          style={{ 
+            backgroundImage: "url('https://images.unsplash.com/photo-1602941525421-8f8b81d3edbb?w=1800&q=80')",
+            transform: loaded ? 'scale(1)' : 'scale(1.06)',
+            opacity: mode === 'dark' ? 0.55 : 0.15 
+          }} 
+        />
+        <div 
+          className="lux-hero-overlay"
+          style={{ 
+            background: mode === 'dark' 
+              ? 'linear-gradient(105deg,rgba(10,21,32,.97) 0%,rgba(13,32,53,.85) 45%,rgba(10,21,32,.4) 100%)' 
+              : 'linear-gradient(105deg,rgba(192,214,212,.98) 0%,rgba(213,232,230,.95) 50%,rgba(192,214,212,.7) 100%)' 
+          }} 
+        />
         <ParticleCanvas />
 
-        <div style={{ ...sec, position: 'relative', zIndex: 2, width: '100%' }}>
-          <div className="grid md:grid-cols-[55%_45%] gap-14 items-center" style={{ paddingTop: 0, paddingBottom: 80 }}>
-            <div style={{ order: isAr ? 2 : 1 }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexDirection: isAr ? 'row-reverse' : 'row', animation: loaded ? 'fadeUp .6s ease .1s both' : 'none' }}>
-                <div style={{ width: 28, height: 1, background: 'var(--gold-prime)' }} />
+        <div className="lux-container relative z-10 w-full">
+          <div className="grid md:grid-cols-[55%_45%] gap-14 items-center py-[80px]">
+            <div className={isAr ? 'order-2' : 'order-1'}>
+              <div 
+                className={`inline-flex items-center gap-[10px] ${isAr ? 'flex-row-reverse' : 'flex-row'} ${loaded ? 'animate-[fadeUp_.6s_ease_.1s_both]' : 'opacity-0'}`}
+              >
+                <div className="w-[28px] h-[1px] bg-[var(--gold-prime)]" />
                 <span className="lux-section-subtitle !mb-0">{T.tagline}</span>
               </div>
 
-              <h1 className="lux-section-title !text-[clamp(32px,4vw,56px)] !mb-4 mt-5" style={{ textAlign: isAr ? 'right' : 'left', animation: loaded ? 'fadeUp .7s ease .2s both' : 'none' }}>
-                {T.heroH1[0]}<br />{T.heroH1[1]}<br />
-                <em className="lux-gold-text" style={{ fontStyle: 'italic' }}>{T.heroItalic}</em>
+              <h1 
+                className={`lux-section-title !text-[clamp(32px,4vw,56px)] !mb-4 mt-5 ${isAr ? 'text-right' : 'text-left'} ${loaded ? 'animate-[fadeUp_.7s_ease_.2s_both]' : 'opacity-0'}`} 
+              >
+                {isAr ? T.heroH1.slice().reverse().join(' ') : T.heroH1.join(' ')} <br />
+                <em className="lux-gold-text italic">{T.heroItalic}</em>
               </h1>
 
-              <div className="text-[11px] tracking-[0.2em] uppercase text-[var(--gold-prime)] font-medium mb-4" style={{ animation: loaded ? 'fadeUp .7s ease .3s both' : 'none' }}>{T.heroSub}</div>
+              <div className={`text-[11px] tracking-[0.2em] uppercase text-[var(--gold-prime)] font-medium mb-4 ${loaded ? 'animate-[fadeUp_.7s_ease_.3s_both]' : 'opacity-0'}`}>{T.heroSub}</div>
 
-              <p className="text-sm font-light leading-relaxed mb-8 max-w-lg" style={{ color: th.textSub, textAlign: isAr ? 'right' : 'left', animation: loaded ? 'fadeUp .7s ease .38s both' : 'none' }}>{T.heroDesc}</p>
+              <p 
+                className={`text-sm font-light leading-relaxed mb-8 max-w-lg text-[var(--text-sub)] ${isAr ? 'text-right' : 'text-left'} ${loaded ? 'animate-[fadeUp_.7s_ease_.38s_both]' : 'opacity-0'}`} 
+              >
+                {T.heroDesc}
+              </p>
 
-              <div className="flex gap-4 mb-12" style={{ flexDirection: isAr ? 'row-reverse' : 'row', animation: loaded ? 'fadeUp .7s ease .46s both' : 'none' }}>
-                <Link href="/listings" className="lux-button lux-button-primary">
+              <div 
+                className={`flex gap-4 mb-12 ${isAr ? 'flex-row-reverse' : 'flex-row'} ${loaded ? 'animate-[fadeUp_.7s_ease_.46s_both]' : 'opacity-0'}`} 
+              >
+                <Link href="/listings" className="lux-button lux-button-primary shadow-gold">
                   {T.btnDiscover}
                 </Link>
-                <Link href="/virtual-tour" className="lux-button lux-button-outline">
+                <Link href="/contact" className="lux-button lux-button-outline">
                   {T.btnView}
                 </Link>
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-4 lux-glass rounded-xl overflow-hidden" style={{ animation: loaded ? 'fadeUp .7s ease .56s both' : 'none' }}>
+              <div className={`grid grid-cols-4 lux-glass rounded-xl overflow-hidden ${loaded ? 'animate-[fadeUp_.7s_ease_.56s_both]' : 'opacity-0'}`}>
                 {T.stats.map(([val, lbl], i) => (
                   <div key={i} className={`text-center py-5 px-3 ${i < T.stats.length - 1 ? 'border-r border-white/10' : ''}`}>
                     <div className="font-mono text-2xl font-medium lux-gold-text leading-none mb-1.5">{val}</div>
@@ -499,6 +523,7 @@ export default function LandingPage() {
                 <select 
                   value={seg.val} 
                   onChange={(e) => seg.set(e.target.value)} 
+                  title={seg.label}
                   className="bg-transparent border-none outline-none text-white font-serif text-sm font-light w-full cursor-pointer focus:lux-gold-text transition-all appearance-none"
                 >
                   {seg.opts.map((o) => <option key={o.v} value={o.v} className="bg-[#0A1520] text-white">{o.l}</option>)}

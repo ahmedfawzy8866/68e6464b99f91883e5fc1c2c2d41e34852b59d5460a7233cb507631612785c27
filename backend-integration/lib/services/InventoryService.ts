@@ -36,6 +36,7 @@ export interface Property {
   city: string;
   area: number;
   bedrooms: number;
+  bathrooms: number;
   price: number;
   pricePerSqm: number;
   coordinates?: { lat: number; lng: number };

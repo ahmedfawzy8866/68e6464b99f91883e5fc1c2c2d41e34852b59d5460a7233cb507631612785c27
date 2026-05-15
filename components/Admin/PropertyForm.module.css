@@ -276,3 +276,16 @@
   opacity: 0.7;
   cursor: not-allowed;
 }
+
+.inputFieldAr {
+  font-family: 'Cairo', sans-serif;
+}
+
+.priceInput {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.galleryTextArea {
+  min-height: 80px;
+}

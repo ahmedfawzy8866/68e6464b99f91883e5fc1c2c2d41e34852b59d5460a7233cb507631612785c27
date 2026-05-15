@@ -113,7 +113,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`${styles.tabButton} ${activeTab === tab.id ? styles.active : ''}`}
-                aria-selected={activeTab === tab.id ? "true" : "false"}
+                aria-selected={activeTab === tab.id}
                 role="tab"
               >
                 <span className={styles.tabIcon}>{tab.icon}</span>
@@ -149,11 +149,10 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                         <label htmlFor={`${formId}-title-ar`} className={styles.inputLabel}>التسمية (العربية)</label>
                         <input 
                           id={`${formId}-title-ar`}
-                          className={styles.inputField}
+                          className={`${styles.inputField} ${styles.inputFieldAr}`}
                           value={formData.title_ar || ''} 
                           onChange={e => handleChange('title_ar', e.target.value)} 
                           placeholder="مثلاً: شقة مودرن بفيو بحيرة" 
-                          style={{ fontFamily: 'Cairo, sans-serif' }} 
                         />
                       </div>
                     </div>
@@ -315,10 +314,9 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                         <input 
                           id={`${formId}-price`}
                           type="number" 
-                          className={styles.inputField}
+                          className={`${styles.inputField} ${styles.priceInput}`}
                           value={formData.price || 0} 
                           onChange={e => handleChange('price', parseFloat(e.target.value))} 
-                          style={{ fontSize: '24px', fontWeight: 600 }} 
                         />
                       </div>
                       <div className={styles.inputGroup}>
@@ -383,10 +381,9 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                       <label htmlFor={`${formId}-gallery`} className={styles.inputLabel}>Supplementary Portfolio Gallery (CSV URLs)</label>
                       <textarea 
                         id={`${formId}-gallery`}
-                        className={styles.textareaField}
+                        className={`${styles.textareaField} ${styles.galleryTextArea}`}
                         value={formData.gallery_urls?.join(', ') || ''} 
                         onChange={e => handleChange('gallery_urls', e.target.value.split(',').map(s => s.trim()))} 
-                        style={{ minHeight: '80px' }}
                       />
                     </div>
                   </div>
