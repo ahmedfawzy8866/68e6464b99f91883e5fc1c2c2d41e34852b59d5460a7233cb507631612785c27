@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { db, getAnalyticsInstance } from '@/lib/firebase';
 import { logAuditAction } from '@/lib/audit';
 import { 
