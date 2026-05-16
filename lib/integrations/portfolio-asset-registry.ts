@@ -15,7 +15,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { COLLECTIONS } from "./lib/models/schema";
+import { COLLECTIONS } from "../models/schema";
 
 // ════════════════════════════════════════════════════════════════
 // STRATEGIC CONFIGURATION

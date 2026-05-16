@@ -203,8 +203,8 @@ function fallbackScoring(lead: Lead, units: Unit[]): MatchResult[] {
  * Generates a concise summary of matches for a lead (Operational Intelligence).
  */
 export async function getMatchSummaryForLead(leadId: string): Promise<string> {
-  const leadSnap = await getDoc(doc(db, COLLECTIONS.stakeholders, leadId));
-  if (!leadSnap.exists()) return "Stakeholder profile not found.";
+  const leadSnap = await adminDb.collection(COLLECTIONS.stakeholders).doc(leadId).get();
+  if (!leadSnap.exists) return "Stakeholder profile not found.";
   const lead = leadSnap.data() as Lead;
 
   if (!lead.aiProfiling?.topMatches || lead.aiProfiling.topMatches.length === 0) {
@@ -213,8 +213,8 @@ export async function getMatchSummaryForLead(leadId: string): Promise<string> {
 
   let summary = `<b>Matches for ${lead.name}:</b>\n`;
   for (const match of lead.aiProfiling.topMatches) {
-    const unitSnap = await getDoc(doc(db, COLLECTIONS.units, match.unitId));
-    if (unitSnap.exists()) {
+    const unitSnap = await adminDb.collection(COLLECTIONS.units).doc(match.unitId).get();
+    if (unitSnap.exists) {
       const unit = unitSnap.data() as Unit;
       summary += `💎 ${unit.title} (${match.matchScore}%)\n`;
     }
