@@ -44,8 +44,9 @@ export default function LandingPage() {
   const [filterBedrooms, setFilterBedrooms] = useState('');
   const [filterPrice, setFilterPrice] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
   const portfolioSectionRef = useRef<HTMLDivElement>(null);
-  const listingsSectionRef = useRef<HTMLDivElement>(null);
 
   const scrollTo = useCallback((id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -447,7 +448,27 @@ export default function LandingPage() {
                 <p className={`text-sm font-light opacity-70 ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>{T.formSuccess}</p>
               </div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-4">
+              <form onSubmit={async (e) => {
+                e.preventDefault();
+                setFormSubmitting(true);
+                setFormError(null);
+                try {
+                  const res = await fetch('/api/leads', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ...formData, locale }),
+                  });
+                  if (!res.ok) {
+                    const data = await res.json().catch(() => ({}));
+                    throw new Error(data.error || 'Submission failed. Please try again.');
+                  }
+                  setSubmitted(true);
+                } catch (err: any) {
+                  setFormError(err.message || (lang === 'en' ? 'Submission failed. Please try again.' : 'فشل الإرسال. يرجى المحاولة مرة أخرى.'));
+                } finally {
+                  setFormSubmitting(false);
+                }
+              }} className="space-y-4">
                 {[
                   { key: 'name' as const, label: T.formName, type: 'text' },
                   { key: 'phone' as const, label: T.formPhone, type: 'tel' },
@@ -462,9 +483,14 @@ export default function LandingPage() {
                     className={`w-full bg-white/5 border border-white/10 rounded-lg px-6 py-4 text-sm font-light text-white outline-none focus:border-[var(--gold-prime)]/50 transition-all ${isAr ? 'text-right font-[\'Cairo\',sans-serif]' : 'text-left font-[\'Jost\',sans-serif]'}`}
                   />
                 ))}
-                <button type="submit" className="lux-button lux-button-primary w-full !py-4">
-                  {T.formSubmit}
+                <button type="submit" disabled={formSubmitting} className="lux-button lux-button-primary w-full !py-4 disabled:opacity-60 disabled:cursor-not-allowed">
+                  {formSubmitting ? (lang === 'en' ? 'Submitting...' : 'جارٍ الإرسال...') : T.formSubmit}
                 </button>
+                {formError && (
+                  <p className={`text-sm text-red-400 text-center ${isAr ? "font-['Cairo',sans-serif]" : "font-['Jost',sans-serif]"}`}>
+                    {formError}
+                  </p>
+                )}
               </form>
             )}
           </div>

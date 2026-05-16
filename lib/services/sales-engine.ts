@@ -13,7 +13,7 @@ import {
   serverTimestamp,
   Timestamp,
 } from 'firebase/firestore';
-import { COLLECTIONS, type Lead, type Proposal, type Unit, type Voucher } from '../../../lib/models/schema';
+import { COLLECTIONS, type Lead, type Proposal, type Unit, type Voucher } from '@/lib/models/schema';
 import { GoogleAIService } from '../server/google-ai';
 import { analyzeAssetFinancials } from './roi-service';
 
@@ -114,7 +114,7 @@ export async function generateConciergeSelection(leadId: string): Promise<string
 
   // 2. Generate a unique selection URL
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sierrablu.luxury';
-  const selectionUrl = `${siteUrl}/select/${leadId}`;
+  const selectionUrl = `${siteUrl}/concierge/${leadId}`;
 
   // 3. Mark selection as deployed
   await updateDoc(doc(db, COLLECTIONS.stakeholders, leadId), {

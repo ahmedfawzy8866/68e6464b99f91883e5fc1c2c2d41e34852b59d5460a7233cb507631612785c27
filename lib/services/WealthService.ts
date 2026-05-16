@@ -6,7 +6,7 @@
 import { IntelligentAsset } from '../models/intelligence';
 import { InventoryService, Property } from './InventoryService';
 import { analyzeAssetFinancials } from './roi-service';
-import { Unit } from '../../../lib/models/schema';
+import { Unit } from '@/lib/models/schema';
 
 export const WealthService = {
   /**

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { pfClient } from '@/lib/property-finder-client';
 import { PFIntegrationService } from '@/lib/services/PFIntegrationService';
+import { verifyRequest, unauthorizedResponse } from '@/lib/server/auth-guard';
 
 /**
  * PROPERTY FINDER INTEGRATION GATEWAY (SERVER-SIDE)
@@ -33,6 +34,13 @@ export async function GET(request: NextRequest) {
         const amenities = await pfClient.getAmenities();
         return NextResponse.json(amenities);
 
+      case 'credit-balance':
+        // Credit-balance endpoint is not yet implemented in the Property Finder API.
+        return NextResponse.json(
+          { error: 'Credit balance check is not available for this account tier.' },
+          { status: 501 }
+        );
+
       default:
         return NextResponse.json({ error: 'Unsupported integration protocol' }, { status: 400 });
     }
@@ -46,6 +54,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const auth = await verifyRequest(request);
+  if (!auth.authenticated) return unauthorizedResponse();
+
   try {
     const body = await request.json();
     const action = new URL(request.url).searchParams.get('action');
@@ -93,6 +104,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const auth = await verifyRequest(request);
+  if (!auth.authenticated) return unauthorizedResponse();
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
@@ -112,6 +126,9 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const auth = await verifyRequest(request);
+  if (!auth.authenticated) return unauthorizedResponse();
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

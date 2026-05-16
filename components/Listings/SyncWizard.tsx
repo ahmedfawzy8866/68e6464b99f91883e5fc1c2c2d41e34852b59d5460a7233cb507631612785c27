@@ -359,7 +359,7 @@ export default function SyncWizard({ onClose, onSuccess }: SyncWizardProps) {
                     onClick={async () => {
                       setStage('SYNCING');
                       try {
-                        const action = syncType === 'portfolio' ? 'search-listings' : 'fetch-leads';
+                        const action = syncType === 'portfolio' ? 'search-listings' : 'search-stakeholders';
                         const res = await fetch(`/api/property-finder?action=${action}`);
                         const result = await res.json();
                         

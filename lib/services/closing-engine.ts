@@ -5,7 +5,7 @@
 
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, doc, updateDoc, Timestamp, getDoc } from 'firebase/firestore';
-import { COLLECTIONS, type Sale, type Lead, type Unit } from '../../../lib/models/schema';
+import { COLLECTIONS, type Sale, type Lead, type Unit } from '@/lib/models/schema';
 import { sendTelegramMessage } from './telegram-controller';
 import { initiateFeedbackLoop } from './feedback-engine';
 import { GoogleAIService } from '../server/google-ai';

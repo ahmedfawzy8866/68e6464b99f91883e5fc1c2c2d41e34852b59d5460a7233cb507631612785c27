@@ -20,7 +20,7 @@ import {
   serverTimestamp,
   Timestamp,
 } from 'firebase/firestore';
-import { COLLECTIONS } from '../../../lib/models/schema';
+import { COLLECTIONS } from '@/lib/models/schema';
 
 // ─── Types ───────────────────────────────────────────────────────────
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateOptionsPackage } from '@/lib/services/sales-engine';
+import { verifyRequest, unauthorizedResponse } from '@/lib/server/auth-guard';
 
 /**
  * PROPOSALS API (STAGE 7)
@@ -7,6 +8,9 @@ import { generateOptionsPackage } from '@/lib/services/sales-engine';
  */
 
 export async function POST(req: NextRequest) {
+  const auth = await verifyRequest(req);
+  if (!auth.authenticated) return unauthorizedResponse();
+
   try {
     const { leadId } = await req.json();
 

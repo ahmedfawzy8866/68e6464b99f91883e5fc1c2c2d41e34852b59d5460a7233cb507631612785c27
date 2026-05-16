@@ -4,19 +4,9 @@
  * using high-fidelity NLP scoring.
  */
 
-import { db } from '../firebase';
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  getDoc,
-  doc,
-  updateDoc,
-  serverTimestamp,
-  limit,
-} from 'firebase/firestore';
-import { COLLECTIONS, type Lead, type Unit } from '../../../lib/models/schema';
+import { adminDb } from '../server/firebase-admin';
+import { FieldValue } from 'firebase-admin/firestore';
+import { COLLECTIONS, type Lead, type Unit } from '@/lib/models/schema';
 import { GoogleAIService } from '../server/google-ai';
 import { TelegramAlertService } from './telegram-alert-service';
 import { MemoryService } from './memory-service';
@@ -32,19 +22,17 @@ export interface MatchResult {
  */
 export async function runMatchingForLead(leadId: string): Promise<MatchResult[]> {
   // 1. Fetch the Lead
-  const leadSnap = await getDoc(doc(db, COLLECTIONS.stakeholders, leadId));
-  if (!leadSnap.exists()) throw new Error('Lead not found');
+  const leadSnap = await adminDb.collection(COLLECTIONS.stakeholders).doc(leadId).get();
+  if (!leadSnap.exists) throw new Error('Lead not found');
   const lead = { id: leadSnap.id, ...leadSnap.data() } as Lead;
 
   // 2. Initial Filtered Search for potential units
   // We don't want to send 1000 listings to AI. We filter by basic criteria first.
-  const unitsQuery = query(
-    collection(db, COLLECTIONS.units),
-    where('status', '==', 'available'),
-    limit(20) // Heuristic limit for AI processing
-  );
+  const unitsSnap = await adminDb.collection(COLLECTIONS.units)
+    .where('status', '==', 'available')
+    .limit(20)
+    .get();
   
-  const unitsSnap = await getDocs(unitsQuery);
   const candidateUnits = unitsSnap.docs.map(d => ({ id: d.id, ...d.data() } as Unit));
 
   if (candidateUnits.length === 0) return [];
@@ -54,9 +42,9 @@ export async function runMatchingForLead(leadId: string): Promise<MatchResult[]>
   const matches = await scoreMatchesWithAI(lead, candidateUnits);
 
   // 4. Update Lead with new matches
-  await updateDoc(doc(db, COLLECTIONS.stakeholders, leadId), {
+  await adminDb.collection(COLLECTIONS.stakeholders).doc(leadId).update({
     'aiProfiling.topMatches': matches,
-    'aiProfiling.lastMatchRunAt': serverTimestamp(),
+    'aiProfiling.lastMatchRunAt': FieldValue.serverTimestamp(),
   });
 
   // 5. VIP Alerting (Stage 7 Logic)
@@ -84,17 +72,15 @@ export async function runMatchingForLead(leadId: string): Promise<MatchResult[]>
  * Strategic Synthesis: Identifies the top 50 stakeholders and ranks this asset for them.
  */
 export async function runMatchingForUnit(unitId: string): Promise<void> {
-  const unitSnap = await getDoc(doc(db, COLLECTIONS.units, unitId));
-  if (!unitSnap.exists()) return;
+  const unitSnap = await adminDb.collection(COLLECTIONS.units).doc(unitId).get();
+  if (!unitSnap.exists) return;
   const unit = { id: unitSnap.id, ...unitSnap.data() } as Unit;
 
-  const leadsQuery = query(
-    collection(db, COLLECTIONS.stakeholders),
-    where('orchestrationState.status', '!=', 'archived'),
-    limit(50)
-  );
+  const leadsSnap = await adminDb.collection(COLLECTIONS.stakeholders)
+    .where('orchestrationState.status', '!=', 'archived')
+    .limit(50)
+    .get();
   
-  const leadsSnap = await getDocs(leadsQuery);
   const candidates = leadsSnap.docs.map(d => ({ id: d.id, ...d.data() } as Lead));
 
   for (const lead of candidates) {
@@ -103,9 +89,9 @@ export async function runMatchingForUnit(unitId: string): Promise<void> {
       const currentMatches = lead.aiProfiling?.topMatches || [];
       const updatedMatches = [matches[0], ...currentMatches.filter(m => m.unitId !== unitId)].slice(0, 5);
       
-      await updateDoc(doc(db, COLLECTIONS.stakeholders, lead.id!), {
+      await adminDb.collection(COLLECTIONS.stakeholders).doc(lead.id!).update({
         'aiProfiling.topMatches': updatedMatches,
-        'aiProfiling.lastMatchRunAt': serverTimestamp(),
+        'aiProfiling.lastMatchRunAt': FieldValue.serverTimestamp(),
       });
     }
   }
