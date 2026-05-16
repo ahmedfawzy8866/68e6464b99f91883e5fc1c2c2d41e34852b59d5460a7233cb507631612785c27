@@ -6,6 +6,7 @@ import { collection, query, where, getDocs, updateDoc, arrayUnion, serverTimesta
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Send, CheckCircle, AlertCircle, Loader2, X, Image as ImageIcon, Plus } from 'lucide-react';
+import { COLLECTIONS } from '../../lib/models/schema';
 
 /**
  * ImageLinkHub: Strategic Asset Visualization Portal.
@@ -48,7 +49,7 @@ export default function ImageLinkHub() {
 
     try {
       // 1. Locate Asset in Portfolio
-      const q = query(collection(db, 'listings'), where('code', '==', unitCode.trim()));
+      const q = query(collection(db, COLLECTIONS.portfolioAssets), where('code', '==', unitCode.trim()));
       const snapshot = await getDocs(q);
 
       if (snapshot.empty) {
