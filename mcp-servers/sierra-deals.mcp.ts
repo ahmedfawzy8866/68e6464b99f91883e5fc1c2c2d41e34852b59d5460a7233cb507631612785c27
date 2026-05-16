@@ -1,6 +1,6 @@
 /**
- * SIERRA DEALS MCP SERVER (PRODUCTION READY)
- * Handles Deal state management & orchestration logic.
+ * SIERRA BLUE STRATEGIC PIPELINE MCP SERVER (PRODUCTION READY)
+ * Handles Strategic Pipeline state management & orchestration logic.
  */
 
 import { adminDb } from '../lib/server/firebase-admin';
@@ -8,39 +8,43 @@ import { COLLECTIONS } from '../lib/models/schema';
 import { Timestamp } from 'firebase-admin/firestore';
 
 export const mcp_sierra_deals = {
-  name: 'sierra-deals',
+  name: 'sierra-strategic-pipeline',
   tools: [
     {
-      name: 'create_deal',
-      async handler(args: { leadId: string; propertyCode: string; terms: any }) {
-        console.log(`[DealsMCP] Creating deal record for ${args.leadId}`);
-        const dealRef = await adminDb.collection('deals').add({
-          leadId: args.leadId,
-          propertyCode: args.propertyCode,
+      name: 'create_pipeline_entry',
+      async handler(args: { stakeholderId: string; portfolioAssetCode: string; terms: any }) {
+        console.log(`[StrategicPipelineMCP] Creating pipeline record for stakeholder: ${args.stakeholderId}`);
+        const dealRef = await adminDb.collection(COLLECTIONS.strategicPipeline).add({
+          stakeholderId: args.stakeholderId,
+          portfolioAssetCode: args.portfolioAssetCode,
           status: 'draft',
+          stage: 'inbound',
           terms: args.terms,
           createdAt: Timestamp.now(),
           updatedAt: Timestamp.now()
         });
-        return { success: true, dealId: dealRef.id };
+        return { success: true, pipelineId: dealRef.id };
       }
     },
     {
-      name: 'update_deal_status',
-      async handler(args: { dealId: string; status: string }) {
-        console.log(`[DealsMCP] Transitioning Deal ${args.dealId} to ${args.status}`);
-        await adminDb.collection('deals').doc(args.dealId).update({
+      name: 'update_pipeline_status',
+      async handler(args: { pipelineId: string; status: string; stage?: string }) {
+        console.log(`[StrategicPipelineMCP] Transitioning Pipeline Entry ${args.pipelineId} to ${args.status}`);
+        const updateData: any = {
           status: args.status,
           updatedAt: Timestamp.now()
-        });
+        };
+        if (args.stage) updateData.stage = args.stage;
+        
+        await adminDb.collection(COLLECTIONS.strategicPipeline).doc(args.pipelineId).update(updateData);
         return { success: true };
       }
     },
     {
-      name: 'get_deal_summary',
-      async handler(args: { dealId: string }) {
-        const snap = await adminDb.collection('deals').doc(args.dealId).get();
-        return snap.exists ? snap.data() : { error: 'Not found' };
+      name: 'get_pipeline_summary',
+      async handler(args: { pipelineId: string }) {
+        const snap = await adminDb.collection(COLLECTIONS.strategicPipeline).doc(args.pipelineId).get();
+        return snap.exists ? snap.data() : { error: 'Strategic Pipeline Entry not found' };
       }
     }
   ]

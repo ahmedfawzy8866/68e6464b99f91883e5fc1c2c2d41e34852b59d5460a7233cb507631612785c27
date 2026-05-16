@@ -1,6 +1,6 @@
 // ════════════════════════════════════════════════════════════════
-// FILE 1: sierra-blue/hooks/usePFLeads.ts
-// React hook — real-time Property Finder leads CRM
+// FILE 1: sierra-blue/hooks/useStakeholderPipeline.ts
+// React hook — real-time Strategic Pipeline for Investment Stakeholders
 // ════════════════════════════════════════════════════════════════
 
 import { useState, useEffect, useMemo } from "react";
@@ -17,8 +17,9 @@ import {
   DocumentData,
   QueryConstraint,
 } from "firebase/firestore";
+import { COLLECTIONS } from "../../lib/models/schema";
 
-export type LeadStage =
+export type PipelineStage =
   | "new_inquiry"
   | "contacted"
   | "viewing_scheduled"
@@ -27,9 +28,9 @@ export type LeadStage =
   | "closed_won"
   | "closed_lost";
 
-export type LeadStatus = "pending_review" | "active" | "warm" | "hot" | "cold";
+export type StakeholderStatus = "pending_review" | "active" | "warm" | "hot" | "cold";
 
-export interface CRMLead extends DocumentData {
+export interface InvestmentStakeholder extends DocumentData {
   id: string;
   name: string;
   phone: string;
@@ -37,34 +38,34 @@ export interface CRMLead extends DocumentData {
   message?: string;
   source: "property_finder" | "whatsapp" | "telegram" | "direct";
   sbrCodeInterest: string;
-  listingId?: string;
-  pfLeadId?: string;
-  status: LeadStatus;
-  stage: LeadStage;
+  portfolioAssetId?: string;
+  registryStakeholderId?: string;
+  status: StakeholderStatus;
+  stage: PipelineStage;
   neuralMatchScore?: number;      // 0-100 from Matchmaker
   leilaScore?: number;            // 0-10 from Matchmaker
-  agentAssigned?: string;
+  advisorAssigned?: string;
   budgetMin?: number;
   budgetMax?: number;
   preferredCompounds?: string[];
-  lastContact?: Date;
+  lastEngagement?: Date;
   createdAt: Date;
 }
 
-export interface UsePFLeadsReturn {
-  leads: CRMLead[];
-  grouped: Map<LeadStage, CRMLead[]>;
-  hot: CRMLead[];
+export interface UseStakeholderPipelineReturn {
+  stakeholders: InvestmentStakeholder[];
+  grouped: Map<PipelineStage, InvestmentStakeholder[]>;
+  highNetWorth: InvestmentStakeholder[];
   loading: boolean;
   error: string | null;
-  updateStage: (leadId: string, stage: LeadStage) => Promise<void>;
-  updateStatus: (leadId: string, status: LeadStatus) => Promise<void>;
-  assignAgent: (leadId: string, agentId: string) => Promise<void>;
-  totalPFLeads: number;
-  conversionRate: number;
+  updateStage: (stakeholderId: string, stage: PipelineStage) => Promise<void>;
+  updateStatus: (stakeholderId: string, status: StakeholderStatus) => Promise<void>;
+  assignAdvisor: (stakeholderId: string, advisorId: string) => Promise<void>;
+  totalStakeholders: number;
+  strategicConversionRate: number;
 }
 
-const STAGE_ORDER: LeadStage[] = [
+const STAGE_ORDER: PipelineStage[] = [
   "new_inquiry",
   "contacted",
   "viewing_scheduled",
@@ -74,21 +75,21 @@ const STAGE_ORDER: LeadStage[] = [
   "closed_lost",
 ];
 
-export function usePFLeads(
+export function useStakeholderPipeline(
   options: {
     sourceFilter?: "property_finder" | "all";
     minNeuralScore?: number;
-    agentId?: string;
+    advisorId?: string;
     maxLimit?: number;
   } = {}
-): UsePFLeadsReturn {
+): UseStakeholderPipelineReturn {
   const {
-    sourceFilter   = "property_finder",
+    sourceFilter   = "all",
     minNeuralScore = 0,
     maxLimit       = 100,
   } = options;
 
-  const [leads,   setLeads]   = useState<CRMLead[]>([]);
+  const [stakeholders, setStakeholders] = useState<InvestmentStakeholder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error,   setError]   = useState<string | null>(null);
 
@@ -100,25 +101,24 @@ export function usePFLeads(
       constraints.push(where("source", "==", "property_finder"));
     }
 
-    if (options.agentId) {
-      constraints.push(where("agentAssigned", "==", options.agentId));
+    if (options.advisorId) {
+      constraints.push(where("advisorAssigned", "==", options.advisorId));
     }
 
     constraints.push(orderBy("createdAt", "desc"));
 
-    const q = query(collection(db, "leads"), ...constraints);
+    const q = query(collection(db, COLLECTIONS.stakeholders), ...constraints);
 
     const unsub = onSnapshot(
       q,
       (snap) => {
-        let docs = snap.docs.map(d => ({ id: d.id, ...d.data() } as CRMLead));
+        let docs = snap.docs.map(d => ({ id: d.id, ...d.data() } as InvestmentStakeholder));
 
-        // Client-side neural score filter
         if (minNeuralScore > 0) {
           docs = docs.filter(l => (l.neuralMatchScore ?? 0) >= minNeuralScore);
         }
 
-        setLeads(docs.slice(0, maxLimit));
+        setStakeholders(docs.slice(0, maxLimit));
         setLoading(false);
       },
       (err) => {
@@ -128,76 +128,72 @@ export function usePFLeads(
     );
 
     return () => unsub();
-  }, [sourceFilter, minNeuralScore, options.agentId, maxLimit]);
+  }, [sourceFilter, minNeuralScore, options.advisorId, maxLimit]);
 
-  // Group by stage for Kanban view
   const grouped = useMemo(() => {
-    const map = new Map<LeadStage, CRMLead[]>();
+    const map = new Map<PipelineStage, InvestmentStakeholder[]>();
     for (const stage of STAGE_ORDER) map.set(stage, []);
-    for (const lead of leads) {
-      const bucket = map.get(lead.stage) ?? [];
-      bucket.push(lead);
-      map.set(lead.stage, bucket);
+    for (const stakeholder of stakeholders) {
+      const bucket = map.get(stakeholder.stage) ?? [];
+      bucket.push(stakeholder);
+      map.set(stakeholder.stage, bucket);
     }
     return map;
-  }, [leads]);
+  }, [stakeholders]);
 
-  // Hot leads (score >= 85)
-  const hot = useMemo(
-    () => leads.filter(l => (l.neuralMatchScore ?? 0) >= 85),
-    [leads]
+  const highNetWorth = useMemo(
+    () => stakeholders.filter(l => (l.neuralMatchScore ?? 0) >= 85),
+    [stakeholders]
   );
 
-  // Conversion rate
-  const conversionRate = useMemo(() => {
-    if (!leads.length) return 0;
-    const closed = leads.filter(l => l.stage === "closed_won").length;
-    return Math.round((closed / leads.length) * 100);
-  }, [leads]);
+  const strategicConversionRate = useMemo(() => {
+    if (!stakeholders.length) return 0;
+    const closed = stakeholders.filter(l => l.stage === "closed_won").length;
+    return Math.round((closed / stakeholders.length) * 100);
+  }, [stakeholders]);
 
-  // Actions
   const db = getFirestore();
 
-  const updateStage = async (leadId: string, stage: LeadStage) => {
-    await updateDoc(doc(db, "leads", leadId), {
+  const updateStage = async (stakeholderId: string, stage: PipelineStage) => {
+    await updateDoc(doc(db, COLLECTIONS.stakeholders, stakeholderId), {
       stage,
-      lastContact: serverTimestamp(),
-      updatedAt:   serverTimestamp(),
+      lastEngagement: serverTimestamp(),
+      updatedAt:      serverTimestamp(),
     });
   };
 
-  const updateStatus = async (leadId: string, status: LeadStatus) => {
-    await updateDoc(doc(db, "leads", leadId), {
+  const updateStatus = async (stakeholderId: string, status: StakeholderStatus) => {
+    await updateDoc(doc(db, COLLECTIONS.stakeholders, stakeholderId), {
       status,
       updatedAt: serverTimestamp(),
     });
   };
 
-  const assignAgent = async (leadId: string, agentId: string) => {
-    await updateDoc(doc(db, "leads", leadId), {
-      agentAssigned: agentId,
-      updatedAt:     serverTimestamp(),
+  const assignAdvisor = async (stakeholderId: string, advisorId: string) => {
+    await updateDoc(doc(db, COLLECTIONS.stakeholders, stakeholderId), {
+      advisorAssigned: advisorId,
+      updatedAt:       serverTimestamp(),
     });
   };
 
   return {
-    leads,
+    stakeholders,
     grouped,
-    hot,
+    highNetWorth,
     loading,
     error,
     updateStage,
     updateStatus,
-    assignAgent,
-    totalPFLeads: leads.length,
-    conversionRate,
+    assignAdvisor,
+    totalStakeholders: stakeholders.length,
+    strategicConversionRate,
   };
 }
 
 
 // ════════════════════════════════════════════════════════════════
-// FILE 2: sierra-blue/hooks/usePFListings.ts
-// React hook — live Property Finder synced listings
+// FILE 2: sierra-blue/hooks/usePortfolioAssets.ts
+// React hook — live Portfolio Asset Registry synced assets
 // ════════════════════════════════════════════════════════════════
 
 import { useState as _useState, useEffect as _useEffect, useCallback } from "react";
@@ -208,52 +204,48 @@ import {
   where as _where,
   orderBy as _orderBy,
   onSnapshot as _onSnapshot,
-  updateDoc as _updateDoc,
-  doc as _doc,
-  serverTimestamp as _serverTimestamp,
-  DocumentData as _DocumentData,
 } from "firebase/firestore";
-import type { SBRListing, PFSyncResult } from "../../sierra-blue-property-finder";
-import { pushListingToPF, getPFListingAnalytics } from "../../sierra-blue-property-finder";
+import type { SBRAsset, RegistrySyncResult } from "../../sierra-blue-property-finder";
+import { pushAssetToRegistry, getAssetRegistryAnalytics } from "../../sierra-blue-property-finder";
 
-export interface ListingWithAnalytics extends SBRListing {
-  pfViews?: number;
-  pfLeads?: number;
-  pfPhoneReveals?: number;
-  pfImpressions?: number;
-  pfCTR?: number;
-  syncedToPF?: boolean;
-  dealStatus?: string;
+export interface AssetWithAnalytics extends SBRAsset {
+  registryViews?: number;
+  registryStakeholderInterests?: number;
+  registryPhoneReveals?: number;
+  registryImpressions?: number;
+  registryCTR?: number;
+  syncedToRegistry?: boolean;
+  investmentTier?: string;
 }
 
-export function usePFListings(options: {
+export function usePortfolioAssets(options: {
   syncedOnly?: boolean;
   compound?: string;
   maxLimit?: number;
 } = {}) {
   const { syncedOnly = false, compound, maxLimit = 50 } = options;
 
-  const [listings, _setListings] = _useState<ListingWithAnalytics[]>([]);
-  const [loading,  _setLoading]  = _useState(true);
-  const [error,    _setError]    = _useState<string | null>(null);
+  const [assets, _setAssets] = _useState<AssetWithAnalytics[]>([]);
+  const [loading, _setLoading] = _useState(true);
+  const [error,   _setError]   = _useState<string | null>(null);
 
   _useEffect(() => {
     const db = _getFirestore();
-    const constraints: QueryConstraint[] = [];
+    const constraints: any[] = [];
 
-    if (syncedOnly) constraints.push(_where("syncedToPF", "==", true));
+    if (syncedOnly) constraints.push(_where("syncedToRegistry", "==", true));
     if (compound)   constraints.push(_where("compound", "==", compound));
     
     constraints.push(_where("status", "==", "active"));
-    constraints.push(_orderBy("aiScore", "desc"));
+    constraints.push(_orderBy("neuralMatchScore", "desc"));
 
-    const q = _query(_collection(db, "listings"), ...constraints);
+    const q = _query(_collection(db, COLLECTIONS.portfolioAssets), ...constraints);
 
     const unsub = _onSnapshot(q, snap => {
       const docs = snap.docs
         .slice(0, maxLimit)
-        .map(d => ({ id: d.id, ...d.data() } as ListingWithAnalytics));
-      _setListings(docs);
+        .map(d => ({ id: d.id, ...d.data() } as AssetWithAnalytics));
+      _setAssets(docs);
       _setLoading(false);
     }, err => {
       _setError(err.message);
@@ -263,108 +255,33 @@ export function usePFListings(options: {
     return () => unsub();
   }, [syncedOnly, compound, maxLimit]);
 
-  // Sync a single listing to PF
-  const syncListing = useCallback(
-    async (listing: SBRListing): Promise<PFSyncResult> => {
-      return pushListingToPF(listing);
+  const syncAsset = useCallback(
+    async (asset: SBRAsset): Promise<RegistrySyncResult> => {
+      return pushAssetToRegistry(asset);
     },
     []
   );
 
-  // Fetch PF analytics for a listing
   const fetchAnalytics = useCallback(
-    async (pfListingId: string) => {
-      return getPFListingAnalytics(pfListingId);
+    async (registryAssetId: string) => {
+      return getAssetRegistryAnalytics(registryAssetId);
     },
     []
   );
 
-  const syncedCount   = listings.filter(l => l.syncedToPF).length;
-  const unsyncedCount = listings.filter(l => !l.syncedToPF).length;
-  const hiddenGems    = listings.filter(l => l.dealStatus === "Hidden Gem");
+  const syncedCount   = assets.filter(l => l.syncedToRegistry).length;
+  const unsyncedCount = assets.filter(l => !l.syncedToRegistry).length;
+  const flagshipAssets = assets.filter(l => l.investmentTier === "Flagship");
 
   return {
-    listings,
+    assets,
     loading,
     error,
-    syncListing,
+    syncAsset,
     fetchAnalytics,
     syncedCount,
     unsyncedCount,
-    hiddenGems,
-    totalActive: listings.length,
+    flagshipAssets,
+    totalActive: assets.length,
   };
 }
-
-
-// ════════════════════════════════════════════════════════════════
-// FILE 3: app/api/pf-webhook/route.ts
-// Next.js App Router — Property Finder Lead Webhook endpoint
-// ════════════════════════════════════════════════════════════════
-
-// This file must live at: sierra-blue/app/api/pf-webhook/route.ts
-
-/*
-import { NextRequest, NextResponse } from "next/server";
-import { handlePFLeadWebhook } from "@/lib/integrations/property-finder";
-
-export const runtime = "nodejs"; // needs crypto for HMAC verification
-
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-
-    const result = await handlePFLeadWebhook(body, req.headers);
-
-    if (!result.success) {
-      return NextResponse.json(
-        { error: result.error },
-        { status: result.error?.includes("signature") ? 401 : 500 }
-      );
-    }
-
-    return NextResponse.json({ leadId: result.leadId, received: true });
-  } catch (err) {
-    return NextResponse.json(
-      { error: "Webhook processing failed" },
-      { status: 500 }
-    );
-  }
-}
-
-// PF sends GET to verify the webhook endpoint on first setup
-export async function GET(req: NextRequest) {
-  const challenge = req.nextUrl.searchParams.get("challenge");
-  if (challenge) {
-    return new NextResponse(challenge, { status: 200 });
-  }
-  return NextResponse.json({ status: "Sierra Blue PF Webhook Active" });
-}
-*/
-
-
-// ════════════════════════════════════════════════════════════════
-// FILE 4: Environment Variables Reference
-// Add to .env.local in your Next.js project root
-// ════════════════════════════════════════════════════════════════
-
-/*
-# Property Finder API
-PF_API_BASE_URL=https://api.propertyfinder.com.eg/v3
-PF_JWT_TOKEN=your_pf_jwt_token_here
-PF_COMPANY_ID=SB-EG-2024-001
-PF_WEBHOOK_SECRET=your_webhook_secret_here
-
-# Firebase (already in your project)
-NEXT_PUBLIC_FIREBASE_API_KEY=...
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=...
-FIREBASE_ADMIN_PRIVATE_KEY=...
-FIREBASE_ADMIN_CLIENT_EMAIL=...
-
-# AI
-GOOGLE_AI_API_KEY=your_gemini_api_key_here
-
-# Vercel
-VERCEL_URL=sierra-blue.vercel.app
-*/

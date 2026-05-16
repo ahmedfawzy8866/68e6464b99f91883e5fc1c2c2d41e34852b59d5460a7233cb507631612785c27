@@ -2,22 +2,23 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { sendTelegramMessage } from '@/lib/telegram';
+import { COLLECTIONS } from '@/lib/models/schema';
 
 export async function POST(req: Request) {
   try {
     const data = await req.json();
     const { name, email, phone, message, locale } = data;
 
-    // 1. Add to Firestore
-    const leadRef = await addDoc(collection(db, 'leads'), {
+    // 1. Add to Strategic Pipeline (Firestore)
+    const stakeholderRef = await addDoc(collection(db, COLLECTIONS.stakeholders), {
       name,
       email,
       phone,
       message,
       status: 'new',
-      phase: 'acquisition',
-      priority: 'warm',
-      via: 'Website',
+      stage: 'inbound',
+      investmentPotential: 'warm',
+      source: 'website',
       interest: 'General Inquiry',
       capitalAllocation: 'To be determined',
       locale,
@@ -33,9 +34,9 @@ export async function POST(req: Request) {
       createdAt: serverTimestamp()
     });
 
-    // 2. Send Telegram Notification
+    // 2. Send Telegram Notification (Strategic Pipeline Update)
     const text = `
-<b>🚀 New Lead - Sierra Blu Realty</b>
+<b>🚀 New Investment Stakeholder - Sierra Blue Intelligence OS</b>
 <b>Name:</b> ${name}
 <b>Email:</b> ${email}
 <b>Phone:</b> ${phone}
@@ -46,9 +47,9 @@ export async function POST(req: Request) {
 
     await sendTelegramMessage(text);
 
-    return NextResponse.json({ success: true, id: leadRef.id });
+    return NextResponse.json({ success: true, id: stakeholderRef.id });
   } catch (error) {
-    console.error("Lead submission error:", error);
+    console.error("Stakeholder submission error:", error);
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }

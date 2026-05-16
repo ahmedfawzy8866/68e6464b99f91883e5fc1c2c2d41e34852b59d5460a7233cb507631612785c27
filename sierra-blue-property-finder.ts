@@ -1,6 +1,6 @@
-// sierra-blue/lib/integrations/property-finder.ts
-// Property Finder Egypt API V3 — Full Bidirectional Integration
-// Covers: Portfolio Assets push, image CDN sync, Investment Stakeholder webhook ingestion, price updates
+// sierra-blue/lib/integrations/portfolio-asset-registry.ts
+// Portfolio Asset Registry (Property Finder Egypt) API V3 — Full Bidirectional Integration
+// Covers: Portfolio Assets push, image CDN sync, Investment Stakeholder webhook ingestion, valuation updates
 import { createHmac } from "node:crypto";
 
 import {
@@ -15,177 +15,178 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { COLLECTIONS } from "./lib/models/schema";
 
 // ════════════════════════════════════════════════════════════════
-// CONFIG
+// STRATEGIC CONFIGURATION
 // ════════════════════════════════════════════════════════════════
 
-const PF_BASE_URL    = process.env.PF_API_BASE_URL    ?? "https://api.propertyfinder.com.eg/v3";
-const PF_JWT         = process.env.PF_JWT_TOKEN        ?? "";
-const PF_COMPANY_ID  = process.env.PF_COMPANY_ID       ?? "";
-const PF_WEBHOOK_SEC = process.env.PF_WEBHOOK_SECRET   ?? "";
+const REGISTRY_BASE_URL = process.env.PF_API_BASE_URL    ?? "https://api.propertyfinder.com.eg/v3";
+const REGISTRY_JWT      = process.env.PF_JWT_TOKEN        ?? "";
+const COMPANY_ID        = process.env.PF_COMPANY_ID       ?? "";
+const WEBHOOK_SECRET    = process.env.PF_WEBHOOK_SECRET   ?? "";
 
-function pfHeaders() {
+function registryHeaders() {
   return {
-    Authorization:   `Bearer ${PF_JWT}`,
+    Authorization:   `Bearer ${REGISTRY_JWT}`,
     "Content-Type":  "application/json",
-    "X-Company-ID":  PF_COMPANY_ID,
+    "X-Company-ID":  COMPANY_ID,
     "X-API-Version": "3.0",
   };
 }
 
 // ════════════════════════════════════════════════════════════════
-// TYPES
+// PREMIUM DOMAIN TYPES
 // ════════════════════════════════════════════════════════════════
 
-export interface SBRListing {
+export interface SBRAsset {
   id: string;
   sbrCode: string;                // e.g. MVD-3F-75K+G
   titleEn: string;
   titleAr: string;
-  descriptionEn: string;
-  descriptionAr: string;
-  price: number;                  // EGP
-  bedrooms: number;
-  bathrooms: number;
+  prospectusEn: string;           // Descriptive content
+  prospectusAr: string;
+  valuation: number;              // EGP
+  residences: number;             // bedrooms
+  washrooms: number;              // bathrooms
   areaSqM: number;
   compound: string;
   district: string;               // e.g. "5th Settlement"
   city: string;                   // e.g. "New Cairo"
   governorate: string;            // e.g. "Cairo"
-  propertyType: "villa" | "apartment" | "penthouse" | "duplex" | "townhouse";
-  listingType: "sale" | "rent";
-  furnishing: "furnished" | "semi_furnished" | "unfurnished";
-  imageUrls: string[];            // Firebase Storage download URLs
+  assetType: "villa" | "apartment" | "penthouse" | "duplex" | "townhouse";
+  allocationType: "sale" | "rent";
+  interiorStandard: "furnished" | "semi_furnished" | "unfurnished";
+  visuals: string[];              // Firebase Storage download URLs
   amenities: string[];
   coordinates: { lat: number; lng: number };
-  aiScore: number;                // 0-10
-  dealStatus?: string;             // "Hidden Gem" | "Exceptional ROI" | ...
+  neuralMatchScore: number;       // 0-10
+  investmentStatus?: string;      // "Hidden Gem" | "Exceptional ROI" | ...
   roiEstimate: number;            // percentage
-  pricePerSqM: number;
-  pfListingId?: string;           // returned by PF after first push
+  valuationPerSqM: number;
+  registryAssetId?: string;       // returned by Registry after first push
   status: "active" | "pending" | "draft" | "archived";
-  syncedToPF?: boolean;
-  lastPFSync?: Date;
+  syncedToRegistry?: boolean;
+  lastRegistrySync?: Date;
 }
 
-export interface PFLead {
-  id: string;                     // PF's lead ID
+export interface InvestmentStakeholder {
+  id: string;                     // Registry's stakeholder ID
   name: string;
   phone: string;
   email?: string;
-  message?: string;
-  reference: string;              // SBR Code of the listing they inquired about
-  listingId?: string;             // PF listing ID
-  source: "property_finder";
-  createdAt: string;              // ISO timestamp from PF
+  intent?: string;                // message
+  assetReference: string;         // SBR Code of the asset they inquired about
+  registryId?: string;            // Registry asset ID
+  source: "portfolio_asset_registry";
+  createdAt: string;              // ISO timestamp from Registry
 }
 
-export interface PFSyncResult {
+export interface RegistrySyncResult {
   success: boolean;
-  pfListingId?: string;
+  registryAssetId?: string;
   error?: string;
   timestamp: Date;
 }
 
 // ════════════════════════════════════════════════════════════════
-// 1. PUSH PORTFOLIO ASSET TO PROPERTY FINDER
+// 1. PUSH PORTFOLIO ASSET TO REGISTRY
 // ════════════════════════════════════════════════════════════════
 
-export async function pushListingToPF(listing: SBRListing): Promise<PFSyncResult> {
+export async function pushAssetToRegistry(asset: SBRAsset): Promise<RegistrySyncResult> {
   try {
-    // Map SBR data → PF required schema
+    // Map SBR data → Registry required schema
     const payload = {
-      reference:         listing.sbrCode,
-      title_en:          listing.titleEn,
-      title_ar:          listing.titleAr,
-      description_en:    listing.descriptionEn,
-      description_ar:    listing.descriptionAr,
-      price:             listing.price,
+      reference:         asset.sbrCode,
+      title_en:          asset.titleEn,
+      title_ar:          asset.titleAr,
+      description_en:    asset.prospectusEn,
+      description_ar:    asset.prospectusAr,
+      price:             asset.valuation,
       currency:          "EGP",
-      bedrooms:          listing.bedrooms,
-      bathrooms:         listing.bathrooms,
-      area:              listing.areaSqM,
-      property_type:     mapPropertyType(listing.propertyType),
-      listing_type:      listing.listingType,
-      furnishing_status: mapFurnishing(listing.furnishing),
-      compound:          listing.compound,
+      bedrooms:          asset.residences,
+      bathrooms:         asset.washrooms,
+      area:              asset.areaSqM,
+      property_type:     mapAssetType(asset.assetType),
+      listing_type:      asset.allocationType,
+      furnishing_status: mapInteriorStandard(asset.interiorStandard),
+      compound:          asset.compound,
       location: {
-        district:    listing.district,
-        city:        listing.city,
-        governorate: listing.governorate,
+        district:    asset.district,
+        city:        asset.city,
+        governorate: asset.governorate,
         country:     "Egypt",
-        lat:         listing.coordinates.lat,
-        lng:         listing.coordinates.lng,
+        lat:         asset.coordinates.lat,
+        lng:         asset.coordinates.lng,
       },
-      images: listing.imageUrls.map((url, i) => ({
+      images: asset.visuals.map((url, i) => ({
         url,
         order:   i,
         is_main: i === 0,
       })),
-      amenities:        listing.amenities,
-      // Sierra Blue custom fields (PF supports extra metadata)
+      amenities:        asset.amenities,
+      // Sierra Blue custom fields (Registry supports extra metadata)
       custom_fields: {
-        sbr_code:      listing.sbrCode,
-        ai_score:      listing.aiScore,
-        deal_status:   listing.dealStatus,
-        roi_estimate:  listing.roiEstimate,
-        price_per_sqm: listing.pricePerSqM,
+        sbr_code:        asset.sbrCode,
+        neural_score:    asset.neuralMatchScore,
+        investment_status: asset.investmentStatus,
+        roi_estimate:    asset.roiEstimate,
+        valuation_per_sqm: asset.valuationPerSqM,
       },
     };
 
-    const method = listing.pfListingId ? "PUT" : "POST";
-    const url    = listing.pfListingId
-      ? `${PF_BASE_URL}/listings/${listing.pfListingId}`
-      : `${PF_BASE_URL}/listings`;
+    const method = asset.registryAssetId ? "PUT" : "POST";
+    const url    = asset.registryAssetId
+      ? `${REGISTRY_BASE_URL}/listings/${asset.registryAssetId}`
+      : `${REGISTRY_BASE_URL}/listings`;
 
     const res = await fetch(url, {
       method,
-      headers: pfHeaders(),
+      headers: registryHeaders(),
       body: JSON.stringify(payload),
     });
 
     if (!res.ok) {
       const err = await res.text();
-      throw new Error(`PF API error ${res.status}: ${err}`);
+      throw new Error(`Registry API error ${res.status}: ${err}`);
     }
 
     const data = await res.json();
 
-    // Update Firestore with PF listing ID and sync timestamp
+    // Update Strategic Pipeline (Firestore) with Registry ID and sync timestamp
     const db = getFirestore();
-    await updateDoc(doc(db, "listings", listing.id), {
-      pfListingId:  data.id,
-      syncedToPF:   true,
-      lastPFSync:   serverTimestamp(),
-      pfStatus:     "active",
+    await updateDoc(doc(db, COLLECTIONS.portfolioAssets, asset.id), {
+      registryAssetId:  data.id,
+      syncedToRegistry: true,
+      lastRegistrySync: serverTimestamp(),
+      registryStatus:   "active",
     });
 
-    return { success: true, pfListingId: data.id, timestamp: new Date() };
+    return { success: true, registryAssetId: data.id, timestamp: new Date() };
 
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
-    console.error("[PF] pushListingToPF failed:", error);
+    console.error("[Registry] pushAssetToRegistry failed:", error);
     return { success: false, error, timestamp: new Date() };
   }
 }
 
 // ════════════════════════════════════════════════════════════════
-// 2. BATCH SYNC — push all unsynced listings
+// 2. STRATEGIC BATCH SYNC — push all unsynced Portfolio Assets
 // ════════════════════════════════════════════════════════════════
 
-export async function syncAllListingsToPF(): Promise<{ synced: number; failed: number; errors: string[] }> {
+export async function syncAllAssetsToRegistry(): Promise<{ synced: number; failed: number; errors: string[] }> {
   const db = getFirestore();
   const q  = query(
-    collection(db, "listings"),
+    collection(db, COLLECTIONS.portfolioAssets),
     where("status", "==", "active"),
-    where("syncedToPF", "==", false),
+    where("syncedToRegistry", "==", false),
   );
 
   const snapshot = await getDocs(q);
   const results  = { synced: 0, failed: 0, errors: [] as string[] };
 
-  // Process in batches of 10 (respect PF rate limit)
+  // Process in batches of 10 (respect Registry rate limit)
   const BATCH_SIZE = 10;
   const docs       = snapshot.docs;
 
@@ -193,14 +194,14 @@ export async function syncAllListingsToPF(): Promise<{ synced: number; failed: n
     const batch = docs.slice(i, i + BATCH_SIZE);
 
     await Promise.all(batch.map(async (docSnap) => {
-      const listing = { id: docSnap.id, ...docSnap.data() } as SBRListing;
-      const result  = await pushListingToPF(listing);
+      const asset = { id: docSnap.id, ...docSnap.data() } as SBRAsset;
+      const result = await pushAssetToRegistry(asset);
 
       if (result.success) {
         results.synced++;
       } else {
         results.failed++;
-        results.errors.push(`${listing.sbrCode}: ${result.error}`);
+        results.errors.push(`${asset.sbrCode}: ${result.error}`);
       }
     }));
 
@@ -214,101 +215,94 @@ export async function syncAllListingsToPF(): Promise<{ synced: number; failed: n
 }
 
 // ════════════════════════════════════════════════════════════════
-// 3. INVESTMENT STAKEHOLDER WEBHOOK INGESTION (Next.js API Route Handler)
+// 3. INVESTMENT STAKEHOLDER WEBHOOK INGESTION
 // ════════════════════════════════════════════════════════════════
 
-// Place this in: /app/api/pf-webhook/route.ts
-//
-// export async function POST(req: Request) {
-//   const body = await req.json();
-//   return handlePFLeadWebhook(body, req.headers);
-// }
-
-export async function handlePFLeadWebhook(
+export async function handleStakeholderWebhook(
   body: unknown,
   headers: Headers | Record<string, string>,
-): Promise<{ success: boolean; leadId?: string; error?: string }> {
+): Promise<{ success: boolean; stakeholderId?: string; error?: string }> {
   try {
-    // Verify PF webhook signature
+    // Verify Registry webhook signature
     const signature = (headers instanceof Headers
       ? headers.get("X-PF-Signature")
       : (headers as Record<string, string>)["x-pf-signature"]
     ) ?? "";
 
-    if (!verifyPFSignature(JSON.stringify(body), signature)) {
+    if (!verifyRegistrySignature(JSON.stringify(body), signature)) {
       return { success: false, error: "Invalid webhook signature" };
     }
 
-    const lead = body as PFLead;
+    const stakeholder = body as InvestmentStakeholder;
     const db   = getFirestore();
 
-    // Check for duplicate (PF may retry)
-    const dupQ  = query(collection(db, "leads"), where("pfLeadId", "==", lead.id));
+    // Check for duplicate (Registry may retry)
+    const dupQ  = query(collection(db, COLLECTIONS.stakeholders), where("registryStakeholderId", "==", stakeholder.id));
     const dupSnap = await getDocs(dupQ);
     if (!dupSnap.empty) {
-      return { success: true, leadId: dupSnap.docs[0].id }; // idempotent
+      return { success: true, stakeholderId: dupSnap.docs[0].id }; // idempotent
     }
 
-    // Resolve the internal listing from SBR code
-    const listingQ    = query(collection(db, "listings"), where("sbrCode", "==", lead.reference));
-    const listingSnap = await getDocs(listingQ);
-    const listingRef  = listingSnap.empty ? null : listingSnap.docs[0].id;
+    // Resolve the internal Portfolio Asset from SBR code
+    const assetQ    = query(collection(db, COLLECTIONS.portfolioAssets), where("sbrCode", "==", stakeholder.assetReference));
+    const assetSnap = await getDocs(assetQ);
+    const assetRef  = assetSnap.empty ? null : assetSnap.docs[0].id;
 
     // Save Investment Stakeholder to Strategic Pipeline (Firestore)
-    const newLead = await addDoc(collection(db, "leads"), {
-      name:            lead.name,
-      phone:           lead.phone,
-      email:           lead.email ?? null,
-      message:         lead.message ?? null,
-      source:          "property_finder",
-      sbrCodeInterest: lead.reference,
-      listingId:       listingRef,
-      pfLeadId:        lead.id,
-      status:          "pending_review",
-      stage:           "new_inquiry",
-      neuralMatchScore: null,   // Matchmaker agent fills this
-      leilaScore:       null,
-      agentAssigned:    null,
-      createdAt:        serverTimestamp(),
-      pfCreatedAt:      lead.createdAt,
+    const newStakeholder = await addDoc(collection(db, COLLECTIONS.stakeholders), {
+      name:               stakeholder.name,
+      phone:              stakeholder.phone,
+      email:              stakeholder.email ?? null,
+      intent:             stakeholder.intent ?? null,
+      source:             "portfolio_asset_registry",
+      assetReference:     stakeholder.assetReference,
+      assetId:            assetRef,
+      registryStakeholderId: stakeholder.id,
+      status:             "pending_review",
+      stage:              "initial_inquiry",
+      neuralMatchScore:   null,   // Matchmaker agent fills this
+      leilaScore:         null,
+      advisorAssigned:    null,
+      createdAt:          serverTimestamp(),
+      registryCreatedAt:  stakeholder.createdAt,
     });
 
     // Trigger Matchmaker agent to score the Investment Stakeholder (async, non-blocking)
-    triggerMatchmakerScoring(newLead.id, lead.reference).catch(console.error);
+    triggerMatchmakerScoring(newStakeholder.id, stakeholder.assetReference).catch(console.error);
 
-    return { success: true, leadId: newLead.id };
+    return { success: true, stakeholderId: newStakeholder.id };
 
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
-    console.error("[PF Webhook] Error:", error);
+    console.error("[Registry Webhook] Error:", error);
     return { success: false, error };
   }
 }
 
 // ════════════════════════════════════════════════════════════════
-// 4. PRICE UPDATE LOOP (Phase 3 — bi-directional)
+// 4. STRATEGIC VALUATION UPDATES
 // ════════════════════════════════════════════════════════════════
 
-export async function updatePFListingPrice(
-  pfListingId: string,
-  newPrice: number,
+export async function updateRegistryAssetValuation(
+  registryAssetId: string,
+  newValuation: number,
   reason: "ai_valuation" | "owner_update" | "market_correction",
-): Promise<PFSyncResult> {
+): Promise<RegistrySyncResult> {
   try {
-    const res = await fetch(`${PF_BASE_URL}/listings/${pfListingId}/price`, {
+    const res = await fetch(`${REGISTRY_BASE_URL}/listings/${registryAssetId}/price`, {
       method: "PATCH",
-      headers: pfHeaders(),
+      headers: registryHeaders(),
       body: JSON.stringify({
-        price:    newPrice,
-        currency: "EGP",
+        price:      newValuation,
+        currency:   "EGP",
         reason,
         updated_by: "sierra_blue_ai",
       }),
     });
 
-    if (!res.ok) throw new Error(`PF price update failed: ${res.status}`);
+    if (!res.ok) throw new Error(`Registry valuation update failed: ${res.status}`);
 
-    return { success: true, pfListingId, timestamp: new Date() };
+    return { success: true, registryAssetId, timestamp: new Date() };
   } catch (err) {
     return {
       success:   false,
@@ -319,49 +313,47 @@ export async function updatePFListingPrice(
 }
 
 // ════════════════════════════════════════════════════════════════
-// 5. FETCH PF ANALYTICS PER LISTING
+// 5. FETCH PORTFOLIO ASSET ANALYTICS
 // ════════════════════════════════════════════════════════════════
 
-export async function getPFListingAnalytics(pfListingId: string) {
-  const res = await fetch(`${PF_BASE_URL}/listings/${pfListingId}/analytics`, {
-    headers: pfHeaders(),
+export async function getAssetRegistryAnalytics(registryAssetId: string) {
+  const res = await fetch(`${REGISTRY_BASE_URL}/listings/${registryAssetId}/analytics`, {
+    headers: registryHeaders(),
   });
-  if (!res.ok) throw new Error(`PF analytics fetch failed: ${res.status}`);
+  if (!res.ok) throw new Error(`Registry analytics fetch failed: ${res.status}`);
 
   const data = await res.json();
 
-  // Normalize PF analytics into Sierra Blue format
+  // Normalize Registry analytics into Sierra Blue format
   return {
-    pfListingId,
-    views:          data.total_views          ?? 0,
-    uniqueViews:    data.unique_views          ?? 0,
-    leads:          data.total_leads           ?? 0,
-    phoneReveals:   data.phone_reveals         ?? 0,
-    whatsappClicks: data.whatsapp_clicks       ?? 0,
-    saveCount:      data.saves                 ?? 0,
-    avgViewDuration: data.avg_view_duration_s  ?? 0,
-    impressions:    data.impressions           ?? 0,
-    ctr:            data.click_through_rate    ?? 0,
-    period:         data.period               ?? "30d",
-    fetchedAt:      new Date(),
+    registryAssetId,
+    views:            data.total_views          ?? 0,
+    uniqueViews:      data.unique_views          ?? 0,
+    stakeholderInquiries: data.total_leads           ?? 0,
+    phoneReveals:     data.phone_reveals         ?? 0,
+    whatsappClicks:   data.whatsapp_clicks       ?? 0,
+    portfolioSaves:   data.saves                 ?? 0,
+    avgViewDuration:  data.avg_view_duration_s  ?? 0,
+    impressions:      data.impressions           ?? 0,
+    ctr:              data.click_through_rate    ?? 0,
+    period:           data.period               ?? "30d",
+    fetchedAt:        new Date(),
   };
 }
 
 // ════════════════════════════════════════════════════════════════
-// 6. IMAGE SYNC — Firebase Storage → PF CDN
+// 6. VISUAL SYNC — Firebase Storage → Registry CDN
 // ════════════════════════════════════════════════════════════════
 
-export async function syncImagesToFirebase(
+export async function syncVisualsToFirebase(
   sbrCode: string,
-  imageFiles: File[],
+  visualFiles: File[],
 ): Promise<string[]> {
   const storage = getStorage();
   const urls: string[] = [];
 
-  for (const file of imageFiles) {
-    const storageRef = ref(storage, `listings/${sbrCode}/${file.name}`);
-    // In production: use uploadBytes from firebase/storage
-    // const snapshot = await uploadBytes(storageRef, file);
+  for (const file of visualFiles) {
+    const storageRef = ref(storage, `assets/${sbrCode}/${file.name}`);
     const url = await getDownloadURL(storageRef);
     urls.push(url);
   }
@@ -373,7 +365,7 @@ export async function syncImagesToFirebase(
 // PRIVATE HELPERS
 // ════════════════════════════════════════════════════════════════
 
-function mapPropertyType(type: SBRListing["propertyType"]): string {
+function mapAssetType(type: SBRAsset["assetType"]): string {
   const map: Record<string, string> = {
     villa:      "Villa",
     apartment:  "Apartment",
@@ -384,27 +376,28 @@ function mapPropertyType(type: SBRListing["propertyType"]): string {
   return map[type] ?? "Apartment";
 }
 
-function mapFurnishing(f: SBRListing["furnishing"]): string {
-  return { furnished: "Furnished", semi_furnished: "Semi Furnished", unfurnished: "Unfurnished" }[f] ?? "Unfurnished";
+function mapInteriorStandard(s: SBRAsset["interiorStandard"]): string {
+  return { furnished: "Furnished", semi_furnished: "Semi Furnished", unfurnished: "Unfurnished" }[s] ?? "Unfurnished";
 }
 
-function verifyPFSignature(payload: string, signature: string): boolean {
-  if (!PF_WEBHOOK_SEC || !signature) return false;
+function verifyRegistrySignature(payload: string, signature: string): boolean {
+  if (!WEBHOOK_SECRET || !signature) return false;
   try {
-    const hmac = createHmac("sha256", PF_WEBHOOK_SEC);
+    const hmac = createHmac("sha256", WEBHOOK_SECRET);
     const digest = hmac.update(payload).digest("hex");
     return digest === signature;
   } catch (err) {
-    console.error("[PF] Signature verification error:", err);
+    console.error("[Registry] Signature verification error:", err);
     return false;
   }
 }
 
-async function triggerMatchmakerScoring(leadId: string, sbrCode: string): Promise<void> {
+async function triggerMatchmakerScoring(stakeholderId: string, sbrCode: string): Promise<void> {
   // Calls the Matchmaker Cloud Function asynchronously
-  await fetch("/api/agents/matchmaker/score-lead", {
+  await fetch("/api/agents/matchmaker/score-stakeholder", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ leadId, sbrCode }),
+    body: JSON.stringify({ stakeholderId, sbrCode }),
   });
 }
+

@@ -10,18 +10,18 @@ export async function GET(request: NextRequest) {
     if (id) {
       const doc = await adminDb.collection(COLLECTIONS.units).doc(id).get();
       if (!doc.exists) {
-        return NextResponse.json({ success: false, error: 'Listing not found' }, { status: 404 });
+        return NextResponse.json({ success: false, error: 'Portfolio Asset not found' }, { status: 404 });
       }
       const data = doc.data()!;
       return NextResponse.json({ 
         success: true, 
-        listing: {
+        asset: {
           id: doc.id,
           ...data,
-          beds: data.bedrooms || 0,
-          baths: data.bathrooms || 0,
-          area: data.area || 0,
-          propertyType: data.propertyType || data.type || 'apartment',
+          residences: data.bedrooms || 0,
+          washrooms: data.bathrooms || 0,
+          areaSqM: data.area || 0,
+          assetType: data.propertyType || data.type || 'apartment',
         } 
       });
     }
@@ -41,21 +41,21 @@ export async function GET(request: NextRequest) {
 
     const snapshot = await query.get();
 
-    const listings = snapshot.docs.map((doc) => {
+    const assets = snapshot.docs.map((doc) => {
       const data = doc.data();
       return {
         id: doc.id,
         ...data,
-        beds: data.bedrooms || 0,
-        baths: data.bathrooms || 0,
-        area: data.area || 0,
-        propertyType: data.propertyType || data.type || 'apartment',
+        residences: data.bedrooms || 0,
+        washrooms: data.bathrooms || 0,
+        areaSqM: data.area || 0,
+        assetType: data.propertyType || data.type || 'apartment',
       };
     });
 
-    return NextResponse.json({ success: true, listings, count: listings.length });
+    return NextResponse.json({ success: true, assets, count: assets.length });
   } catch (error) {
-    console.error('[LISTINGS_ERROR] Failed to fetch listings:', error);
+    console.error('[PORTFOLIO_ASSET_ERROR] Failed to fetch assets:', error);
     return NextResponse.json(
       { success: false, error: 'Internal Server Error' },
       { status: 500 }
