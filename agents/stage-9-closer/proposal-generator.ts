@@ -54,7 +54,12 @@ export class ProposalGenerator {
       resumable: false,
     });
 
-    return `https://storage.googleapis.com/${bucket.name}/${filePath}`;
+    const [signedUrl] = await file.getSignedUrl({
+      action: 'read',
+      expires: '03-01-2500',
+    });
+
+    return signedUrl;
   }
 
   /**
