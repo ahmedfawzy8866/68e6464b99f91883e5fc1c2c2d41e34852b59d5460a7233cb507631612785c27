@@ -1,7 +1,7 @@
 import 'server-only'; // gRPC dependency — server only
 import * as admin from 'firebase-admin';
 import { adminDb } from '../server/firebase-admin';
-import { COLLECTIONS } from '../../../lib/models/schema';
+import { COLLECTIONS } from '@/lib/models/schema';
 import { instrumentAgent } from '../arize';
 import { runScribe } from '../agents/scribe';
 import { runCurator } from '../agents/curator';

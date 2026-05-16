@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
-import { collection, query, where, onSnapshot, doc, getDoc } from 'firebase/firestore';
+import { COLLECTIONS } from '@/lib/models/schema';
+import { collection, query, onSnapshot, doc, getDoc } from 'firebase/firestore';
 
 /**
  * useSierraBlu
@@ -18,7 +19,7 @@ export function useSierraBlu() {
   
   useEffect(() => {
     setLoading(true);
-    const q = query(collection(db, "units"));
+    const q = query(collection(db, COLLECTIONS.units));
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
@@ -38,7 +39,7 @@ export function useSierraBlu() {
   const getLeadData = async (leadId: string) => {
     setLoading(true);
     try {
-      const docRef = doc(db, "stakeholders", leadId);
+      const docRef = doc(db, COLLECTIONS.stakeholders, leadId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         return docSnap.data();

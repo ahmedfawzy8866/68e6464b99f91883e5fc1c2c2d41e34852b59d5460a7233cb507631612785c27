@@ -10,7 +10,7 @@ import {
   QueryConstraint
 } from 'firebase/firestore';
 import { initializeApp, getApps } from 'firebase/app';
-import { COLLECTIONS, type PortfolioAsset as Property } from '../../../lib/models/schema';
+import { COLLECTIONS, type PortfolioAsset as Property } from '@/lib/models/schema';
 export { COLLECTIONS, type Property };
 
 const firebaseConfig = {

@@ -4,6 +4,7 @@ import { PFIntegrationService } from '@/lib/services/PFIntegrationService';
 import { pfClient } from '../../../lib/property-finder-client';
 import { verifyRequest, unauthorizedResponse } from '@/lib/server/auth-guard';
 import { adminDb } from '@/lib/server/firebase-admin';
+import { COLLECTIONS } from '@/lib/models/schema';
 
 /**
  * SYNC MANAGEMENT API
@@ -70,11 +71,11 @@ export async function POST(request: NextRequest) {
         const pfResult = await pfClient.searchPortfolioAssets(filters);
         
         // Sync Portfolio Assets (formerly listings)
-        const portfolioAssets = pfResult.results || [];
+        const portfolioAssets = pfResult.data || [];
         const syncResult = await syncBatch(portfolioAssets as unknown as Record<string, unknown>[]);
         
         // Also sync Investment Stakeholders (formerly leads) automatically
-        const stakeholdersResult = await PFIntegrationService.syncIncomingStakeholders();
+        const stakeholdersResult = await PFIntegrationService.syncIncomingLeads();
         
         return NextResponse.json({ 
           portfolioAssets: syncResult, 
@@ -82,8 +83,26 @@ export async function POST(request: NextRequest) {
         });
       }
 
+      case 'sync-listings': {
+        const listingsResult = await PFIntegrationService.syncIncomingListings();
+        return NextResponse.json({
+          success: true,
+          ...listingsResult,
+          message: `Imported ${listingsResult.imported} new listings and refreshed ${listingsResult.updated} existing records.`,
+        });
+      }
+
+      case 'sync-leads': {
+        const leadsResult = await PFIntegrationService.syncIncomingLeads();
+        return NextResponse.json({
+          success: true,
+          ...leadsResult,
+          message: `Imported ${leadsResult.created} new leads and refreshed ${leadsResult.updated} existing records.`,
+        });
+      }
+
       case 'sync-stakeholders': {
-        const stakeholdersResult = await PFIntegrationService.syncIncomingStakeholders();
+        const stakeholdersResult = await PFIntegrationService.syncIncomingLeads();
         return NextResponse.json(stakeholdersResult);
       }
 

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { runMatchingForLead } from '@/lib/services/matching-engine';
-import { db } from '@/lib/firebase';
-import { collection, getDocs, query, where, limit } from 'firebase/firestore';
+import { adminDb } from '@/lib/server/firebase-admin';
 import { COLLECTIONS } from '@/lib/models/schema';
+import { verifyRequest, unauthorizedResponse } from '@/lib/server/auth-guard';
 
 /**
  * MATCHING ENGINE API (STAGE 6)
@@ -10,6 +10,9 @@ import { COLLECTIONS } from '@/lib/models/schema';
  */
 
 export async function POST(req: NextRequest) {
+  const auth = await verifyRequest(req);
+  if (!auth.authenticated) return unauthorizedResponse();
+
   try {
     const { searchParams } = new URL(req.url);
     const leadId = searchParams.get('leadId');
@@ -17,20 +20,18 @@ export async function POST(req: NextRequest) {
 
     if (bulk) {
       // Bulk matching for new leads that haven't been matched yet
-      const q = query(
-        collection(db, COLLECTIONS.stakeholders),
-        where('status', 'in', ['new', 'contacted']),
-        limit(10)
-      );
-      const snap = await getDocs(q);
+      const snap = await adminDb.collection(COLLECTIONS.stakeholders)
+        .where('status', 'in', ['new', 'contacted'])
+        .limit(10)
+        .get();
       const results = [];
 
-      for (const doc of snap.docs) {
+      for (const docSnap of snap.docs) {
         try {
-          const matches = await runMatchingForLead(doc.id);
-          results.push({ leadId: doc.id, matches: matches.length });
+          const matches = await runMatchingForLead(docSnap.id);
+          results.push({ leadId: docSnap.id, matches: matches.length });
         } catch (e) {
-          results.push({ leadId: doc.id, error: String(e) });
+          results.push({ leadId: docSnap.id, error: String(e) });
         }
       }
 

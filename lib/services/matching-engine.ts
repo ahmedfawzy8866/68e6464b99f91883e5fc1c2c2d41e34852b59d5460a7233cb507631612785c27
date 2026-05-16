@@ -16,7 +16,7 @@ import {
   serverTimestamp,
   limit,
 } from 'firebase/firestore';
-import { COLLECTIONS, type Lead, type Unit } from '../../../lib/models/schema';
+import { COLLECTIONS, type Lead, type Unit } from '@/lib/models/schema';
 import { GoogleAIService } from '../server/google-ai';
 import { TelegramAlertService } from './telegram-alert-service';
 import { MemoryService } from './memory-service';

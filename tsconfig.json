@@ -38,7 +38,8 @@
     "mempalace/**/*",
     "bots/**/*",
     "composio/**/*",
-    "functions/**/*"
+    "functions/**/*",
+    "backend-integration/**/*"
   ]
 }
 

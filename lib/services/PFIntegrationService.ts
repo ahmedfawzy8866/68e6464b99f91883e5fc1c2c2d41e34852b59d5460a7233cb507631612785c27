@@ -6,7 +6,7 @@
 import { pfClient, PFListing, PFStakeholderProtocol } from '../property-finder-client';
 import { adminDb } from '../server/firebase-admin';
 import { Timestamp } from 'firebase-admin/firestore';
-import { Unit, Lead, COLLECTIONS, UserProfile } from '../../../lib/models/schema';
+import { Unit, Lead, COLLECTIONS, UserProfile } from '@/lib/models/schema';
 
 interface PFStakeholderRecord extends PFStakeholderProtocol {
   agent_id?: string;
