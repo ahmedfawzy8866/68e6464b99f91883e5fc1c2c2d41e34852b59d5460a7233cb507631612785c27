@@ -464,7 +464,7 @@ export default function LandingPage() {
                   }
                   setSubmitted(true);
                 } catch (err: any) {
-                  setFormError(err.message || 'An unexpected error occurred.');
+                  setFormError(err.message || (lang === 'en' ? 'Submission failed. Please try again.' : 'فشل الإرسال. يرجى المحاولة مرة أخرى.'));
                 } finally {
                   setFormSubmitting(false);
                 }
