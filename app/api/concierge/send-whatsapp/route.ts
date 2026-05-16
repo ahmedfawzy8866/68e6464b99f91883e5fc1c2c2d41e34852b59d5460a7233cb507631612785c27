@@ -30,7 +30,13 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    const lead = leadSnap.data()!;
+    const lead = leadSnap.data();
+    if (!lead) {
+      return NextResponse.json(
+        { error: 'Lead not found' },
+        { status: 404 }
+      );
+    }
     const phone = phoneNumber || lead.phone || lead.whatsapp;
 
     if (!phone) {
