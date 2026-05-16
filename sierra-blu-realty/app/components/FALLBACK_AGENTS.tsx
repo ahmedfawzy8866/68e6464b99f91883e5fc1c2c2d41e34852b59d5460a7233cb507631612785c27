@@ -7,7 +7,7 @@ import { Mail, Phone, ExternalLink, ShieldCheck } from "lucide-react";
 import { Agent, getAgents } from "@/lib/firestore";
 import { CONTACT } from "@/lib/site";
 import MotionContainer from "./MotionContainer";
-import { fadeIn, staggerContainer } from "@/lib/motion";
+import { fadeIn, fadeInWithBlur, staggerContainer } from "@/lib/motion";
 
 const INITIAL_ADVISORS: Agent[] = [
   {
@@ -84,7 +84,7 @@ export default function AgentsSection() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-12 text-left">
           <div className="max-w-2xl">
             <MotionContainer
-              variants={fadeIn}
+              variants={fadeInWithBlur}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -96,15 +96,27 @@ export default function AgentsSection() {
               </span>
             </MotionContainer>
             
-            <h2 className="text-5xl md:text-7xl font-luxury leading-tight text-white mb-8">
+            <motion.h2
+              variants={fadeInWithBlur}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="text-5xl md:text-7xl font-luxury leading-tight text-white mb-8"
+            >
               Expertise In <br />
               <span className="text-gold text-glow-gold italic">Asset Advisory.</span>
-            </h2>
-            
-            <p className="text-[#F8F8F8]/60 text-lg font-light leading-relaxed">
-              Our specialists combine decades of market intelligence with 
+            </motion.h2>
+
+            <motion.p
+              variants={fadeInWithBlur}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="text-[#F8F8F8]/60 text-lg font-light leading-relaxed"
+            >
+              Our specialists combine decades of market intelligence with
               unparalleled access to provide a sanctuary for your capital.
-            </p>
+            </motion.p>
           </div>
           
           <motion.div
@@ -175,18 +187,18 @@ function AdvisorCard({ agent, index }: { agent: Agent; index: number }) {
     <motion.div
       variants={fadeIn}
       custom={index}
-      className="group glass-card overflow-hidden flex flex-col items-center text-center hover:border-gold/40 transition-all duration-700 hover:shadow-[0_40px_100px_rgba(199,159,63,0.1)]"
+      className="group glass-card overflow-hidden flex flex-col items-center text-center hover:border-gold/40 transition-all duration-400 hover:shadow-[0_40px_100px_rgba(199,159,63,0.25)]"
     >
       <div className="relative w-full h-80 overflow-hidden">
         <Image
           src={agent.image || "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&h=800&auto=format&fit=crop"}
           alt={agent.name}
           fill
-          className="object-cover grayscale brightness-110 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[1.5s] ease-out group-hover:brightness-100" 
+          className="object-cover grayscale brightness-110 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out group-hover:brightness-100" 
         />
         {/* Gold Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-1000" />
-        <div className="absolute inset-0 ring-inset ring-1 ring-white/10 group-hover:ring-gold/30 transition-all duration-700" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-400" />
+        <div className="absolute inset-0 ring-inset ring-1 ring-white/10 group-hover:ring-gold/30 transition-all duration-400" />
       </div>
 
       <div className="w-full p-10 flex flex-col flex-grow">
@@ -204,15 +216,15 @@ function AdvisorCard({ agent, index }: { agent: Agent; index: number }) {
         <div className="mt-auto grid grid-cols-2 gap-4 w-full pt-8 border-t border-white/5">
            <a 
              href={`tel:${agent.phone}`} 
-             className="flex flex-col items-center justify-center p-3 rounded-2xl bg-white/5 hover:bg-gold/10 hover:text-gold transition-all group/icon"
+             className="flex flex-col items-center justify-center p-3 rounded-2xl bg-white/5 hover:bg-gold/10 hover:text-gold transition-all duration-200 group/icon"
              title={agent.phone}
            >
               <Phone className="w-4 h-4 mb-2 opacity-40 group-hover/icon:opacity-100" />
               <span className="text-[8px] uppercase font-bold tracking-widest">Voice</span>
            </a>
-           <a 
+           <a
              href={`mailto:${agent.email || CONTACT.email}`}
-             className="flex flex-col items-center justify-center p-3 rounded-2xl bg-white/5 hover:bg-gold/10 hover:text-gold transition-all group/icon"
+             className="flex flex-col items-center justify-center p-3 rounded-2xl bg-white/5 hover:bg-gold/10 hover:text-gold transition-all duration-200 group/icon"
              title={agent.email}
            >
               <Mail className="w-4 h-4 mb-2 opacity-40 group-hover/icon:opacity-100" />

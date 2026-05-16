@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, TrendingUp } from "lucide-react";
 import MotionContainer from "./MotionContainer";
-import { fadeIn, staggerContainer } from "@/lib/motion";
+import { fadeIn, fadeInWithBlur, staggerContainer } from "@/lib/motion";
 
 const neighborhoods = [
   { name: "Al Marasem", count: "24 properties", score: 98 },
@@ -32,7 +32,7 @@ export default function Neighborhoods() {
 
         {/* ── Header ── */}
         <MotionContainer
-          variants={fadeIn}
+          variants={fadeInWithBlur}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -71,7 +71,7 @@ export default function Neighborhoods() {
               >
                 <Link
                   href={`/areas/${area.name.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="group flex items-center justify-between bg-white rounded-xl px-5 py-4 border border-[var(--mist)] hover:border-[var(--gold-500)]/40 hover:shadow-md transition-all duration-300"
+                  className="group flex items-center justify-between bg-white rounded-xl px-5 py-4 border border-[var(--mist)] hover:border-[var(--gold-500)]/40 hover:shadow-md transition-all duration-200"
                 >
                   <div className="flex items-center gap-4">
                     {/* Score indicator */}
@@ -110,7 +110,7 @@ export default function Neighborhoods() {
 
           {/* ── Right: Map panel ── */}
           <motion.div
-            variants={fadeIn}
+            variants={fadeInWithBlur}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -154,8 +154,8 @@ export default function Neighborhoods() {
                   <div className="absolute inset-0 w-3 h-3 rounded-full bg-[var(--gold-500)] opacity-30 animate-ping" />
 
                   {/* Tooltip */}
-                  <div className="absolute left-5 -top-3 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap">
-                    <div className="bg-white rounded-lg px-3 py-2 shadow-lg">
+                  <div className="absolute left-5 -top-3 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap">
+                    <div className="bg-white rounded-lg px-3 py-2 shadow-lg hover:shadow-[0_0_15px_rgba(179,133,83,0.3)]">
                       <p className="text-[11px] font-semibold text-[var(--navy-900)]">{marker.name}</p>
                       <div className="flex items-center gap-1 mt-0.5">
                         <TrendingUp className="w-2.5 h-2.5 text-[var(--gold-500)]" />

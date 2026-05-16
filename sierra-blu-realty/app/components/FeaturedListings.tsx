@@ -13,7 +13,7 @@ import {
 } from "@/lib/properties";
 import { motion } from "framer-motion";
 import MotionContainer from "./MotionContainer";
-import { fadeIn, staggerContainer } from "@/lib/motion";
+import { fadeIn, fadeInWithBlur, staggerContainer } from "@/lib/motion";
 import type { Property } from "@/lib/firestore";
 
 /**
@@ -42,7 +42,7 @@ export default function FeaturedListings() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-12">
           <div className="max-w-2xl">
             <MotionContainer
-              variants={fadeIn}
+              variants={fadeInWithBlur}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -53,19 +53,38 @@ export default function FeaturedListings() {
                  Curated Portfolio
                </span>
             </MotionContainer>
-            <h2 className="text-5xl md:text-7xl font-luxury leading-tight text-white mb-8">
+            <motion.h2
+              variants={fadeInWithBlur}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="text-5xl md:text-7xl font-luxury leading-tight text-white mb-8"
+            >
               Intelligence in <br />
               <span className="text-gold text-glow-gold">Acquisition.</span>
-            </h2>
-            <p className="text-[#F8F8F8]/60 text-lg font-light max-w-xl">
+            </motion.h2>
+            <motion.p
+              variants={fadeInWithBlur}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="text-[#F8F8F8]/60 text-lg font-light max-w-xl"
+            >
               From Katameya Heights to Azure Residences, our AI-led selection process identifies the most promising luxury assets.
-            </p>
+            </motion.p>
           </div>
           
-          <Link href="/listings" className="btn-ghost-glass px-10 group flex items-center gap-3">
-             View Entire Collection
-             <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          <motion.div
+            variants={fadeInWithBlur}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <Link href="/listings" className="btn-ghost-glass px-10 group flex items-center gap-3 hover:drop-shadow-[0_0_20px_rgba(200,150,26,0.4)] transition-all duration-400">
+               View Entire Collection
+               <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-400" />
+            </Link>
+          </motion.div>
         </div>
 
         {/* Dynamic Grid */}
@@ -97,17 +116,19 @@ export default function FeaturedListings() {
 function ListingCard({ item, index }: { item: Property; index: number }) {
   return (
     <motion.div
-      variants={fadeIn}
-      custom={index}
-      className="group flex flex-col h-full glass-card overflow-hidden border border-gold/5 hover:border-gold/30 transition-all duration-700 hover:shadow-[0_40px_100px_rgba(199,159,63,0.15)]"
+      initial={{ opacity: 0, filter: "blur(8px)", y: 20 }}
+      whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ delay: index * 0.1, duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
+      className="group flex flex-col h-full glass-card overflow-hidden border border-gold/5 hover:border-gold/30 transition-all duration-400 hover:shadow-[0_40px_100px_rgba(199,159,63,0.3)]"
     >
       {/* Visual Header */}
       <div className="relative h-[420px] w-full overflow-hidden">
-        <Image 
+        <Image
           src={getPrimaryPropertyImage(item)}
-          alt={item.title} 
-          fill 
-          className="object-cover transition-all duration-[2000ms] group-hover:scale-110 brightness-[1.1] group-hover:brightness-100"
+          alt={item.title}
+          fill
+          className="object-cover transition-all duration-500 group-hover:scale-105 brightness-[1.1] group-hover:brightness-100 group-hover:saturate-110"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80" />
@@ -126,12 +147,18 @@ function ListingCard({ item, index }: { item: Property; index: number }) {
 
       {/* Narrative Footer */}
       <div className="p-10 flex flex-col flex-grow">
-        <div className="flex items-center gap-2 mb-4 text-gold/80">
+        <motion.div
+          className="flex items-center gap-2 mb-4 text-gold/80"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 + index * 0.1 }}
+        >
            <MapPin className="w-3 h-3" />
            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">{item.community}</span>
-        </div>
-        
-        <h3 className="text-2xl md:text-3xl font-luxury text-white mb-8 group-hover:text-gold transition-colors">{item.title}</h3>
+        </motion.div>
+
+        <h3 className="text-2xl md:text-3xl font-luxury text-white mb-8 group-hover:text-gold transition-colors duration-400">{item.title}</h3>
         
         {/* Technical Profile */}
         <div className="grid grid-cols-3 gap-8 py-8 border-y border-white/5 mt-auto">

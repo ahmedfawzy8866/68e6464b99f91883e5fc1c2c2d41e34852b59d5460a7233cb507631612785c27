@@ -56,7 +56,7 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-300 py-1 ${
+                  className={`relative text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-200 py-1 ${
                     isActive ? "text-gold" : "text-white/50 hover:text-white"
                   }`}
                 >
@@ -79,14 +79,14 @@ export default function Navbar() {
             {/* AI Portal Link */}
             <Link
               href="/portal"
-              className="hidden lg:inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white hover:text-background hover:border-white transition-all duration-500 shadow-xl backdrop-blur-md"
+              className="hidden lg:inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white hover:text-background hover:border-white transition-all duration-400 shadow-xl backdrop-blur-md hover:drop-shadow-[0_0_20px_rgba(200,150,26,0.4)]"
             >
               Analyze <ChevronDown className="w-3 h-3 -rotate-90" />
             </Link>
 
             {/* Mobile toggle */}
             <button
-              className="md:hidden w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-white flex items-center justify-center hover:bg-white/10 transition-all"
+              className="md:hidden w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-white flex items-center justify-center hover:bg-white/10 hover:border-gold/30 transition-all duration-200"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
