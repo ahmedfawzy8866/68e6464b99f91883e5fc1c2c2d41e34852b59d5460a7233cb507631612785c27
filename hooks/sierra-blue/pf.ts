@@ -205,8 +205,8 @@ import {
   orderBy as _orderBy,
   onSnapshot as _onSnapshot,
 } from "firebase/firestore";
-import type { SBRAsset, RegistrySyncResult } from "../../sierra-blue-property-finder";
-import { pushAssetToRegistry, getAssetRegistryAnalytics } from "../../sierra-blue-property-finder";
+import type { SBRAsset, RegistrySyncResult } from "../../lib/integrations/portfolio-asset-registry";
+import { pushAssetToRegistry as pushAssetToRegistry_, getAssetRegistryAnalytics } from "../../lib/integrations/portfolio-asset-registry";
 
 export interface AssetWithAnalytics extends SBRAsset {
   registryViews?: number;
@@ -257,7 +257,7 @@ export function usePortfolioAssets(options: {
 
   const syncAsset = useCallback(
     async (asset: SBRAsset): Promise<RegistrySyncResult> => {
-      return pushAssetToRegistry(asset);
+      return pushAssetToRegistry_(asset);
     },
     []
   );

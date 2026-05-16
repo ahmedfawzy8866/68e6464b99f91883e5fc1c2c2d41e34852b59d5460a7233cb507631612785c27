@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { db, getAnalyticsInstance } from '@/lib/firebase';
 import { logAuditAction } from '@/lib/audit';
 import { 
@@ -573,7 +574,7 @@ export default function CRMKanban() {
       if (!response.ok || result.error) throw new Error(result.error);
 
       const summary = result.summary || { created: 0, updated: 0, skipped: 0 };
-      alert(t('pipeline.syncSuccess', { created: summary.created, updated: summary.updated, skipped: summary.skipped }) || `Property Finder sync completed. Added ${summary.created}, refreshed ${summary.updated}, skipped ${summary.skipped}.`);
+      alert(`${t('pipeline.syncSuccess') || 'Property Finder sync completed.'} Added ${summary.created}, refreshed ${summary.updated}, skipped ${summary.skipped}.`);
     } catch (err) {
       console.error("PF Sync Error:", err);
       alert(t('pipeline.syncError') || "Synchronization protocol failed to establish secure link with Property Finder. Check gateway configuration.");
@@ -613,7 +614,7 @@ export default function CRMKanban() {
         <div className="header-flex">
           <div>
             <h1>{t('pipeline.title')}</h1>
-            <div className="page-sub">{t('pipeline.subtitle', { visible: visibleStakeholders.length, total: activeInventorySize })}</div>
+            <div className="page-sub">{t('pipeline.subtitle') || `${visibleStakeholders.length} / ${activeInventorySize} Investment Stakeholders`}</div>
           </div>
           <div className="header-actions">
             <button className="btn btn-outline" onClick={syncLeadsFromPF} disabled={syncingPF}>

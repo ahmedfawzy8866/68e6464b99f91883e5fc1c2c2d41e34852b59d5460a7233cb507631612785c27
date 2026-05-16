@@ -4,7 +4,6 @@
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -39,7 +38,9 @@
     "bots/**/*",
     "composio/**/*",
     "functions/**/*",
-    "backend-integration/**/*"
+    "backend-integration/**/*",
+    "tools/**/*",
+    "skills/**/*"
   ]
 }
 

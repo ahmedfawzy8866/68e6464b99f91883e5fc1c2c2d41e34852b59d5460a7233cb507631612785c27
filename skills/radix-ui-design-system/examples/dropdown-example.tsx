@@ -1,9 +1,11 @@
+import * as React from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   HamburgerMenuIcon,
   DotFilledIcon,
   CheckIcon,
   ChevronRightIcon,
+  DotsHorizontalIcon,
 } from '@radix-ui/react-icons';
 import './dropdown.css';
 

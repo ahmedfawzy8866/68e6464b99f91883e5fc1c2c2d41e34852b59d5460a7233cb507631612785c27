@@ -245,8 +245,8 @@ export default function LandingPage() {
               <PropCard
                 key={p.id}
                 id={p.id}
-                title={isAr ? p.titleAr : p.title}
-                location={isAr ? p.locationAr : p.location}
+                title={p.title}
+                location={p.location}
                 price={p.price}
                 beds={p.beds}
                 baths={p.baths}

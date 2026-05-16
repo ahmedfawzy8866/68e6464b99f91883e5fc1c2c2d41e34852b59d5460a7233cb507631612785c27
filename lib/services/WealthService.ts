@@ -45,8 +45,8 @@ export const WealthService = {
         try {
           const financials = await analyzeAssetFinancials(unit);
           return {
-            id: asset.id,
-            title: asset.title,
+            id: asset.id ?? '',
+            title: asset.title ?? '',
             location: asset.location || '',
             price: asset.price,
             roi: financials.projectedROI,
@@ -58,8 +58,8 @@ export const WealthService = {
         } catch (e) {
           console.error(`Wealth Intelligence failed for asset ${asset.id}`, e);
           return {
-            id: asset.id,
-            title: asset.title,
+            id: asset.id ?? '',
+            title: asset.title ?? '',
             location: asset.location || '',
             price: asset.price,
             roi: 0,

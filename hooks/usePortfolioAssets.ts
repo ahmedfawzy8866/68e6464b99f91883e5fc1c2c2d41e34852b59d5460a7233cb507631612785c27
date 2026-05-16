@@ -7,8 +7,8 @@ import {
   orderBy as _orderBy,
   onSnapshot as _onSnapshot,
 } from "firebase/firestore";
-import type { SBRPortfolioAsset, PFSyncResult } from "./sierra-blue-portfolio-api";
-import { pushAssetToPF, getPFAssetAnalytics } from "./sierra-blue-portfolio-api";
+import type { SBRAsset as SBRPortfolioAsset, RegistrySyncResult as PFSyncResult } from "../lib/integrations/portfolio-asset-registry";
+import { pushAssetToRegistry as pushAssetToPF, getAssetRegistryAnalytics as getPFAssetAnalytics } from "../lib/integrations/portfolio-asset-registry";
 
 export interface AssetWithAnalytics extends SBRPortfolioAsset {
   pfViews?: number;

@@ -115,7 +115,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`${styles.tabButton} ${isSelected ? styles.active : ''}`}
-                  aria-selected={isSelected ? "true" : "false"}
+                  aria-selected={isSelected}
                   role="tab"
                 >
                   <span className={styles.tabIcon}>{tab.icon}</span>
@@ -400,7 +400,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                         <div className={styles.flagDesc}>Highlight within the elite collection and prioritize in search results</div>
                       </div>
                       <button type="button" className="twk-toggle" data-on={formData.is_featured ? '1' : '0'}
-                        role="switch" aria-checked={formData.is_featured ? "true" : "false"}
+                        role="switch" aria-checked={formData.is_featured}
                         onClick={() => handleChange('is_featured', !formData.is_featured)} aria-label="Mark as Featured" title="Mark as Featured"><i /></button>
                     </div>
                     <div className={styles.flagCard}>
@@ -409,7 +409,7 @@ export default function PropertyForm({ property, onSave, onClose }: PropertyForm
                         <div className={styles.flagDesc}>Synchronize to public interfaces; if disabled, asset remains in strategic dark mode</div>
                       </div>
                       <button type="button" className="twk-toggle" data-on={formData.is_public ? '1' : '0'}
-                        role="switch" aria-checked={formData.is_public ? "true" : "false"}
+                        role="switch" aria-checked={formData.is_public}
                         onClick={() => handleChange('is_public', !formData.is_public)} aria-label="Public Visibility" title="Public Visibility"><i /></button>
                     </div>
                   </div>
