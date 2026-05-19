@@ -1,0 +1,3 @@
+{
+  "/api/leads/request-viewing/route": "app/api/leads/request-viewing/route.js"
+}

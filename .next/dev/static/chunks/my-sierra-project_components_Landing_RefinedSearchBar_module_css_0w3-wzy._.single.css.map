@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/my-sierra-project/components/Landing/RefinedSearchBar.module.css"],"sourcesContent":[".filterSelect {\n  background: transparent;\n  border: none;\n  outline: none;\n  color: var(--text);\n  font-family: var(--font-serif);\n  font-size: 14px;\n  font-weight: 300;\n  width: 100%;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  appearance: none;\n}\n\n.filterSelect:focus {\n  color: var(--gold-prime);\n}\n\n.filterOption {\n  background: var(--bg-card);\n  color: var(--text);\n}\n"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;AAcA;;;;AAIA"}}]
+}

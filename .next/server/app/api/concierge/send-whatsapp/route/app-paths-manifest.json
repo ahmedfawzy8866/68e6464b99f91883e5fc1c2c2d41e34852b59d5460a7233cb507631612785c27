@@ -1,0 +1,3 @@
+{
+  "/api/concierge/send-whatsapp/route": "app/api/concierge/send-whatsapp/route.js"
+}

@@ -1,0 +1,3 @@
+{
+  "/api/whatsapp/heartbeat/route": "app/api/whatsapp/heartbeat/route.js"
+}

@@ -1,0 +1,154 @@
+/* [project]/my-sierra-project/app/page.module.css [app-client] (css) */
+.page-module__c2sU8G__heroCardStack {
+  height: 520px;
+  position: relative;
+}
+
+.page-module__c2sU8G__heroCardStackItem {
+  transition: all var(--motion-slow);
+  border-radius: 18px;
+  position: absolute;
+}
+
+.page-module__c2sU8G__heroCardStackItemBase {
+  background: var(--bg-card);
+  z-index: 3;
+  overflow: hidden;
+  box-shadow: 0 40px 80px #0006;
+}
+
+.page-module__c2sU8G__heroCardStackItemSecondary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  z-index: 2;
+}
+
+.page-module__c2sU8G__heroCardStackItemTertiary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  z-index: 1;
+}
+
+.page-module__c2sU8G__badgeLux {
+  text-align: center;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--gold-prime) !important;
+  color: #071422 !important;
+}
+
+.page-module__c2sU8G__heroStatValue {
+  font-family: var(--font-mono);
+  margin-bottom: 6px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.page-module__c2sU8G__heroStatLabel {
+  font-family: var(--font-body);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  opacity: .4;
+  font-size: 9px;
+}
+
+.page-module__c2sU8G__filterSelect {
+  color: var(--text);
+  font-family: var(--font-serif);
+  cursor: pointer;
+  width: 100%;
+  transition: all var(--motion-fast);
+  appearance: none;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.page-module__c2sU8G__filterSelect:focus {
+  color: var(--gold-prime);
+}
+
+.page-module__c2sU8G__filterOption {
+  background: var(--bg-card);
+  color: var(--text);
+}
+
+.page-module__c2sU8G__zoneIndicator {
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  animation: 2s infinite page-module__c2sU8G__pulse;
+}
+
+@keyframes page-module__c2sU8G__pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .5;
+    transform: scale(.8);
+  }
+}
+
+.page-module__c2sU8G__chatAvatar {
+  background: var(--gold-lux);
+  color: #071422;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
+  display: flex;
+  position: relative;
+}
+
+.page-module__c2sU8G__chatAvatarPing {
+  border: 1px solid var(--gold-prime);
+  opacity: .3;
+  border-radius: 50%;
+  animation: 1.5s cubic-bezier(0, 0, .2, 1) infinite page-module__c2sU8G__ping;
+  position: absolute;
+  inset: 0;
+}
+
+@keyframes page-module__c2sU8G__ping {
+  75%, 100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+.page-module__c2sU8G__chatMessage {
+  border-radius: 16px;
+  max-width: 85%;
+  padding: 12px 20px;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.page-module__c2sU8G__chatMessageUser {
+  background: var(--gold-lux);
+  color: #071422;
+  border-bottom-right-radius: 2px;
+}
+
+.page-module__c2sU8G__chatMessageBot {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-bottom-left-radius: 2px;
+}
+
+/*# sourceMappingURL=my-sierra-project_app_page_module_css_0w3-wzy._.single.css.map*/

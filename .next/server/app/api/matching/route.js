@@ -1,0 +1,12 @@
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/matching/route.js")
+R.c("server/chunks/10sd_@opentelemetry_api_build_esm_10dgstk._.js")
+R.c("server/chunks/my-sierra-project_lib_0qrl87k._.js")
+R.c("server/chunks/10sd_@google_generative-ai_dist_index_mjs_0_3vzi-._.js")
+R.c("server/chunks/[root-of-the-server]__07h2iju._.js")
+R.c("server/chunks/10sd_0yvz8h9._.js")
+R.c("server/chunks/my-sierra-project_lib_firebase_ts_0ps6n54._.js")
+R.c("server/chunks/[root-of-the-server]__0bvq2de._.js")
+R.c("server/chunks/[root-of-the-server]__11jho6b._.js")
+R.c("server/chunks/my-sierra-project__next-internal_server_app_api_matching_route_actions_0b~-.3n.js")
+R.m(47809)
+module.exports=R.m(47809).exports

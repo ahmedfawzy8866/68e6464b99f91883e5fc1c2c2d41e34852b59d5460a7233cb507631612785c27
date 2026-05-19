@@ -1,0 +1,3 @@
+{
+  "/api/cron/sync-listings/route": "app/api/cron/sync-listings/route.js"
+}

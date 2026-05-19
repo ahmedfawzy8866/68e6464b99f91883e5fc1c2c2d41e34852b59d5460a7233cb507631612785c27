@@ -1,0 +1,3 @@
+{
+  "/api/webhooks/property-finder/route": "app/api/webhooks/property-finder/route.js"
+}

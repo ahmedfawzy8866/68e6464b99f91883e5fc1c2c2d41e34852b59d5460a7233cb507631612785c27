@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 70, "column": 0}, "map": {"version":3,"sources":["file:///F:/project%20555/my-sierra-project/proxy.ts"],"sourcesContent":["import { NextResponse } from \"next/server\";\r\nimport type { NextRequest } from \"next/server\";\r\n\r\n/**\r\n * Sierra Blu proxy hook.\r\n *\r\n * Bilingual support is handled client-side via I18nProvider, so routing stays\r\n * untouched here. This remains a lightweight extension point for future auth\r\n * guards, CSP headers, and request shaping.\r\n */\r\nexport function proxy(_request: NextRequest) {\r\n  return NextResponse.next();\r\n}\r\n\r\nexport const config = {\r\n  // Only run on page routes, skip static files and internal paths.\r\n  matcher: [\"/((?!api|_next|.*\\\\..*).*)\"],\r\n};\r\n"],"names":["proxy","_request","next","config","matcher"],"mappings":";;;;;;AAAA;;AAUO,SAASA,MAAMC,QAAqB;IACzC,OAAO,yKAAY,CAACC,IAAI;AAC1B;AAEO,MAAMC,SAAS;IACpB,iEAAiE;IACjEC,SAAS;QAAC;KAA6B;AACzC"}}]
+}

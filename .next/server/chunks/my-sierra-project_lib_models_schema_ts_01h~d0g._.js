@@ -1,0 +1,3 @@
+module.exports=[82413,s=>{"use strict";s.s(["COLLECTIONS",0,{portfolioAssets:"listings",units:"listings",projects:"projects",developers:"developers",mediaAssets:"mediaAssets",investmentStakeholders:"leads",stakeholders:"leads",strategicPipeline:"deals",sales:"sales",activities:"activities",users:"users",syncQueue:"syncQueue",syncLog:"syncLog",vouchers:"vouchers",proposals:"proposals",brokerListings:"broker_listings",viewings:"viewings",intelligence:"intelligence",conciergeSelections:"concierge_selections"}])}];
+
+//# sourceMappingURL=my-sierra-project_lib_models_schema_ts_01h~d0g._.js.map

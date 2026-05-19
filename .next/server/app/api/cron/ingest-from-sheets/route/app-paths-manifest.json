@@ -1,0 +1,3 @@
+{
+  "/api/cron/ingest-from-sheets/route": "app/api/cron/ingest-from-sheets/route.js"
+}

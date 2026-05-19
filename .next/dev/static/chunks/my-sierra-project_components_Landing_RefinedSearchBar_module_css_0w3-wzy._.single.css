@@ -1,0 +1,25 @@
+/* [project]/my-sierra-project/components/Landing/RefinedSearchBar.module.css [app-client] (css) */
+.RefinedSearchBar-module__ZCj3cG__filterSelect {
+  color: var(--text);
+  font-family: var(--font-serif);
+  cursor: pointer;
+  appearance: none;
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 300;
+  transition: all .3s;
+}
+
+.RefinedSearchBar-module__ZCj3cG__filterSelect:focus {
+  color: var(--gold-prime);
+}
+
+.RefinedSearchBar-module__ZCj3cG__filterOption {
+  background: var(--bg-card);
+  color: var(--text);
+}
+
+/*# sourceMappingURL=my-sierra-project_components_Landing_RefinedSearchBar_module_css_0w3-wzy._.single.css.map*/

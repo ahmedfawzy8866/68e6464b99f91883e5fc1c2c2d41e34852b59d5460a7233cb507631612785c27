@@ -1,0 +1,10 @@
+var R=require("../../../../chunks/[turbopack]_runtime.js")("server/app/api/whatsapp/webhook/route.js")
+R.c("server/chunks/10sd_@opentelemetry_api_build_esm_10dgstk._.js")
+R.c("server/chunks/10sd_@google_generative-ai_dist_index_mjs_0_3vzi-._.js")
+R.c("server/chunks/[root-of-the-server]__0hjkb83._.js")
+R.c("server/chunks/[root-of-the-server]__0bvq2de._.js")
+R.c("server/chunks/10sd_0yvz8h9._.js")
+R.c("server/chunks/my-sierra-project_lib_firebase_ts_0ps6n54._.js")
+R.c("server/chunks/062r__next-internal_server_app_api_whatsapp_webhook_route_actions_03~a4cz.js")
+R.m(3820)
+module.exports=R.m(3820).exports
